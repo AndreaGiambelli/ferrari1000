@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 66.11 66.11">
+	<defs>
+		<pattern id="_10_dpi_30_4" data-name="10 dpi 30% 4" width="28.8" height="28.8" patternTransform="translate(1.39 3.07) scale(0.25)" patternUnits="userSpaceOnUse" viewBox="0 0 28.8 28.8">
+			<rect width="28.8" height="28.8" fill="none" />
+			<circle cx="28.8" cy="28.8" r="2.16" fill="#d40000" />
+			<circle cx="14.4" cy="28.8" r="2.16" fill="#d40000" />
+			<circle cx="28.8" cy="14.4" r="2.16" fill="#d40000" />
+			<circle cx="14.4" cy="14.4" r="2.16" fill="#d40000" />
+			<circle cx="7.2" cy="21.6" r="2.16" fill="#d40000" />
+			<circle cx="21.6" cy="21.6" r="2.16" fill="#d40000" />
+			<circle cx="7.2" cy="7.2" r="2.16" fill="#d40000" />
+			<circle cx="21.6" cy="7.2" r="2.16" fill="#d40000" />
+			<circle cy="28.8" r="2.16" fill="#d40000" />
+			<circle cy="14.4" r="2.16" fill="#d40000" />
+			<circle cx="28.8" r="2.16" fill="#d40000" />
+			<circle cx="14.4" r="2.16" fill="#d40000" />
+			<circle r="2.16" fill="#d40000" />
+		</pattern>
+	</defs>
+	<title>
+		testPattern
+	</title>
+	<g id="Isolation_Mode" data-name="Isolation Mode">
+		<circle cx="33.05" cy="33.05" r="33.05" fill="url(#_10_dpi_30_4)" />
+	</g>
+</svg>

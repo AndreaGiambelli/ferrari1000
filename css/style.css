@@ -1,0 +1,101 @@
+body {
+  margin: 0;
+  background: #0f0f0f;
+  padding: 2%;
+  font-family: "Inter", sans-serif;
+  color: white;
+  box-sizing: border-box;
+}
+
+a {
+  color: white;
+}
+
+.grid-main {
+  display: grid;
+  grid-template-columns: 70% auto;
+  position: relative;
+}
+
+#viz {
+  padding: 0 2% 0 0;
+  display: inline-block;
+}
+
+#sidebar {
+  /* background: teal; */
+  position: sticky;
+  position: -webkit-sticky;
+  top: 4%;
+  height: 92vh;
+  padding: 12px;
+}
+
+#ferrari-races-count {
+  height: 75px;
+}
+
+#races-count-left, #races-count-wrapper, #races-count-right {
+    display: inline-block;
+}
+
+#races-count-left {
+    width: 10%;
+    /* height: 20px;
+    background: coral; */
+}
+
+#races-count-right {
+    width: 10%;
+    /* height: 20px;
+    background: teal; */
+}
+
+#races-count-wrapper {
+    width: 77%;
+}
+
+/* #temp-image {
+  width: 100px;
+  height: 70px;
+  background: coral;
+  margin-right: 10px;
+} */
+
+#race-header-details > div {
+  display: inline-block;
+}
+
+#race-details {
+  transform: translateY(-20px);
+  font-size: 13.6px;
+}
+
+#race-details p {
+  margin: 0;
+}
+
+.driver-div {
+  display: inline-block;
+  width: 50%;
+  height: 200px;
+}
+
+.driver-helmet,
+.driver-number {
+  display: inline-block;
+}
+.driver-number {
+  margin: 0 0 0 10px;
+  transform: translateY(-10px);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.driver-name {
+  margin: 0;
+}
+
+.race {
+    cursor: pointer;
+}

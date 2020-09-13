@@ -1,0 +1,60 @@
+[
+  {
+    "raceId->raceIdOverall": {},
+    "year": {},
+    "round": {},
+    "circuitId": {},
+    "circuitName": {},
+    "name->raceName": {},
+
+    "date": {},
+    "time": {},
+    "url": {},
+
+    "raceAbbrev": {}
+  },
+
+  {
+    "raceIdOverall": 4,
+    "raceIdFerrari": 3,
+    "year": 1950,
+    "raceDetails": {
+      "round": 1,
+      "circuitId": 3,
+      "circuitName": "Silverstone Grand Prix Circuit",
+      "circuitUrl": "www.test.com",
+      "raceName": "British Grand Prix",
+      "raceAbbrev": "GBR.50",
+      "date": "13/05/1950",
+      "url": "http://en.wikipedia.org/wiki/2009_Australian_Grand_Prix"
+    },
+    "drivers": {
+      "driver1": {
+        "name": "Michele Alboreto",
+        "number": 27,
+        "helmet": "helmetURL",
+        "result": {
+          "qualiResult": 2,
+          "raceResult": 3,
+          "flResult": 28,
+          "points": 4,
+          "lapsLed": 20,
+          "lapsLedPercent": 15
+        }
+      },
+      "driver2": {
+        "name": "Gerhard Berger",
+        "number": 28,
+        "helmet": "helmetURL",
+        "result": {
+          "qualiResult": 2,
+          "raceResult": 7,
+          "flResult": 28,
+          "points": 0,
+          "lapsLed": 0,
+          "lapsLedPercent": 0
+        }
+      }
+    }
+  }
+]
