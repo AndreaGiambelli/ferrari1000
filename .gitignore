@@ -1,0 +1,12 @@
+.DS_Store
+AI/
+circuits/
+lap_times.csv
+driver_standings.csv
+qualifying.csv
+constructor_standings.csv
+pit_stops.csv
+constructor_results.csv
+constructors.csv
+seasons.csv
+status.csv
