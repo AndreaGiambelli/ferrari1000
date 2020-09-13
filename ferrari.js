@@ -194,7 +194,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
         var marginViz = { top: 30, right: 70, bottom: 30, left: 70 },
           widthViz = 1000 - marginViz.left - marginViz.right;
 
-        let grid, timeline, scaleGrid;
+        let grid, backgroundGrid, timeline, scaleGrid;
         const numPerRow = 8;
         const size = (widthViz - marginViz.left - marginViz.right) / numPerRow;
         const mainCircleRadius = size / 3.5;
@@ -276,6 +276,27 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
               }px,  ${scaleGrid(i + 0.5) + size / 2}px)`
           );
 
+        // Separate grid for dark background circles
+        // Done to solve overlay positioning issues
+        backgroundGrid = svgViz
+          .append("g")
+          .attr("class", "background-group")
+          .selectAll(".background-circle")
+          .data(ferrariCompleteRaces)
+          .enter()
+          .append("g")
+          .attr("class", "background-circle")
+          .attr("transform", function (d, i) {
+            let n;
+            if (Math.floor(i / numPerRow) % 2 === 0) {
+              n = i % numPerRow;
+            } else {
+              n = numPerRow - (i % numPerRow) - 1;
+            }
+            const m = Math.floor(i / numPerRow);
+            return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
+          });
+
         grid = svgViz
           .append("g")
           .attr("class", "races-group")
@@ -322,6 +343,8 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             d3.selectAll(".driver-pole").style("opacity", 0.5);
             d3.selectAll(".driver-fl").style("opacity", 0.5);
             d3.selectAll(".driver-led").style("opacity", 0.5);
+            d3.selectAll(".driver-championship").style("opacity", 0.5);
+            d3.selectAll(".constructor-championship").style("opacity", 0.5);
 
             // Highlight selected
             d3.select(this).selectAll(".label").style("opacity", 1);
@@ -330,6 +353,8 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             d3.select(this).selectAll(".driver-pole").style("opacity", 1);
             d3.select(this).selectAll(".driver-fl").style("opacity", 1);
             d3.select(this).selectAll(".driver-led").style("opacity", 1);
+            d3.select(this).selectAll(".driver-championship").style("opacity", 1);
+            d3.select(this).selectAll(".constructor-championship").style("opacity", 1);
 
             // Sidebar - race title
             d3.select("#race-header-title").text(
@@ -428,6 +453,8 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           d3.selectAll(".driver-pole").style("opacity", 1);
           d3.selectAll(".driver-fl").style("opacity", 1);
           d3.selectAll(".driver-led").style("opacity", 1);
+          d3.selectAll(".driver-championship").style("opacity", 1);
+          d3.selectAll(".constructor-championship").style("opacity", 1);
 
           raceInFocus = undefined;
         });
@@ -455,6 +482,8 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                 d3.selectAll(".driver-pole").style("opacity", 1);
                 d3.selectAll(".driver-fl").style("opacity", 1);
                 d3.selectAll(".driver-led").style("opacity", 1);
+                d3.selectAll(".driver-championship").style("opacity", 1);
+                d3.selectAll(".constructor-championship").style("opacity", 1);
 
                 raceInFocus = undefined;
               }
@@ -465,11 +494,11 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
 
         //Base circle
         // Dark background
-        grid
+        backgroundGrid
           .append("circle")
           .attr("cx", size / 2)
           .attr("cy", size / 2)
-          .attr("r", mainCircleRadius * 1.6)
+          .attr("r", mainCircleRadius * 1.7)
           .attr("fill", (d) => colours.black)
           .attr("class", "race-backrgound-circle")
           .attr("stroke", "none");
@@ -495,7 +524,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           )
           .append("rect")
           .attr("x", -size / 4)
-          .attr("y", size / 2.3)
+          .attr("y", size / 2.4)
           .attr("width", size / 2)
           .attr("height", size / 6)
           .style("fill", colours.black);
@@ -507,8 +536,8 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           )
           .append("rect")
           .attr("x", size / 1.1)
-          .attr("y", size / 2.3)
-          .attr("width", size / 3)
+          .attr("y", size / 2.4)
+          .attr("width", size / 2.5)
           .attr("height", size / 6)
           .style("fill", colours.black);
 
@@ -536,6 +565,106 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             }
           });
 
+        // Driver World Championships
+        grid
+          .filter((d) => d.drivers.map((e) => e.driChamp).includes("1"))
+          .raise()
+          .append("g")
+          .attr("class", "driver-championship")
+          .attr(
+            "transform",
+            `translate(${-mainCircleRadius}, ${-mainCircleRadius})`
+          )
+          .html(
+            `<defs><pattern id="_10_dpi_30_4" data-name="10 dpi 30% 4" width="${
+              size / 2
+            }" height="${
+              size / 2
+            }" patternTransform="translate(1.39 3.07) scale(0.25)" patternUnits="userSpaceOnUse" viewBox="0 0 28.8 28.8"><rect width="28.8" height="28.8" fill="none" /><circle cx="28.8" cy="28.8" r="2.16" fill="${
+              colours.red
+            }" /><circle cx="14.4" cy="28.8" r="2.16" fill="${
+              colours.red
+            }" /><circle cx="28.8" cy="14.4" r="2.16" fill="${
+              colours.red
+            }" /><circle cx="14.4" cy="14.4" r="2.16" fill="${
+              colours.red
+            }" /><circle cx="7.2" cy="21.6" r="2.16" fill="${
+              colours.red
+            }" /><circle cx="21.6" cy="21.6" r="2.16" fill="${
+              colours.red
+            }" /><circle cx="7.2" cy="7.2" r="2.16" fill="${
+              colours.red
+            }" /><circle cx="21.6" cy="7.2" r="2.16" fill="${
+              colours.red
+            }" /><circle cy="28.8" r="2.16" fill="${
+              colours.red
+            }" /><circle cy="14.4" r="2.16" fill="${
+              colours.red
+            }" /><circle cx="28.8" r="2.16" fill="${
+              colours.red
+            }" /><circle cx="14.4" r="2.16" fill="${
+              colours.red
+            }" /><circle r="2.16" fill="${
+              colours.red
+            }" /></pattern></defs><g id="Isolation_Mode" data-name="Isolation Mode"><circle cx="33.05" cy="33.05" r="${mainCircleRadius}" fill="url(#_10_dpi_30_4)" /></g>`
+          )
+          .attr(
+            "transform",
+            `translate(${mainCircleRadius / 1.2}, ${
+              mainCircleRadius / 2
+            }), rotate(${-tiltAngle})`
+          );
+
+        // Constructor World Championships
+        grid
+          .filter((d) => d.drivers.map((e) => e.conChamp).includes("1"))
+          .raise()
+          .append("g")
+          .attr("class", "constructor-championship")
+          .attr(
+            "transform",
+            `translate(${-mainCircleRadius}, ${-mainCircleRadius})`
+          )
+          .html(
+            `<defs><pattern id="_10_dpi_30_4b" data-name="10 dpi 30% 4" width="${
+              size / 2
+            }" height="${
+              size / 2
+            }" patternTransform="translate(1.39 3.07) scale(0.25)" patternUnits="userSpaceOnUse" viewBox="0 0 28.8 28.8"><rect width="28.8" height="28.8" fill="none" /><circle cx="28.8" cy="28.8" r="2.16" fill="${
+              colours.yellow
+            }" /><circle cx="14.4" cy="28.8" r="1.5" fill="${
+              colours.yellow
+            }" /><circle cx="28.8" cy="14.4" r="1.5" fill="${
+              colours.yellow
+            }" /><circle cx="14.4" cy="14.4" r="1.5" fill="${
+              colours.yellow
+            }" /><circle cx="7.2" cy="21.6" r="1.5" fill="${
+              colours.yellow
+            }" /><circle cx="21.6" cy="21.6" r="1.5" fill="${
+              colours.yellow
+            }" /><circle cx="7.2" cy="7.2" r="1.5" fill="${
+              colours.yellow
+            }" /><circle cx="21.6" cy="7.2" r="1.5" fill="${
+              colours.yellow
+            }" /><circle cy="28.8" r="1.5" fill="${
+              colours.yellow
+            }" /><circle cy="14.4" r="1.5" fill="${
+              colours.yellow
+            }" /><circle cx="28.8" r="1.5" fill="${
+              colours.yellow
+            }" /><circle cx="14.4" r="1.5" fill="${
+              colours.yellow
+            }" /><circle r="1.5" fill="${
+              colours.yellow
+            }" /></pattern></defs><g id="Isolation_Mode" data-name="Isolation Mode"><circle cx="33.05" cy="33.05" r="${mainCircleRadius}" fill="url(#_10_dpi_30_4b)" /></g>`
+          )
+          .attr(
+            "transform",
+            `translate(${mainCircleRadius / 1.4}, ${
+              mainCircleRadius / 1.9
+            }), rotate(${-tiltAngle})`
+          );
+
         // Hundred label
         grid
           .filter((d) => hundredRaces.includes(parseInt(d.raceIdFerrari)))
@@ -552,20 +681,14 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           .style("text-anchor", "middle")
           .text((d) => d.raceIdFerrari);
 
-        // World Championships
-        grid
-          .filter((d) => d.drivers.map((e) => e.driChamp).includes("1"))
-          .append("g")
-          .html(
-            '<defs><pattern id="_10_dpi_30_4" data-name="10 dpi 30% 4" width="28.8" height="28.8" patternTransform="translate(1.39 3.07) scale(0.25)" patternUnits="userSpaceOnUse" viewBox="0 0 28.8 28.8"><rect width="28.8" height="28.8" fill="none" /><circle cx="28.8" cy="28.8" r="2.16" fill="#d40000" /><circle cx="14.4" cy="28.8" r="2.16" fill="#d40000" /><circle cx="28.8" cy="14.4" r="2.16" fill="#d40000" /><circle cx="14.4" cy="14.4" r="2.16" fill="#d40000" /><circle cx="7.2" cy="21.6" r="2.16" fill="#d40000" /><circle cx="21.6" cy="21.6" r="2.16" fill="#d40000" /><circle cx="7.2" cy="7.2" r="2.16" fill="#d40000" /><circle cx="21.6" cy="7.2" r="2.16" fill="#d40000" /><circle cy="28.8" r="2.16" fill="#d40000" /><circle cy="14.4" r="2.16" fill="#d40000" /><circle cx="28.8" r="2.16" fill="#d40000" /><circle cx="14.4" r="2.16" fill="#d40000" /><circle r="2.16" fill="#d40000" /></pattern></defs><g id="Isolation_Mode" data-name="Isolation Mode"><circle cx="33.05" cy="33.05" r="33.05" fill="url(#_10_dpi_30_4)" /></g>'
-          );
-
         // Main circle
         grid
           .append("circle")
+          .raise()
           .attr("cx", size / 2)
           .attr("cy", size / 2)
           .attr("r", mainCircleRadius)
+          .style("z-index", "1000")
           .attr("fill", (d) => {
             let racePositions = d.drivers.map((e) => e.position);
             return racePositions.includes("1")
