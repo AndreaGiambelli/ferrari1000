@@ -86,7 +86,6 @@ let ferrariRaces = [];
 let allFerrariRaces;
 let raceInFocus;
 let filter;
-let isFiltered;
 
 d3.csv("f1db_csv/races.csv").then(function (racesData) {
   racesData.forEach((r) => {
@@ -221,10 +220,6 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
 
           timeline = bounds.select(".timeline-group");
 
-          timeline.selectAll(".yearsLine").remove();
-          timeline.selectAll("#timeline-arcs").remove();
-
-
           let timelineRects = timeline
             .selectAll(".yearsLine")
             .data(d3.range(dataset.length / numPerRow))
@@ -282,182 +277,179 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
 
           // Separate grid for dark background circles
           // Done to solve overlay positioning issues
-
-          const backGroundUpdate = bounds
+          backgroundGrid = bounds
             .select(".background-group")
             .selectAll(".background-circle")
-            .data(dataset, (d) => {
-              return d ? `b${d.raceIdFerrari}` : this.id;
-            });
-
-          const backGroundEnter = backGroundUpdate
-            .enter()
-            .append("g")
+            .data(dataset)
+            .join("g")
             .attr("class", "background-circle")
-            .attr("id", (d) => `b${d.raceIdFerrari}`)
             .attr("transform", function (d, i) {
-              // Backwards on odd rows
               let n;
               if (Math.floor(i / numPerRow) % 2 === 0) {
                 n = i % numPerRow;
               } else {
                 n = numPerRow - (i % numPerRow) - 1;
               }
-
-              // Vertical positioning
               const m = Math.floor(i / numPerRow);
-
-              // Translating groups to grid position
               return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
             });
 
-          // backGroundEnter.append("text").attr("fill", "green");
-          backGroundEnter
-            .append("g")
+          //Base circle
+          // Dark background
+          backgroundGrid
             .append("circle")
             .attr("cx", size / 2)
             .attr("cy", size / 2)
             .attr("r", mainCircleRadius * 1.7)
-            .attr("fill", colours.black)
-            .attr("class", "race-backrgound-circle1")
+            .attr("fill", (d) => colours.black)
+            .attr("class", "race-backrgound-circle")
             .attr("stroke", "none");
-
-          const backGroundExit = backGroundUpdate.exit().remove();
-
-          let aaa = backGroundEnter
-            .merge(backGroundUpdate)
-            .attr("transform", function (d, i) {
-              // Backwards on odd rows
-              let n;
-              if (Math.floor(i / numPerRow) % 2 === 0) {
-                n = i % numPerRow;
-              } else {
-                n = numPerRow - (i % numPerRow) - 1;
-              }
-
-              // Vertical positioning
-              const m = Math.floor(i / numPerRow);
-
-              // Translating groups to grid position
-              return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
-            });
-          // aaa.selectAll("text").text((d) => d.raceIdFerrari);
 
           /////////////////////////////////////////////////////////////////////////////////////////////////
           ///////////////////////////////////////// MAIN GROUPS ///////////////////////////////////////////
           /////////////////////////////////////////////////////////////////////////////////////////////////
 
-          const gridUpdate = bounds
-            .select(".races-group")
-            .selectAll(".race")
-            .data(dataset, (d) => {
-              return d ? `r${d.raceIdFerrari}` : this.id;
-            });
-
-          const gridEnter = gridUpdate
-            .enter()
-            .append("g")
-            .attr("class", "race")
-            .attr("id", (d) => `r${d.raceIdFerrari}`)
-            .attr("transform", function (d, i) {
-              // Backwards on odd rows
-              let n;
-              if (Math.floor(i / numPerRow) % 2 === 0) {
-                n = i % numPerRow;
-              } else {
-                n = numPerRow - (i % numPerRow) - 1;
-              }
-
-              // Vertical positioning
-              const m = Math.floor(i / numPerRow);
-
-              // Translating groups to grid position
-              return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
-            });
-
-          const gridExit = gridUpdate.exit().remove();
-
-          let bbb = gridEnter
-            .merge(gridUpdate)
-            .attr("transform", function (d, i) {
-              // Backwards on odd rows
-              let n;
-              if (Math.floor(i / numPerRow) % 2 === 0) {
-                n = i % numPerRow;
-              } else {
-                n = numPerRow - (i % numPerRow) - 1;
-              }
-
-              // Vertical positioning
-              const m = Math.floor(i / numPerRow);
-
-              // Translating groups to grid position
-              return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
-            });
-          bbb.selectAll("race-label").text((d) => d.raceDetails.raceAbbrev);
-
-          // grid = bounds
+          // let binGroup = bounds
           //   .select(".races-group")
-          //   .selectAll(".race")
-          //   .data(dataset, (d) => {
-          //     return d ? `r${d.raceIdFerrari}` : this.id;
-          //   })
-          //   .join(
-          //     (enter) =>
-          //       enter
-          //         .append("g")
-          //         .attr("class", "race")
-          //         .attr("id", (d) => `r${d.raceIdFerrari}`),
-          //     (update) =>
-          //       update.attr("transform", function (d, i) {
-          //         // Horizontal positioning
+          //   .selectAll(".bin")
+          //   .data(dataset);
 
-          //         // Regular:
-          //         // const n = i % numPerRow;
+          // const oldBinGroups = binGroup.exit();
+          // oldBinGroups.remove();
 
-          //         // Backwards on odd rows
-          //         let n;
-          //         if (Math.floor(i / numPerRow) % 2 === 0) {
-          //           n = i % numPerRow;
-          //         } else {
-          //           n = numPerRow - (i % numPerRow) - 1;
-          //         }
-
-          //         // Vertical positioning
-          //         const m = Math.floor(i / numPerRow);
-
-          //         //   console.log("xi: " + i + " " + numPerRow + " n: " + n + " xn: " + (12 - n))
-
-          //         // Translating groups to grid position
-          //         return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
-          //       }),
-          //     (exit) => exit.remove()
-          //   )
+          // const newBinGroups = binGroup
+          //   .enter()
+          //   .append("g")
+          //   .merge(binGroup)
+          //   .attr("class", "bin")
           //   .attr("transform", function (d, i) {
-          //     // Horizontal positioning
-
-          //     // Regular:
-          //     // const n = i % numPerRow;
-
-          //     // Backwards on odd rows
           //     let n;
           //     if (Math.floor(i / numPerRow) % 2 === 0) {
           //       n = i % numPerRow;
           //     } else {
           //       n = numPerRow - (i % numPerRow) - 1;
           //     }
-
-          //     // Vertical positioning
           //     const m = Math.floor(i / numPerRow);
-
-          //     //   console.log("xi: " + i + " " + numPerRow + " n: " + n + " xn: " + (12 - n))
-
-          //     // Translating groups to grid position
           //     return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
+          //   });
+
+          // newBinGroups
+          //   .append("rect")
+          //   .attr("height", 0)
+          //   .attr("x", 0)
+          //   .attr("y", 0)
+          //   .attr("width", 20)
+          //   .attr("height", 20)
+          //   .style("fill", (d) => {
+          //     let racePositions = d.drivers.map((e) => e.position);
+          //     return racePositions.includes("1") ? colours.red : "white";
+          //   });
+
+          // newBinGroups.append("text").attr("x", 0).attr("y", 0);
+
+          /// BEGIN TEST
+
+          // Drivers strips structure
+          // let tdriversGroup = newBinGroups
+          //   .append("g")
+          //   .attr("id", "drivers-group")
+          //   .attr(
+          //     "transform",
+          //     `translate(${size / 2}, 0), rotate(-${14})`
+          //   );
+
+          // let tdriverStripWidth = 3;
+          // let tdriverStripDistance = 10;
+
+          // let tinnerDriversGroup = tdriversGroup
+          //   .append("g")
+          //   .attr("id", (d) => d.raceDetails.raceAbbrev)
+          //   .attr(
+          //     "transform",
+          //     (d) =>
+          //       `translate(0, ${
+          //         (-d.drivers.length * tdriverStripWidth -
+          //           (d.drivers.length - 1) *
+          //             (tdriverStripDistance - tdriverStripWidth)) /
+          //         2
+          //       })`
+          //   );
+
+          // tsingleDriverGroup = tinnerDriversGroup
+          //   .selectAll(".single-driver-g")
+          //   .data((d) => d.drivers)
+          //   .enter()
+          //   .append("g")
+          //   .attr("class", "single-driver-g")
+          //   .attr("transform", (d, i) => {
+          //     return `translate(0, ${tdriverStripDistance * i})`;
+          //   });
+
+          // // Driver strips
+          // tsingleDriverGroup
+          //   .append("rect")
+          //   .attr("x", -mainCircleRadius)
+          //   .attr("y", 0)
+          //   .attr("width", (d) => {
+          //     let lapsScale = d3
+          //       .scaleLinear()
+          //       .domain([0, 1])
+          //       .range([0, mainCircleRadius * 2]);
+          //     return lapsScale(d.lapsCompleted);
           //   })
-          //   
-          
-          bbb.on("click", function (d, i, n) {
+          //   .attr("height", tdriverStripWidth)
+          //   .attr("fill", "yellowgreen");
+
+          /// END TEST
+
+          // binGroup = newBinGroups.merge(binGroup);
+
+          // console.log(binGroup);
+
+          // binGroup
+          //   .select("text")
+          //   .text((d) => d.raceIdFerrari)
+          //   .style("fill", "white");
+
+          gridGroup = bounds
+            .select(".races-group")
+            .selectAll(".race")
+            .data(dataset);
+
+          const oldGridGroup = gridGroup.exit();
+          console.log(gridGroup);
+          console.log(oldGridGroup);
+
+          oldGridGroup.remove();
+
+          grid = gridGroup
+            .enter()
+            .append("g")
+            .attr("class", "race")
+            .attr("id", (d) => "r" + d.raceIdFerrari)
+            .attr("transform", function (d, i) {
+              // Horizontal positioning
+
+              // Regular:
+              // const n = i % numPerRow;
+
+              // Backwards on odd rows
+              let n;
+              if (Math.floor(i / numPerRow) % 2 === 0) {
+                n = i % numPerRow;
+              } else {
+                n = numPerRow - (i % numPerRow) - 1;
+              }
+
+              // Vertical positioning
+              const m = Math.floor(i / numPerRow);
+
+              //   console.log("xi: " + i + " " + numPerRow + " n: " + n + " xn: " + (12 - n))
+
+              // Translating groups to grid position
+              return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
+            })
+            .on("click", function (d, i, n) {
               d3.event.stopPropagation();
 
               raceInFocus = d;
@@ -575,6 +567,8 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                 .append("p")
                 .attr("class", "driver-name")
                 .text((e) => e.name);
+
+              // driverDivs.join("p").text((e) => e.name)
             });
 
           // Reset focus
@@ -633,7 +627,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           /////////////////////////////////////////////////////////////////////////////////////////////////
 
           // Driver World Championships
-          gridEnter
+          grid
             .filter((d) => d.drivers.map((e) => e.driChamp).includes("1"))
             .raise()
             .append("g")
@@ -683,7 +677,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             );
 
           // Constructor World Championships
-          gridEnter
+          grid
             .filter((d) => d.drivers.map((e) => e.conChamp).includes("1"))
             .raise()
             .append("g")
@@ -732,16 +726,16 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
               }), rotate(${-tiltAngle})`
             );
 
-                /////////////////////////////////////////////////////////////////////////////////////////////////
-                //////////////////////////////////////////// LABELS /////////////////////////////////////////////
-                /////////////////////////////////////////////////////////////////////////////////////////////////
+          /////////////////////////////////////////////////////////////////////////////////////////////////
+          //////////////////////////////////////////// LABELS /////////////////////////////////////////////
+          /////////////////////////////////////////////////////////////////////////////////////////////////
 
           // Race label
-          gridEnter
+          grid
             .append("text")
             .attr("x", size / 2)
             .attr("y", size)
-            .attr("class", "label race-label")
+            .attr("class", "label")
             .attr("transform", `rotate(${-tiltAngle})`)
             .style("font-size", "6px")
             .style("text-transform", "uppercase")
@@ -750,38 +744,33 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             .text((d) => d.raceDetails.raceAbbrev);
 
           // Year label
-
-          gridEnter
+          grid
             .filter(
               (d, i) =>
                 d.raceDetails.round === "1" &&
                 Math.floor(i / numPerRow) % 2 === 0
             )
             .append("rect")
-            .attr("class", "year-rect")
             .attr("x", -size / 4)
             .attr("y", size / 2.4)
             .attr("width", size / 2)
             .attr("height", size / 6)
-            .style("fill", colours.black)
-            .style("display", isFiltered ? "none" : "block");
+            .style("fill", colours.black);
 
-          gridEnter
+          grid
             .filter(
               (d, i) =>
                 d.raceDetails.round === "1" &&
                 Math.floor(i / numPerRow) % 2 != 0
             )
             .append("rect")
-            .attr("class", "year-rect")
             .attr("x", size / 1.1)
             .attr("y", size / 2.4)
             .attr("width", size / 2.5)
             .attr("height", size / 6)
-            .style("fill", colours.black)
-            .style("display", isFiltered ? "none" : "block");
+            .style("fill", colours.black);
 
-          gridEnter
+          grid
             .append("text")
             .attr("class", "year-label")
             .attr("x", (d, i) => {
@@ -806,7 +795,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             });
 
           // Hundred label
-          gridEnter
+          grid
             .filter((d) => hundredRaces.includes(parseInt(d.raceIdFerrari)))
             .append("text")
             .attr("class", "label")
@@ -822,7 +811,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             .text((d) => d.raceIdFerrari);
 
           // Main circle
-          gridEnter
+          grid
             .append("circle")
             .raise()
             .attr("cx", size / 2)
@@ -848,147 +837,147 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           ////////////////////////////////////////// SYMBOLS //////////////////////////////////////////////
           /////////////////////////////////////////////////////////////////////////////////////////////////
 
-                // Laps led arc
-                let angleScale = d3
-                  .scaleLinear()
-                  .domain([0, 1])
-                  .range([-Math.PI / 2 + tiltAngle * (Math.PI / 180), 0]);
+          // Laps led arc
+          let angleScale = d3
+            .scaleLinear()
+            .domain([0, 1])
+            .range([-Math.PI / 2 + tiltAngle * (Math.PI / 180), 0]);
 
-                gridEnter
-                  .append("g")
-                  .style("transform", `translate(${size / 2}px, ${size / 2}px)`)
-                  .attr("class", "led-arc")
-                  .append("path")
-                  .attr("d", (d) => {
-                    let sum = [];
-                    d.drivers.forEach((e) => sum.push(parseInt(e.lapsLed)));
-                    let sum2 = sum.reduce((a, b) => a + b, 0);
+          grid
+            .append("g")
+            .style("transform", `translate(${size / 2}px, ${size / 2}px)`)
+            .attr("class", "led-arc")
+            .append("path")
+            .attr("d", (d) => {
+              let sum = [];
+              d.drivers.forEach((e) => sum.push(parseInt(e.lapsLed)));
+              let sum2 = sum.reduce((a, b) => a + b, 0);
 
-                    let arcValue = d3
-                      .arc()
-                      .innerRadius(scaleGrid(0.35) - lineWidth / 4)
-                      .outerRadius(scaleGrid(0.35) + lineWidth / 4)
-                      .startAngle(-Math.PI / 2 + tiltAngle * (Math.PI / 180))
-                      .endAngle(angleScale(sum2 / parseInt(d.drivers[0].winnerLaps)));
-                    return arcValue(d);
-                  })
-                  .attr("fill", colours.white)
-                  .attr("stroke", "none");
+              let arcValue = d3
+                .arc()
+                .innerRadius(scaleGrid(0.35) - lineWidth / 4)
+                .outerRadius(scaleGrid(0.35) + lineWidth / 4)
+                .startAngle(-Math.PI / 2 + tiltAngle * (Math.PI / 180))
+                .endAngle(angleScale(sum2 / parseInt(d.drivers[0].winnerLaps)));
+              return arcValue(d);
+            })
+            .attr("fill", colours.white)
+            .attr("stroke", "none");
 
-                // Drivers strips structure
-                let driversGroup = gridEnter
-                  .append("g")
-                  .attr("id", "drivers-group")
-                  .attr(
-                    "transform",
-                    `translate(${size / 2}, ${size / 2}), rotate(-${14})`
-                  );
+          // Drivers strips structure
+          let driversGroup = grid
+            .append("g")
+            .attr("id", "drivers-group")
+            .attr(
+              "transform",
+              `translate(${size / 2}, ${size / 2}), rotate(-${14})`
+            );
 
-                let driverStripWidth = 3;
-                let driverStripDistance = 10;
+          let driverStripWidth = 3;
+          let driverStripDistance = 10;
 
-                let innerDriversGroup = driversGroup
-                  .append("g")
-                  .attr("id", (d) => d.raceDetails.raceAbbrev)
-                  .attr(
-                    "transform",
-                    (d) =>
-                      `translate(0, ${
-                        (-d.drivers.length * driverStripWidth -
-                          (d.drivers.length - 1) *
-                            (driverStripDistance - driverStripWidth)) /
-                        2
-                      })`
-                  );
+          let innerDriversGroup = driversGroup
+            .append("g")
+            .attr("id", (d) => d.raceDetails.raceAbbrev)
+            .attr(
+              "transform",
+              (d) =>
+                `translate(0, ${
+                  (-d.drivers.length * driverStripWidth -
+                    (d.drivers.length - 1) *
+                      (driverStripDistance - driverStripWidth)) /
+                  2
+                })`
+            );
 
-                singleDriverGroup = innerDriversGroup
-                  .selectAll(".single-driver-g")
-                  .data((d) => d.drivers)
-                  .enter()
-                  .append("g")
-                  .attr("class", "single-driver-g")
-                  .attr("transform", (d, i) => {
-                    return `translate(0, ${driverStripDistance * i})`;
-                  });
+          singleDriverGroup = innerDriversGroup
+            .selectAll(".single-driver-g")
+            .data((d) => d.drivers)
+            .enter()
+            .append("g")
+            .attr("class", "single-driver-g")
+            .attr("transform", (d, i) => {
+              return `translate(0, ${driverStripDistance * i})`;
+            });
 
-                // Driver strips
-                singleDriverGroup
-                  .append("rect")
-                  .attr("x", -mainCircleRadius)
-                  .attr("y", 0)
-                  .attr("width", (d) => {
-                    let lapsScale = d3
-                      .scaleLinear()
-                      .domain([0, 1])
-                      .range([0, mainCircleRadius * 2]);
-                    return lapsScale(d.lapsCompleted);
-                  })
-                  .attr("height", driverStripWidth)
-                  .attr("fill", colours.black);
+          // Driver strips
+          singleDriverGroup
+            .append("rect")
+            .attr("x", -mainCircleRadius)
+            .attr("y", 0)
+            .attr("width", (d) => {
+              let lapsScale = d3
+                .scaleLinear()
+                .domain([0, 1])
+                .range([0, mainCircleRadius * 2]);
+              return lapsScale(d.lapsCompleted);
+            })
+            .attr("height", driverStripWidth)
+            .attr("fill", colours.black);
 
-                // Pole Position or first row
-                singleDriverGroup
-                  .append("circle")
-                  .attr("class", "driver-pole")
-                  .attr("cx", -mainCircleRadius - 5)
-                  .attr("cy", driverStripWidth / 2)
-                  .attr("r", (d) => {
-                    return d.grid === "1" ? "3px" : d.grid === "2" ? "2px" : "0px";
-                  })
-                  .attr("fill", (d) => {
-                    return d.grid === "1"
-                      ? colours.white
-                      : d.grid === "2"
-                      ? colours.white
-                      : "none";
-                  })
-                  .attr("stroke", "none");
+          // Pole Position or first row
+          singleDriverGroup
+            .append("circle")
+            .attr("class", "driver-pole")
+            .attr("cx", -mainCircleRadius - 5)
+            .attr("cy", driverStripWidth / 2)
+            .attr("r", (d) => {
+              return d.grid === "1" ? "3px" : d.grid === "2" ? "2px" : "0px";
+            })
+            .attr("fill", (d) => {
+              return d.grid === "1"
+                ? colours.white
+                : d.grid === "2"
+                ? colours.white
+                : "none";
+            })
+            .attr("stroke", "none");
 
-                // Fastest Lap
-                singleDriverGroup
-                  .append("circle")
-                  .attr("class", "driver-fl")
-                  .attr("cx", mainCircleRadius + 5)
-                  .attr("cy", driverStripWidth / 2)
-                  .attr("r", "2px")
-                  .attr("stroke", (d) => {
-                    if (d.fLap1) {
-                      return d.fLap1 === "1" ? colours.white : "none";
-                    }
-                  })
-                  .attr("fill", "none");
+          // Fastest Lap
+          singleDriverGroup
+            .append("circle")
+            .attr("class", "driver-fl")
+            .attr("cx", mainCircleRadius + 5)
+            .attr("cy", driverStripWidth / 2)
+            .attr("r", "2px")
+            .attr("stroke", (d) => {
+              if (d.fLap1) {
+                return d.fLap1 === "1" ? colours.white : "none";
+              }
+            })
+            .attr("fill", "none");
 
-                // All laps led
-                singleDriverGroup
-                  .append("circle")
-                  .attr("class", "driver-led")
-                  .attr("cx", mainCircleRadius + 5)
-                  .attr("cy", driverStripWidth / 2)
-                  .attr("r", "6px")
-                  .attr("stroke", (d) => {
-                    if (d.rank) {
-                      return d.lapsLed / d.winnerLaps === 1 ? colours.white : "none";
-                    }
-                  })
-                  .attr("fill", "none");
+          // All laps led
+          singleDriverGroup
+            .append("circle")
+            .attr("class", "driver-led")
+            .attr("cx", mainCircleRadius + 5)
+            .attr("cy", driverStripWidth / 2)
+            .attr("r", "6px")
+            .attr("stroke", (d) => {
+              if (d.rank) {
+                return d.lapsLed / d.winnerLaps === 1 ? colours.white : "none";
+              }
+            })
+            .attr("fill", "none");
 
-                // Triangular shape for driver strips
-                singleDriverGroup
-                  .append("polyline")
-                  .attr("points", (d) => {
-                    if (d.position === "1") {
-                      return `${mainCircleRadius * 0.45} ${driverStripWidth}
-            ${mainCircleRadius * 0.45} -7
-            32 ${driverStripWidth}
-            ${mainCircleRadius * 0.45} ${driverStripWidth}`;
-                    } else if (d.position === "2" || d.position === "3") {
-                      return `${mainCircleRadius * 0.6} ${driverStripWidth}
-          ${mainCircleRadius * 0.6} -4
-          32 ${driverStripWidth}
-          ${mainCircleRadius * 0.6} ${driverStripWidth}`;
-                    }
-                  })
-                  .attr("fill", colours.black);
+          // Triangular shape for driver strips
+          singleDriverGroup
+            .append("polyline")
+            .attr("points", (d) => {
+              if (d.position === "1") {
+                return `${mainCircleRadius * 0.45} ${driverStripWidth}
+      ${mainCircleRadius * 0.45} -7
+      32 ${driverStripWidth}
+      ${mainCircleRadius * 0.45} ${driverStripWidth}`;
+              } else if (d.position === "2" || d.position === "3") {
+                return `${mainCircleRadius * 0.6} ${driverStripWidth}
+    ${mainCircleRadius * 0.6} -4
+    32 ${driverStripWidth}
+    ${mainCircleRadius * 0.6} ${driverStripWidth}`;
+              }
+            })
+            .attr("fill", colours.black);
         }
 
         drawViz(ferrariCompleteRaces);
@@ -996,22 +985,10 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
         // Filtering test
         filter = () => {
           console.log("filter");
-          isFiltered = true;
-
           let filterFerrariCompleteRaces = ferrariCompleteRaces.filter(
-            (d) => d.circuitName.circuitRef === "melbourne"
+            (d) => d.raceIdFerrari === 500
           );
           drawViz(filterFerrariCompleteRaces);
-          grid.selectAll(".year-label").style("display", "none");
-          grid.selectAll(".year-rect").style("display", "none");
-        };
-
-        unfilter = () => {
-          console.log("unfilter");
-          isFiltered = false;
-          drawViz(ferrariCompleteRaces);
-          grid.selectAll(".year-label").style("display", "block");
-          grid.selectAll(".year-rect").style("display", "block");
         };
 
         // Checking if in viewport
