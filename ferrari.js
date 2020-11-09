@@ -599,6 +599,16 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           window.addEventListener(
             "scroll",
             function (event) {
+
+              if (isInViewport(d3
+                .select(`#r${500}`)
+                .node())) {
+                console.log("r500");
+                d3.select("#story").text("race 500")
+              } else {
+                d3.select("#story").text("none")
+              }
+
               if (raceInFocus) {
                 let inFocusNode = d3
                   .select(`#r${raceInFocus.raceIdFerrari}`)

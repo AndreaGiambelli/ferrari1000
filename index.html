@@ -16,7 +16,7 @@
   </head>
 
   <body>
-    <header>
+    <header style="height: 400px; background: linear-gradient(180deg, #D40000 53.65%, rgba(212, 0, 0, 0) 100%);">
       <div>
         <p>Title</p>
         <p>Subtitle</p>
@@ -24,9 +24,46 @@
     </header>
     <button onClick="filter()">Filter</button>
     <button onClick="unfilter()">Unfilter</button>
+    <div id="filters-section">
+      <p>Filter by</p>
+      <div id="filters-wrapper">
+        <div id="select-driver-group">
+          <p>Driver</p>
+          <select name="" id="">
+            <option value="0"></option>
+            <option value="1">Audi</option>
+            <option value="2">BMW</option>
+            <option value="3">Citroen</option>
+            <option value="4">Ford</option>
+            <option value="5">Honda</option>
+            <option value="6">Jaguar</option>
+            <option value="7">Land Rover</option>
+            <option value="8">Mercedes</option>
+            <option value="9">Mini</option>
+            <option value="10">Nissan</option>
+            <option value="11">Toyota</option>
+            <option value="12">Volvo</option>
+          </select>
+        </div>
+        <div id="select-circuit-group">
+          <p>Circuit</p>
+          <select name="" id=""></select>
+        </div>
+        <div id="select-result-group">
+          <p>Result</p>
+          <select name="" id=""></select>
+        </div>
+      </div>
+    </div>
     <div class="grid-main">
       <div id="viz"></div>
       <div id="sidebar">
+        <p id="story">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
         <div id="race-header">
           <div id="race-header-title">
             <p></p>
@@ -39,7 +76,7 @@
             </div>
           </div>
         </div>
-        <hr>
+        <hr />
         <div id="ferrari-races-count">
           <div id="races-count-left">1</div>
           <div id="races-count-wrapper">
@@ -48,30 +85,29 @@
           </div>
           <div id="races-count-right">1000</div>
         </div>
-        <div id="drivers">
-        </div>
+        <div id="drivers"></div>
       </div>
     </div>
     <footer>
       <div>
         <p>Ferrari 1000</p>
+        <p>Data visualization by Andrea Giambelli</p>
         <p>
-          Data visualization by Andrea Giambelli
-        </p>
-        <p>
-          Designer at <a href="https://ratio.city">Ratio.City</a> and Ferrari fan since 1998
+          Designer at <a href="https://ratio.city">Ratio.City</a> and Ferrari
+          fan since 1998
         </p>
         <a href="https://www.andreagiambelli.com">andreagiambelli.com</a>
         <p>Data sources</p>
         <p>
-          <a href="https://en.wikipedia.org/wiki/Ferrari_Grand_Prix_results">Wikipedia</a>, 
-          <a href="https://forix.autosport.com">Forix</a>, 
-          <a href="">tizio api</a>, 
+          <a href="https://en.wikipedia.org/wiki/Ferrari_Grand_Prix_results"
+            >Wikipedia</a
+          >, <a href="https://forix.autosport.com">Forix</a>,
+          <a href="">tizio api</a>,
           <a href="https://www.racingcircuits.info">Racingcircuits</a>
         </p>
       </div>
     </footer>
   </body>
-<script src="https://unpkg.com/scrollama"></script>
+  <script src="https://unpkg.com/scrollama"></script>
   <script src="ferrari.js"></script>
 </html>
