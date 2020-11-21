@@ -16,12 +16,48 @@
   </head>
 
   <body>
-    <header style="height: 400px; background: linear-gradient(180deg, #D40000 53.65%, rgba(212, 0, 0, 0) 100%);">
-      <div>
-        <p>Title</p>
-        <p>Subtitle</p>
+    <header>
+      <div
+        id="header-wrapper"
+        style="display: grid; grid-template-columns: 50% 50%"
+      >
+        <div>
+          <img class="title-img" src="SVG/Title_test.svg" alt="Ferrari 1000+" />
+          <p>
+            Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil
+            impedit quo minus id quod maxime placeat facere possimus
+          </p>
+          <p>
+            Data visualization project by
+            <a href="www.andreagiambelli.com" target="_blank"
+              >Andrea Giambelli</a
+            >
+          </p>
+        </div>
+        <div>
+          <img src="Images/top-image-cropped.png" alt="" style="width: 100%" />
+        </div>
       </div>
     </header>
+    <section style="display: grid; grid-template-columns: 70% 30%; padding: 64px;">
+      <div>
+        <p>
+          On September 13, 2020 Scuderia Ferrari, the most famed team in the
+          history of Formula 1, competed in its 1000th World Championship race.
+          Lorem ipsum an interactive data visualization as a personal project,
+          to try and tell this amazing story.
+        </p>
+        <p>
+          On September 13, 2020 Scuderia Ferrari, the most famed team in the
+          history of Formula 1, competed in its 1000th World Championship race.
+          Lorem ipsum an interactive data visualization as a personal project,
+          to try and tell this amazing story.
+        </p>
+      </div>
+      <div>
+        <img src="Images/top-image-cropped.png" alt="" style="width: 100%" />
+      </div>
+    </section>
     <button onClick="filter()">Filter</button>
     <button onClick="unfilter()">Unfilter</button>
     <div id="filters-section">
@@ -108,6 +144,8 @@
       </div>
     </footer>
   </body>
+  <!-- <span>Photo by <a href="https://unsplash.com/@jannerboy62?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Nick Fewings</a> on <a href="https://unsplash.com/s/photos/formula-1?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span> -->
+  <!-- <span>Photo by <a href="https://unsplash.com/@baudy?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Tim Carey</a> on <a href="https://unsplash.com/s/photos/ferrari-formula-1?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span> -->
   <script src="https://unpkg.com/scrollama"></script>
   <script src="ferrari.js"></script>
 </html>

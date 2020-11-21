@@ -1,7 +1,7 @@
 body {
   margin: 0;
   background: #0f0f0f;
-  padding: 2%;
+  padding: 0;
   font-family: "Inter", sans-serif;
   color: white;
   box-sizing: border-box;
@@ -10,6 +10,18 @@ body {
 a {
   color: white;
 }
+
+header {
+  height: 400px;
+  background: linear-gradient(180deg, #d40000 53.65%, rgba(212, 0, 0, 0) 100%);
+  padding: 64px;
+}
+
+.title-img {
+  width: 100%;
+  margin-top: 16%;
+}
+
 
 .grid-main {
   display: grid;
@@ -35,24 +47,26 @@ a {
   height: 75px;
 }
 
-#races-count-left, #races-count-wrapper, #races-count-right {
-    display: inline-block;
+#races-count-left,
+#races-count-wrapper,
+#races-count-right {
+  display: inline-block;
 }
 
 #races-count-left {
-    width: 10%;
-    /* height: 20px;
+  width: 10%;
+  /* height: 20px;
     background: coral; */
 }
 
 #races-count-right {
-    width: 10%;
-    /* height: 20px;
+  width: 10%;
+  /* height: 20px;
     background: teal; */
 }
 
 #races-count-wrapper {
-    width: 77%;
+  width: 77%;
 }
 
 /* #temp-image {
@@ -97,5 +111,5 @@ a {
 }
 
 .race {
-    cursor: pointer;
+  cursor: pointer;
 }
