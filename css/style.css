@@ -22,7 +22,6 @@ header {
   margin-top: 16%;
 }
 
-
 .grid-main {
   display: grid;
   grid-template-columns: 70% auto;
@@ -41,6 +40,18 @@ header {
   top: 4%;
   height: 92vh;
   padding: 12px;
+}
+
+/* Main Stats */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 33% 40% auto;
+}
+
+/* Detail Stats */
+#race-details-wrapper {
+  display: none;
 }
 
 #ferrari-races-count {
