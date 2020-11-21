@@ -16,7 +16,7 @@
   </head>
 
   <body>
-    <header>
+    <header style="font-weight: 300">
       <div
         id="header-wrapper"
         style="display: grid; grid-template-columns: 50% 50%"
@@ -29,7 +29,7 @@
           </p>
           <p>
             Data visualization project by
-            <a href="www.andreagiambelli.com" target="_blank"
+            <a href="https://www.andreagiambelli.com" target="_blank"
               >Andrea Giambelli</a
             >
           </p>
@@ -39,11 +39,21 @@
         </div>
       </div>
     </header>
-    <section style="display: grid; grid-template-columns: 70% 30%; padding: 64px;">
+    <section
+      id="intro-legend"
+      style="
+        display: grid;
+        grid-template-columns: 70% 30%;
+        padding: 64px;
+        font-weight: 300;
+      "
+    >
       <div>
         <p>
-          On September 13, 2020 Scuderia Ferrari, the most famed team in the
-          history of Formula 1, competed in its 1000th World Championship race.
+          On September 13, 2020
+          <span style="font-weight: 600">Scuderia Ferrari</span>, the most famed
+          team in the history of Formula 1, competed in its
+          <span style="font-weight: 600">1000th World Championship race</span>.
           Lorem ipsum an interactive data visualization as a personal project,
           to try and tell this amazing story.
         </p>
@@ -58,39 +68,44 @@
         <img src="Images/top-image-cropped.png" alt="" style="width: 100%" />
       </div>
     </section>
-    <button onClick="filter()">Filter</button>
-    <button onClick="unfilter()">Unfilter</button>
-    <div id="filters-section">
-      <p>Filter by</p>
-      <div id="filters-wrapper">
-        <div id="select-driver-group">
-          <p>Driver</p>
-          <select name="" id="">
-            <option value="0"></option>
-            <option value="1">Audi</option>
-            <option value="2">BMW</option>
-            <option value="3">Citroen</option>
-            <option value="4">Ford</option>
-            <option value="5">Honda</option>
-            <option value="6">Jaguar</option>
-            <option value="7">Land Rover</option>
-            <option value="8">Mercedes</option>
-            <option value="9">Mini</option>
-            <option value="10">Nissan</option>
-            <option value="11">Toyota</option>
-            <option value="12">Volvo</option>
-          </select>
-        </div>
-        <div id="select-circuit-group">
-          <p>Circuit</p>
-          <select name="" id=""></select>
-        </div>
-        <div id="select-result-group">
-          <p>Result</p>
-          <select name="" id=""></select>
+
+    <div class="grid-main">
+      <div id="filters-section">
+        <button onClick="filter()">Filter</button>
+        <button onClick="unfilter()">Unfilter</button>
+        <p>Filter by</p>
+        <div id="filters-wrapper">
+          <div id="select-driver-group">
+            <p>Driver</p>
+            <select name="" id="">
+              <option value="0"></option>
+              <option value="1">Audi</option>
+              <option value="2">BMW</option>
+              <option value="3">Citroen</option>
+              <option value="4">Ford</option>
+              <option value="5">Honda</option>
+              <option value="6">Jaguar</option>
+              <option value="7">Land Rover</option>
+              <option value="8">Mercedes</option>
+              <option value="9">Mini</option>
+              <option value="10">Nissan</option>
+              <option value="11">Toyota</option>
+              <option value="12">Volvo</option>
+            </select>
+          </div>
+          <div id="select-circuit-group">
+            <p>Circuit</p>
+            <select name="" id=""></select>
+          </div>
+          <div id="select-result-group">
+            <p>Result</p>
+            <select name="" id=""></select>
+          </div>
         </div>
       </div>
+      <div></div>
     </div>
+    
     <div class="grid-main">
       <div id="viz"></div>
       <div id="sidebar">
@@ -124,15 +139,14 @@
         <div id="drivers"></div>
       </div>
     </div>
-    <footer>
+    <footer style="font-weight: 300; padding: 64px;">
       <div>
-        <p>Ferrari 1000</p>
-        <p>Data visualization by Andrea Giambelli</p>
-        <p>
-          Designer at <a href="https://ratio.city">Ratio.City</a> and Ferrari
+        <p style="font-weight: 700">Ferrari 1000+</p>
+        <p>Data visualization by <a href="https://www.andreagiambelli.com" target="_blank"
+          >Andrea Giambelli</a
+        >, Designer & Product Director @<a href="https://ratio.city">Ratio.City</a>, Ferrari
           fan since 1998
         </p>
-        <a href="https://www.andreagiambelli.com">andreagiambelli.com</a>
         <p>Data sources</p>
         <p>
           <a href="https://en.wikipedia.org/wiki/Ferrari_Grand_Prix_results"
