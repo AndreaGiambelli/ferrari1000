@@ -506,8 +506,27 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
 
             raceInFocus = d;
 
-            d3.select("#story-stats-wrapper").style("display", "none");
-            d3.select("#race-details-wrapper").style("display", "block");
+            console.log(this);
+
+            // let bbox = this.getBBox();
+            let ctm = this.getCTM();
+            console.log(this.getCTM());
+
+            // Calculate the centre of the group
+            // let cx = bbox.x + bbox.width / 2;
+            // let cy = bbox.y + bbox.height / 2;
+
+            // // Transform cx,cy by the group's transform
+            // let pt = document.getElementById("mysvg").createSVGPoint();
+            // pt.x = cx;
+            // pt.y = cy;
+            // pt = pt.matrixTransform(ctm);
+
+            // d3.select("#story-stats-wrapper").style("display", "none");
+            d3.select("#race-details-wrapper")
+              .style("display", "block")
+              .style("left", `${ctm.e - 100}px`)
+              .style("top", `${ctm.f + 100}px`);
 
             // Fade all elements
             d3.selectAll(".label").style("opacity", 0.5);
@@ -619,7 +638,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
 
           // Reset focus
           d3.select("body").on("click", function (d) {
-            d3.select("#story-stats-wrapper").style("display", "block");
+            // d3.select("#story-stats-wrapper").style("display", "block");
             d3.select("#race-details-wrapper").style("display", "none");
 
             // Remove fade from all elements
@@ -776,7 +795,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                   console.log("in");
                 } else {
                   console.log("out");
-                  d3.select("#story-stats-wrapper").style("display", "block");
+                  // d3.select("#story-stats-wrapper").style("display", "block");
                   d3.select("#race-details-wrapper").style("display", "none");
 
                   // Remove fade from all elements

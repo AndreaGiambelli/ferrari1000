@@ -52,6 +52,11 @@ header {
 /* Detail Stats */
 #race-details-wrapper {
   display: none;
+  position: absolute;
+  width: 40%;
+background: rgba(15, 15, 15, 0.95);
+border: 1px solid white;
+padding: 16px;
 }
 
 #ferrari-races-count {
@@ -103,7 +108,7 @@ header {
 .driver-div {
   display: inline-block;
   width: 50%;
-  height: 200px;
+  height: 120px;
 }
 
 .driver-helmet,
