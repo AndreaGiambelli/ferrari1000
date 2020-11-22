@@ -87,6 +87,7 @@ let allFerrariRaces;
 let raceInFocus;
 let filter;
 let isFiltered;
+let maxRaceInView;
 let winsInView = 0;
 let polesInView = 0;
 let flInView = 0;
@@ -97,6 +98,7 @@ let polesMap = [];
 let flMap = [];
 let wDcMap = [];
 let wCcMap = [];
+let xScaleSp;
 
 d3.csv("f1db_csv/races.csv").then(function (racesData) {
   racesData.forEach((r) => {
@@ -504,6 +506,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
 
             raceInFocus = d;
 
+            d3.select("#story-stats-wrapper").style("display", "none");
             d3.select("#race-details-wrapper").style("display", "block");
 
             // Fade all elements
@@ -616,6 +619,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
 
           // Reset focus
           d3.select("body").on("click", function (d) {
+            d3.select("#story-stats-wrapper").style("display", "block");
             d3.select("#race-details-wrapper").style("display", "none");
 
             // Remove fade from all elements
@@ -643,7 +647,18 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                   array.push(parseInt(`${i}`));
                 }
               }
-              let maxRace = d3.max(array);
+
+              maxRaceInView = d3.max(array);
+
+              d3.select("#sp-wins")
+                .select(".year-line")
+                .attr("x1", xScaleSp(maxRaceInView))
+                .attr("x2", xScaleSp(maxRaceInView));
+
+              d3.select("#sp-wins")
+                .select(".year-rect")
+                .attr("x", xScaleSp(maxRaceInView));
+              // .attr("x2", xScaleSp(maxRaceInView));
 
               winsInView = 0;
               polesInView = 0;
@@ -658,7 +673,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                 let wDcCalc = d.drivers.map((e) => e.driChamp);
                 let wCcCalc = d.drivers.map((e) => e.conChamp);
 
-                if (d.raceIdFerrari <= maxRace) {
+                if (d.raceIdFerrari <= maxRaceInView) {
                   if (winsCalc.includes("1")) {
                     winsInView++;
                   }
@@ -761,7 +776,8 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                   console.log("in");
                 } else {
                   console.log("out");
-                  d3.select("#sidebar").style("visibility", "hidden");
+                  d3.select("#story-stats-wrapper").style("display", "block");
+                  d3.select("#race-details-wrapper").style("display", "none");
 
                   // Remove fade from all elements
                   d3.selectAll(".label").style("opacity", 1);
@@ -1184,13 +1200,13 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             );
 
           // Sparklines - x Scale
-          let xScaleSp = d3
+          xScaleSp = d3
             .scaleLinear()
             .domain(d3.extent(dataset, (d) => parseInt(d.raceIdFerrari)))
             .range([0, spWidth]);
 
           // Sparklines - y Scale Wins
-          var yScaleSpWins = d3
+          let yScaleSpWins = d3
             .scaleLinear()
             .domain([
               0,
@@ -1219,8 +1235,8 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                   return yScaleSpWins(d.cumulativeWins);
                 })
             );
-            // Sparklines - Wins line
-            spWinsSvg
+          // Sparklines - Wins line
+          spWinsSvg
             .append("path")
             .datum(dataset)
             .attr("stroke", "#d40000")
@@ -1238,8 +1254,30 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                 })
             );
 
+          // Sparklines - Wins year line
+          // spWinsSvg
+          //   .append("line")
+          //   .attr("class", "year-line")
+          //   .attr("x1", 0)
+          //   .attr("y1", yScaleSpWins.range()[1])
+          //   .attr("x2", 0)
+          //   .attr("y2", yScaleSpWins.range()[0])
+          //   .style("stroke", "white");
+
+          // Sparklines - Wins year rect
+          spWinsSvg
+            .append("rect")
+            .attr("class", "year-rect")
+            .attr("x", xScaleSp.range()[0])
+            .attr("y", yScaleSpWins.range()[1] - 10)
+            .attr("width", xScaleSp.range()[1])
+            .attr("height", yScaleSpWins.range()[0] + 20)
+            .style("stroke", "none")
+            .style("fill", "#0f0f0f")
+            .style("fill-opacity", "0.6");
+
           // Sparklines - y Scale Poles
-          var yScaleSpPoles = d3
+          let yScaleSpPoles = d3
             .scaleLinear()
             .domain([
               0,
@@ -1270,7 +1308,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             );
 
           // Sparklines - y Scale Fl
-          var yScaleSpFl = d3
+          let yScaleSpFl = d3
             .scaleLinear()
             .domain([
               0,
