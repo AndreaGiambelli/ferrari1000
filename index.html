@@ -13,6 +13,8 @@
       rel="stylesheet"
     />
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+    <script src="circuitMap.js"></script>
+    <script src="ferrari.js"></script>
   </head>
 
   <body>
@@ -105,9 +107,9 @@
       </div>
       <div></div>
     </div>
-    
-    <div id="viz-section" class="grid-main" >
-      <div id="viz" style="position: relative;">
+
+    <div id="viz-section" class="grid-main">
+      <div id="viz" style="position: relative">
         <div id="race-details-wrapper">
           <div id="race-header">
             <div id="race-header-title">
@@ -123,64 +125,64 @@
           </div>
           <hr />
           <div id="ferrari-races-count">
-            <div id="races-count-left">1</div>
             <div id="races-count-wrapper">
               <p id="races-count"></p>
               <div id="races-count-chart"></div>
             </div>
             <div id="races-count-right">1000</div>
           </div>
-          <div id="drivers"></div>
+          <div id="drivers">
+            <p>Drivers</p>
+          </div>
         </div>
       </div>
       <div id="sidebar">
-        <div id="story-stats-wrapper" style="position: relative;">
+        <div id="story-stats-wrapper" style="position: relative">
           <p id="story">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
             aliquip ex ea commodo consequat.
           </p>
-          <div id="stats-wrapper" style="position: absolute; width: 100%; bottom: 0;">
+          <div
+            id="stats-wrapper"
+            style="position: absolute; width: 100%; bottom: 0"
+          >
             <div class="stats-grid">
               <p>Wins</p>
               <div id="sp-wins"></div>
-              <p id="winsInView">0</p>
             </div>
             <div class="stats-grid">
               <p>Pole Positions</p>
               <div id="sp-poles"></div>
-              <p id="polesInView">0</p>
             </div>
             <div class="stats-grid">
               <p>Fastest Laps</p>
               <div id="sp-fl"></div>
-              <p id="flInView">0</p>
             </div>
             <div id="stats-wdc-title">World Championships</div>
-            <div id="stats-wdc-wrapper" style="display: grid; grid-template-columns: 50% 50%;">
+            <div
+              id="stats-wdc-wrapper"
+              style="display: grid; grid-template-columns: 50% 50%"
+            >
               <p id="wDcInView">0</p>
               <p id="wCcInView">0</p>
             </div>
           </div>
-          
         </div>
-        
-        
-
-        
       </div>
     </div>
 
-
-
-    <footer style="font-weight: 300; padding: 64px;">
+    <footer style="font-weight: 300; padding: 64px">
       <div>
         <p style="font-weight: 700">Ferrari 1000+</p>
-        <p>Data visualization by <a href="https://www.andreagiambelli.com" target="_blank"
-          >Andrea Giambelli</a
-        >, Designer & Product Director @<a href="https://ratio.city">Ratio.City</a>, Ferrari
-          fan since 1998
+        <p>
+          Data visualization by
+          <a href="https://www.andreagiambelli.com" target="_blank"
+            >Andrea Giambelli</a
+          >, Designer & Product Director @<a href="https://ratio.city"
+            >Ratio.City</a
+          >, Ferrari fan since 1998
         </p>
         <p>Data sources</p>
         <p>
@@ -196,5 +198,4 @@
   <!-- <span>Photo by <a href="https://unsplash.com/@jannerboy62?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Nick Fewings</a> on <a href="https://unsplash.com/s/photos/formula-1?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span> -->
   <!-- <span>Photo by <a href="https://unsplash.com/@baudy?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Tim Carey</a> on <a href="https://unsplash.com/s/photos/ferrari-formula-1?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span> -->
   <script src="https://unpkg.com/scrollama"></script>
-  <script src="ferrari.js"></script>
 </html>

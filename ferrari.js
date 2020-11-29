@@ -79,6 +79,21 @@ let privateers = [
   "tomaso",
 ];
 
+let circuitsMap = [
+  {
+    name: "estoril",
+    yearFirst: 1984,
+    yearLast: 1993,
+    svgPath: "SVG/svgCircuits/Circuits_estoril.svg",
+  },
+  {
+    name: "estoril",
+    yearFirst: 1994,
+    yearLast: 1996,
+    svgPath: "SVG/svgCircuits/Circuits_albert_park.svg",
+  },
+];
+
 const hundredRaces = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
 
 // Global variables
@@ -117,6 +132,10 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
         url: r.url,
       },
     });
+  });
+
+  d3.csv("f1db_csv/circuitMap.csv").then(function (circuitMap) {
+    console.log(circuitMap);
   });
 
   d3.csv("f1db_csv/circuits.csv").then(function (circuitsData) {
@@ -251,6 +270,8 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             "height",
             window.innerHeight * 0.8 + "px"
           );
+
+          d3.select("#races-count-right").text(dataset.length);
 
           console.log(dataset);
 
@@ -529,15 +550,15 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
               .style("top", `${ctm.f + 100}px`);
 
             // Fade all elements
-            d3.selectAll(".label").style("opacity", 0.5);
-            d3.selectAll(".race-main-circle").style("opacity", 0.5);
-            d3.selectAll(".led-arc").style("opacity", 0.5);
-            d3.selectAll(".year-label").style("opacity", 0.5);
-            d3.selectAll(".driver-pole").style("opacity", 0.5);
-            d3.selectAll(".driver-fl").style("opacity", 0.5);
-            d3.selectAll(".driver-led").style("opacity", 0.5);
-            d3.selectAll(".driver-championship").style("opacity", 0.5);
-            d3.selectAll(".constructor-championship").style("opacity", 0.5);
+            d3.selectAll(".label").style("opacity", 0.3);
+            d3.selectAll(".race-main-circle").style("opacity", 0.3);
+            d3.selectAll(".led-arc").style("opacity", 0.3);
+            d3.selectAll(".year-label").style("opacity", 0.3);
+            d3.selectAll(".driver-pole").style("opacity", 0.3);
+            d3.selectAll(".driver-fl").style("opacity", 0.3);
+            d3.selectAll(".driver-led").style("opacity", 0.3);
+            d3.selectAll(".driver-championship").style("opacity", 0.3);
+            d3.selectAll(".constructor-championship").style("opacity", 0.3);
 
             // Highlight selected
             d3.select(this).selectAll(".label").style("opacity", 1);
@@ -553,27 +574,34 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
               .selectAll(".constructor-championship")
               .style("opacity", 1);
 
-            // Sidebar - race title
+            // Tooltip - race title
             d3.select("#race-header-title").text(
               `${d.year} ${d.raceDetails.raceName}`
             );
 
             d3.select("#temp-image img").remove();
-            // Sidebar - circuit image
+            // Tooltip - circuit image
             d3.select("#temp-image")
               .append("img")
               .attr("class", d.circuitName.name)
               .attr(
                 "src",
-                `SVG/svgCircuits/Circuits_${d.circuitName.circuitRef}.svg`
-              )
-              .attr("width", 100)
-              .attr("height", 100);
+                // `SVG/svgCircuits/Circuits_${d.circuitName.circuitRef}.svg`
 
-            // Sidebar - race circuit
+                circuitMap.find(
+                  (c) =>
+                    c.name === d.circuitName.circuitRef &&
+                    c.yearFirst <= d.year &&
+                    c.yearLast >= d.year
+                ).svgPath
+              )
+              .attr("width", 80)
+              .attr("height", 80);
+
+            // Tooltip - race circuit
             d3.select("#race-circuit").text(d.circuitName.name);
 
-            // Sidebar - race date
+            // Tooltip - race date
             let formatDate = d3.timeFormat("%B %d");
             let dateString = d.raceDetails.date + "T14:00:00+0000";
             let raceDate = new Date(Date.parse(dateString));
@@ -586,11 +614,13 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
 
             let countScale = d3.scaleLinear().domain([0, 1000]).range([0, 100]);
 
+            d3.select("#races-count-chart").selectAll("svg").remove();
+
             let countSvg = d3
-              .select("#races-count")
+              .select("#races-count-chart")
               .append("svg")
               .attr("width", "100%")
-              .attr("height", 20)
+              .attr("height", 8)
               .append("g");
 
             countSvg
@@ -598,15 +628,15 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
               .attr("x", 0)
               .attr("y", 0)
               .attr("width", "100%")
-              .attr("height", 5)
-              .attr("fill", colours.grey);
+              .attr("height", 3)
+              .attr("fill", "#330b0b");
 
             countSvg
               .append("rect")
               .attr("x", 0)
               .attr("y", 0)
               .attr("width", `${countScale(d.raceIdFerrari)}%`)
-              .attr("height", 5)
+              .attr("height", 3)
               .attr("fill", colours.red);
 
             // Sidebar - driver divs
@@ -622,7 +652,11 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
               .append("img")
               .attr("class", "driver-helmet")
               .attr("src", (e) => {
-                return `SVG/SVG_${e.driver}.svg`;
+                if (e.driver === "michael_schumacher" && +e.raceYear >= 2000) {
+                  return `SVG/SVG_michael_schumacher_2.svg`;
+                } else {
+                  return `SVG/SVG_${e.driver}.svg`;
+                }
               })
               .attr("width", 50)
               .attr("height", 50);
@@ -634,6 +668,96 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
               .append("p")
               .attr("class", "driver-name")
               .text((e) => e.name);
+
+            // Driver result area
+            let driverResultWrapper = driverDivs
+              .append("div")
+              .attr("class", "tooltip-driver-result-wrapper");
+
+            driverResultWrapper
+              .append("div")
+              .attr("class", "tooltip-driver-position")
+              .style("background", (e) => {
+                return e.position === "1"
+                  ? colours.red
+                  : e.position === "2" || e.position === "3"
+                  ? colours.yellow
+                  : e.position === "4" ||
+                    e.position === "5" ||
+                    e.position === "6"
+                  ? colours.yellow2
+                  : colours.grey;
+              })
+              .append("p")
+              .text((e) => {
+                if (e.position.includes("N")) {
+                  return "/";
+                } else {
+                  return e.position;
+                }
+              });
+
+            let driverDetailsWrapper = driverResultWrapper
+              .append("div")
+              .attr("class", "tooltip-driver-details-wrapper");
+
+            let driverDetailsSymbols = driverDetailsWrapper
+              .append("div")
+              .attr("class", "tooltip-driver-symbols");
+
+            let driverDetailsLead = driverDetailsWrapper
+              .append("div")
+              .attr("class", "tooltip-driver-lead");
+
+            // Pole Position symbol
+            driverDetailsSymbols
+              .append("svg")
+              .attr("width", "16px")
+              .attr("height", "16px")
+              .append("circle")
+              .attr("fill", (e) => {
+                return e.grid === "1" ? colours.white : colours.grey;
+              })
+              .attr("stroke", "none")
+              .attr("cx", 8)
+              .attr("cy", 8)
+              .attr("r", 4)
+              .append("title")
+              .text("test");
+
+            // Fl symbol
+            driverDetailsSymbols
+              .append("svg")
+              .attr("width", "16px")
+              .attr("height", "16px")
+              .append("circle")
+              .attr("fill", "none")
+              .attr("stroke", (e) => {
+                return e.fLap1 === "1" ? colours.white : colours.grey;
+              })
+              .attr("stroke-width", 1)
+              .attr("cx", 8)
+              .attr("cy", 8)
+              .attr("r", 4);
+
+            // All laps led symbol
+            driverDetailsSymbols
+              .append("svg")
+              .attr("width", "16px")
+              .attr("height", "16px")
+              .append("circle")
+              .attr("fill", "none")
+              .attr("stroke", (e) => {
+                console.log(e.lapsLed);
+                console.log(e.winnerLaps);
+                return e.lapsLed / e.winnerLaps === 1
+                  ? colours.white
+                  : colours.grey;
+              })
+              .attr("stroke-width", 1)
+              .attr("cx", 8)
+              .attr("cy", 8)
+              .attr("r", 7);
           });
 
           // Reset focus
@@ -669,14 +793,10 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
 
               maxRaceInView = d3.max(array);
 
-              d3.select("#sp-wins")
-                .select(".year-line")
-                .attr("x1", xScaleSp(maxRaceInView))
-                .attr("x2", xScaleSp(maxRaceInView));
-
-              d3.select("#sp-wins")
-                .select(".year-rect")
-                .attr("x", xScaleSp(maxRaceInView));
+              d3.selectAll(".year-rect-overlay").attr(
+                "x",
+                xScaleSp(maxRaceInView)
+              );
               // .attr("x2", xScaleSp(maxRaceInView));
 
               winsInView = 0;
@@ -1273,20 +1393,10 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                 })
             );
 
-          // Sparklines - Wins year line
-          // spWinsSvg
-          //   .append("line")
-          //   .attr("class", "year-line")
-          //   .attr("x1", 0)
-          //   .attr("y1", yScaleSpWins.range()[1])
-          //   .attr("x2", 0)
-          //   .attr("y2", yScaleSpWins.range()[0])
-          //   .style("stroke", "white");
-
           // Sparklines - Wins year rect
           spWinsSvg
             .append("rect")
-            .attr("class", "year-rect")
+            .attr("class", "year-rect-overlay")
             .attr("x", xScaleSp.range()[0])
             .attr("y", yScaleSpWins.range()[1] - 10)
             .attr("width", xScaleSp.range()[1])
@@ -1294,6 +1404,16 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             .style("stroke", "none")
             .style("fill", "#0f0f0f")
             .style("fill-opacity", "0.6");
+
+          // Sparklines - Wins number
+          spWinsSvg
+            .append("text")
+            .attr("x", spWidth - 10)
+            .attr("y", spHeight - 10)
+            .attr("text-anchor", "end")
+            .attr("id", "winsInView")
+            .attr("fill", colours.white)
+            .text("0");
 
           // Sparklines - y Scale Poles
           let yScaleSpPoles = d3
@@ -1310,9 +1430,9 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           spPolesSvg
             .append("path")
             .datum(dataset)
-            .attr("fill", "#cce5df")
-            .attr("stroke", "#69b3a2")
-            .attr("stroke-width", 1.5)
+            .attr("fill", "#d40000")
+            .attr("fill-opacity", 0.3)
+            .attr("stroke", "none")
             .attr(
               "d",
               d3
@@ -1325,6 +1445,46 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                   return yScaleSpPoles(d.cumulativePoles);
                 })
             );
+          // Sparklines - Poles line
+          spPolesSvg
+            .append("path")
+            .datum(dataset)
+            .attr("stroke", "#d40000")
+            .attr("stroke-width", 3)
+            .attr("fill", "none")
+            .attr(
+              "d",
+              d3
+                .line()
+                .x(function (d) {
+                  return xScaleSp(d.raceIdFerrari);
+                })
+                .y(function (d) {
+                  return yScaleSpPoles(d.cumulativePoles);
+                })
+            );
+
+          // Sparklines - Poles year rect
+          spPolesSvg
+            .append("rect")
+            .attr("class", "year-rect-overlay")
+            .attr("x", xScaleSp.range()[0])
+            .attr("y", yScaleSpPoles.range()[1] - 10)
+            .attr("width", xScaleSp.range()[1])
+            .attr("height", yScaleSpPoles.range()[0] + 20)
+            .style("stroke", "none")
+            .style("fill", "#0f0f0f")
+            .style("fill-opacity", "0.6");
+
+          // Sparklines - Poles number
+          spPolesSvg
+            .append("text")
+            .attr("x", spWidth - 10)
+            .attr("y", spHeight - 10)
+            .attr("text-anchor", "end")
+            .attr("id", "polesInView")
+            .attr("fill", colours.white)
+            .text("0");
 
           // Sparklines - y Scale Fl
           let yScaleSpFl = d3
@@ -1341,9 +1501,9 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           spFlSvg
             .append("path")
             .datum(dataset)
-            .attr("fill", "#cce5df")
-            .attr("stroke", "#69b3a2")
-            .attr("stroke-width", 1.5)
+            .attr("fill", "#d40000")
+            .attr("fill-opacity", 0.3)
+            .attr("stroke", "none")
             .attr(
               "d",
               d3
@@ -1356,6 +1516,46 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                   return yScaleSpFl(d.cumulativeFl);
                 })
             );
+          // Sparklines - Fl line
+          spFlSvg
+            .append("path")
+            .datum(dataset)
+            .attr("stroke", "#d40000")
+            .attr("stroke-width", 3)
+            .attr("fill", "none")
+            .attr(
+              "d",
+              d3
+                .line()
+                .x(function (d) {
+                  return xScaleSp(d.raceIdFerrari);
+                })
+                .y(function (d) {
+                  return yScaleSpFl(d.cumulativeFl);
+                })
+            );
+
+          // Sparklines - Fl year rect
+          spFlSvg
+            .append("rect")
+            .attr("class", "year-rect-overlay")
+            .attr("x", xScaleSp.range()[0])
+            .attr("y", yScaleSpFl.range()[1] - 10)
+            .attr("width", xScaleSp.range()[1])
+            .attr("height", yScaleSpFl.range()[0] + 20)
+            .style("stroke", "none")
+            .style("fill", "#0f0f0f")
+            .style("fill-opacity", "0.6");
+
+          // Sparklines - Fl number
+          spFlSvg
+            .append("text")
+            .attr("x", spWidth - 10)
+            .attr("y", spHeight - 10)
+            .attr("text-anchor", "end")
+            .attr("id", "flInView")
+            .attr("fill", colours.white)
+            .text("0");
         }
 
         drawViz(ferrariCompleteRaces);

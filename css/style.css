@@ -46,24 +46,23 @@ header {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: 33% 40% auto;
+  grid-template-columns: 40% 60%;
 }
 
 /* Detail Stats */
 #race-details-wrapper {
   display: none;
   position: absolute;
-  width: 40%;
-background: rgba(15, 15, 15, 0.95);
-border: 1px solid white;
-padding: 16px;
+  width: 350px;
+  background: rgba(15, 15, 15, 0.95);
+  border: 2px solid #323232;
+  padding: 16px;
 }
 
 #ferrari-races-count {
-  height: 75px;
+  font-size: 12.8px;
 }
 
-#races-count-left,
 #races-count-wrapper,
 #races-count-right {
   display: inline-block;
@@ -76,21 +75,32 @@ padding: 16px;
 }
 
 #races-count-right {
-  width: 10%;
-  /* height: 20px;
-    background: teal; */
+  vertical-align: top;
+  margin-top: 16px;
+  margin-left: 24px;
 }
 
 #races-count-wrapper {
   width: 77%;
 }
 
-/* #temp-image {
-  width: 100px;
-  height: 70px;
-  background: coral;
-  margin-right: 10px;
-} */
+#races-count {
+  margin: 0 0 8px 0;
+}
+
+#race-header-title {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+#temp-image {
+  margin-right: 24px;
+}
+
+#temp-image path {
+  fill: red; 
+  stroke: blue; 
+}
 
 #race-header-details > div {
   display: inline-block;
@@ -105,10 +115,15 @@ padding: 16px;
   margin: 0;
 }
 
+#drivers {
+  font-size: 12.8px;
+}
+
 .driver-div {
   display: inline-block;
   width: 50%;
   height: 120px;
+  margin-bottom: 24px;
 }
 
 .driver-helmet,
@@ -128,4 +143,39 @@ padding: 16px;
 
 .race {
   cursor: pointer;
+}
+
+.tooltip-driver-result-wrapper {
+  margin-top: 8px;
+}
+
+.tooltip-driver-position {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.tooltip-driver-position p {
+  margin: 0px;
+  text-align: center;
+  color: #0f0f0f;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 32px;
+
+}
+
+.tooltip-driver-details-wrapper {
+  display: inline-block;
+}
+
+.tooltip-driver-symbols, .tooltip-driver-lead {
+  display: block;
+}
+
+.tooltip-driver-symbols {
+  width: 100px;
+  display: flex;
+  justify-content: space-around;
 }
