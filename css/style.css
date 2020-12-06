@@ -2,7 +2,7 @@ body {
   margin: 0;
   background: #0f0f0f;
   padding: 0;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Epilogue", sans-serif;
   color: white;
   box-sizing: border-box;
 }
@@ -40,6 +40,10 @@ header {
   top: 4%;
   height: 92vh;
   padding: 12px;
+}
+
+.race-label {
+  font-family: Sans-Serif; 
 }
 
 /* Main Stats */
@@ -190,7 +194,7 @@ header {
 #story {
   font-size: 14.4px; 
   font-weight: 300;
-  line-height: 1.6; 
+  line-height: 1.7; 
 }
 
 #story span{
@@ -198,6 +202,7 @@ header {
 }
 
 #story a{
-  text-decoration: underline; 
+  border-bottom: 2px solid #d40000;
+  font-weight: 600;
   cursor: pointer;
 }
