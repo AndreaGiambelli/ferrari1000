@@ -2,7 +2,7 @@ body {
   margin: 0;
   background: #0f0f0f;
   padding: 0;
-  font-family: "Inter", sans-serif;
+  font-family: "DM Sans", sans-serif;
   color: white;
   box-sizing: border-box;
 }
@@ -90,7 +90,7 @@ header {
 
 #race-header-title {
   margin-bottom: 8px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 #temp-image {
@@ -134,7 +134,7 @@ header {
   margin: 0 0 0 10px;
   transform: translateY(-10px);
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .driver-name {
@@ -161,7 +161,7 @@ header {
   text-align: center;
   color: #0f0f0f;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 32px;
 
 }
@@ -178,4 +178,26 @@ header {
   width: 100px;
   display: flex;
   justify-content: space-around;
+}
+
+#story-title {
+  font-size: 16px; 
+  font-weight: 600;
+  line-height: 1.4; 
+  border-bottom: 7px solid #d40000;
+}
+
+#story {
+  font-size: 14.4px; 
+  font-weight: 300;
+  line-height: 1.6; 
+}
+
+#story span{
+  font-weight: 800;
+}
+
+#story a{
+  text-decoration: underline; 
+  cursor: pointer;
 }

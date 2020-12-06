@@ -114,6 +114,7 @@ let flMap = [];
 let wDcMap = [];
 let wCcMap = [];
 let xScaleSp;
+let currentStoryLinks = null;
 
 d3.csv("f1db_csv/races.csv").then(function (racesData) {
   racesData.forEach((r) => {
@@ -522,247 +523,16 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           //   })
           //
 
+          // CLICK on race symbol - focus
           bbb.on("click", function (d, i, n) {
             d3.event.stopPropagation();
 
-            raceInFocus = d;
-
-            console.log(this);
-
-            // let bbox = this.getBBox();
-            let ctm = this.getCTM();
-            console.log(this.getCTM());
-
-            // Calculate the centre of the group
-            // let cx = bbox.x + bbox.width / 2;
-            // let cy = bbox.y + bbox.height / 2;
-
-            // // Transform cx,cy by the group's transform
-            // let pt = document.getElementById("mysvg").createSVGPoint();
-            // pt.x = cx;
-            // pt.y = cy;
-            // pt = pt.matrixTransform(ctm);
-
-            // d3.select("#story-stats-wrapper").style("display", "none");
-            d3.select("#race-details-wrapper")
-              .style("display", "block")
-              .style("left", `${ctm.e - 100}px`)
-              .style("top", `${ctm.f + 100}px`);
-
-            // Fade all elements
-            d3.selectAll(".label").style("opacity", 0.3);
-            d3.selectAll(".race-main-circle").style("opacity", 0.3);
-            d3.selectAll(".led-arc").style("opacity", 0.3);
-            d3.selectAll(".year-label").style("opacity", 0.3);
-            d3.selectAll(".driver-pole").style("opacity", 0.3);
-            d3.selectAll(".driver-fl").style("opacity", 0.3);
-            d3.selectAll(".driver-led").style("opacity", 0.3);
-            d3.selectAll(".driver-championship").style("opacity", 0.3);
-            d3.selectAll(".constructor-championship").style("opacity", 0.3);
-
-            // Highlight selected
-            d3.select(this).selectAll(".label").style("opacity", 1);
-            d3.select(this).selectAll(".race-main-circle").style("opacity", 1);
-            d3.select(this).selectAll(".led-arc").style("opacity", 1);
-            d3.select(this).selectAll(".driver-pole").style("opacity", 1);
-            d3.select(this).selectAll(".driver-fl").style("opacity", 1);
-            d3.select(this).selectAll(".driver-led").style("opacity", 1);
-            d3.select(this)
-              .selectAll(".driver-championship")
-              .style("opacity", 1);
-            d3.select(this)
-              .selectAll(".constructor-championship")
-              .style("opacity", 1);
-
-            // Tooltip - race title
-            d3.select("#race-header-title").text(
-              `${d.year} ${d.raceDetails.raceName}`
-            );
-
-            d3.select("#temp-image img").remove();
-            // Tooltip - circuit image
-            d3.select("#temp-image")
-              .append("img")
-              .attr("class", d.circuitName.name)
-              .attr(
-                "src",
-                // `SVG/svgCircuits/Circuits_${d.circuitName.circuitRef}.svg`
-
-                circuitMap.find(
-                  (c) =>
-                    c.name === d.circuitName.circuitRef &&
-                    c.yearFirst <= d.year &&
-                    c.yearLast >= d.year
-                ).svgPath
-              )
-              .attr("width", 80)
-              .attr("height", 80);
-
-            // Tooltip - race circuit
-            d3.select("#race-circuit").text(d.circuitName.name);
-
-            // Tooltip - race date
-            let formatDate = d3.timeFormat("%B %d");
-            let dateString = d.raceDetails.date + "T14:00:00+0000";
-            let raceDate = new Date(Date.parse(dateString));
-            d3.select("#race-date").text(formatDate(raceDate));
-
-            // Sidebar - race count text
-            d3.select("#races-count").text("Race #" + d.raceIdFerrari);
-
-            // Sidebar - race count chart
-
-            let countScale = d3.scaleLinear().domain([0, 1000]).range([0, 100]);
-
-            d3.select("#races-count-chart").selectAll("svg").remove();
-
-            let countSvg = d3
-              .select("#races-count-chart")
-              .append("svg")
-              .attr("width", "100%")
-              .attr("height", 8)
-              .append("g");
-
-            countSvg
-              .append("rect")
-              .attr("x", 0)
-              .attr("y", 0)
-              .attr("width", "100%")
-              .attr("height", 3)
-              .attr("fill", "#330b0b");
-
-            countSvg
-              .append("rect")
-              .attr("x", 0)
-              .attr("y", 0)
-              .attr("width", `${countScale(d.raceIdFerrari)}%`)
-              .attr("height", 3)
-              .attr("fill", colours.red);
-
-            // Sidebar - driver divs
-            let driverDivs = d3
-              .select("#drivers")
-              .selectAll(".driver-div")
-              .data(d.drivers)
-              .join("div")
-              .attr("class", "driver-div")
-              .text("");
-
-            driverDivs
-              .append("img")
-              .attr("class", "driver-helmet")
-              .attr("src", (e) => {
-                if (e.driver === "michael_schumacher" && +e.raceYear >= 2000) {
-                  return `SVG/SVG_michael_schumacher_2.svg`;
-                } else {
-                  return `SVG/SVG_${e.driver}.svg`;
-                }
-              })
-              .attr("width", 50)
-              .attr("height", 50);
-            driverDivs
-              .append("p")
-              .attr("class", "driver-number")
-              .text((e) => e.number);
-            driverDivs
-              .append("p")
-              .attr("class", "driver-name")
-              .text((e) => e.name);
-
-            // Driver result area
-            let driverResultWrapper = driverDivs
-              .append("div")
-              .attr("class", "tooltip-driver-result-wrapper");
-
-            driverResultWrapper
-              .append("div")
-              .attr("class", "tooltip-driver-position")
-              .style("background", (e) => {
-                return e.position === "1"
-                  ? colours.red
-                  : e.position === "2" || e.position === "3"
-                  ? colours.yellow
-                  : e.position === "4" ||
-                    e.position === "5" ||
-                    e.position === "6"
-                  ? colours.yellow2
-                  : colours.grey;
-              })
-              .append("p")
-              .text((e) => {
-                if (e.position.includes("N")) {
-                  return "/";
-                } else {
-                  return e.position;
-                }
-              });
-
-            let driverDetailsWrapper = driverResultWrapper
-              .append("div")
-              .attr("class", "tooltip-driver-details-wrapper");
-
-            let driverDetailsSymbols = driverDetailsWrapper
-              .append("div")
-              .attr("class", "tooltip-driver-symbols");
-
-            let driverDetailsLead = driverDetailsWrapper
-              .append("div")
-              .attr("class", "tooltip-driver-lead");
-
-            // Pole Position symbol
-            driverDetailsSymbols
-              .append("svg")
-              .attr("width", "16px")
-              .attr("height", "16px")
-              .append("circle")
-              .attr("fill", (e) => {
-                return e.grid === "1" ? colours.white : colours.grey;
-              })
-              .attr("stroke", "none")
-              .attr("cx", 8)
-              .attr("cy", 8)
-              .attr("r", 4)
-              .append("title")
-              .text("test");
-
-            // Fl symbol
-            driverDetailsSymbols
-              .append("svg")
-              .attr("width", "16px")
-              .attr("height", "16px")
-              .append("circle")
-              .attr("fill", "none")
-              .attr("stroke", (e) => {
-                return e.fLap1 === "1" ? colours.white : colours.grey;
-              })
-              .attr("stroke-width", 1)
-              .attr("cx", 8)
-              .attr("cy", 8)
-              .attr("r", 4);
-
-            // All laps led symbol
-            driverDetailsSymbols
-              .append("svg")
-              .attr("width", "16px")
-              .attr("height", "16px")
-              .append("circle")
-              .attr("fill", "none")
-              .attr("stroke", (e) => {
-                console.log(e.lapsLed);
-                console.log(e.winnerLaps);
-                return e.lapsLed / e.winnerLaps === 1
-                  ? colours.white
-                  : colours.grey;
-              })
-              .attr("stroke-width", 1)
-              .attr("cx", 8)
-              .attr("cy", 8)
-              .attr("r", 7);
+            // Display and populate tooltip
+            tooltipFunction(d)
           });
 
-          // Reset focus
+          // CLICK on body to reset focus state
           d3.select("body").on("click", function (d) {
-            // d3.select("#story-stats-wrapper").style("display", "block");
             d3.select("#race-details-wrapper").style("display", "none");
 
             // Remove fade from all elements
@@ -779,7 +549,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             raceInFocus = undefined;
           });
 
-          // Reset when race in focus goes exits viewport
+          // Reset when race in focus exits viewport
           window.addEventListener(
             "scroll",
             function (event) {
@@ -797,7 +567,6 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                 "x",
                 xScaleSp(maxRaceInView)
               );
-              // .attr("x2", xScaleSp(maxRaceInView));
 
               winsInView = 0;
               polesInView = 0;
@@ -842,69 +611,91 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                 isInViewport(d3.select(`#r${230}`).node()) ||
                 isInViewport(d3.select(`#r${267}`).node())
               ) {
-                console.log("1970s");
-                d3.select("#story").text("The winning cycle of the 1970s");
+                // console.log("1970s");
+                d3.select("#story-title").text("Title");
+                d3.select("#story").text("1970s");
               } else if (
                 // The Turbo era
                 isInViewport(d3.select(`#r${317}`).node()) ||
                 isInViewport(d3.select(`#r${363}`).node())
               ) {
-                console.log("turbo era");
+                // console.log("turbo era");
+                d3.select("#story-title").text("Title");
                 d3.select("#story").text("inizio turbo era, gilles, alboreto");
               } else if (
                 // 88-90
                 isInViewport(d3.select(`#r${436}`).node()) ||
                 isInViewport(d3.select(`#r${462}`).node())
               ) {
-                console.log("88-90");
-                d3.select("#story").text(
-                  "muore Enzo, FIAT, Prost-Senna Berger"
+                // console.log("88-90");
+                d3.select("#story-title").text("Title");
+                d3.select("#story").html(
+                  "On August 14 1988 founder <span>Enzo Ferrari</span> passes away at age 90. Less than a month after, Gerhard Berger and Michele Alboreto honor him by scoring a historic 1-2 on home ground <a id='Ita.88'>at Monza</a>. It would stand as the only non-McLaren win that year. Famed designer John Barnard pens the 640, F1’s first semi-automatic gearbox car. The car proves successful in the hands of <a id='Bra.89'>Nigel Mansell</a> and triple world champion <a id='Fra.90'>Alain Prost</a>, who would go on to be a championship contender in 1990—only to lose after a crash with arch-rival Ayrton Senna at the <a id='Jap.90'>Japanese GP</a> in one of the sport’s most controversial moments. Young star Jean Alesi brings hope for 1991 and the future, but unfortunately the team would slip into one of the darkest period in its history, with lack of competitiveness and unstable leadership. "
                 );
               } else if (
                 // Digiuno
                 isInViewport(d3.select(`#r${473}`).node()) ||
                 isInViewport(d3.select(`#r${515}`).node())
               ) {
-                console.log("digiuno");
-                d3.select("#story").text("Digiuno, Berger 1994");
+                // console.log("digiuno");
+                d3.select("#story-title").text("Title");
+                d3.select("#story").text(
+                  "Setting up for the comeback With the arrival of Jean Todt as team principal and the comeback of Luca di Montezemolo, Ferrari lays the foundation for a strong comeback. Gerhard Berger claims the team’s first victory in 4 years at the 1994 German GP, while Jean Alesi gets his long-awaited first win the following year in Canada. Nicola Larini takes the last podium to date for an Italian driver on a Ferrari, during the tragic Imola weekend which claimed the lives of Roland Ratzenberger and Ayrton Senna. "
+                );
               } else if (
                 // MSC
                 isInViewport(d3.select(`#r${566}`).node()) ||
                 isInViewport(d3.select(`#r${606}`).node())
               ) {
-                console.log("Msc");
-                d3.select("#story").text("Msc, Irvine, Silverstone");
+                // console.log("Msc");
+                d3.select("#story-title").text("Title");
+                d3.select("#story").text(
+                  "Dawn of the Schumacher era Double world champion Michael Schumacher joins the team and takes a spectacular first win for Ferrari in the soaked 1996 Spanish GP. 2 more wins follow that year. With the best driver of his generation and new key technical figures, the team is finally able to place a serious bid for the title in 97, which would end in misery after the controversial crash between Schumacher and Villeneuve at European GP. Finn Mika Hakkinen and his McLaren emerge the following year as new rivals, and not even Schumacher’s most heroic efforts would be enough to bring the title back to Maranello. The 1999 season takes an unexpected turn when the German is injured at the British GP, which leaves his teammate Eddie Irvine to battle for the title with Hakkinen until the last race. The Finn takes the title again, but Ferrari celebrates its first Constructor’s championship in 16 years."
+                );
               } else if (
                 // 2000s
                 isInViewport(d3.select(`#r${619}`).node()) ||
                 isInViewport(d3.select(`#r${702}`).node())
               ) {
-                console.log("2000s");
+                // console.log("Msc 2000s");
+                d3.select("#story-title").text("Title");
                 d3.select("#story").text("Msc 2000s");
               } else if (
                 // Last Championships
                 isInViewport(d3.select(`#r${741}`).node()) ||
                 isInViewport(d3.select(`#r${811}`).node())
               ) {
-                console.log("2000s");
+                // console.log("Last championships");
+                d3.select("#story-title").text("Title");
                 d3.select("#story").text("Last Championships, Alonso");
               } else if (
                 // Hybrid Era
                 isInViewport(d3.select(`#r${870}`).node()) ||
                 isInViewport(d3.select(`#r${981}`).node())
               ) {
-                console.log("2000s");
+                // console.log("hybrid");
+                d3.select("#story-title").text("Title");
                 d3.select("#story").text("Hybrid Era");
               } else if (
                 // Latest victories
                 isInViewport(d3.select(`#r${982}`).node()) ||
                 isInViewport(d3.select(`#r${993}`).node())
               ) {
-                console.log("2000s");
+                // console.log("latest");
+                d3.select("#story-title").text("Title");
                 d3.select("#story").text("Latest victories");
               } else {
                 d3.select("#story").text("none");
               }
+
+              currentStoryLinks = d3.select("#story").selectAll("a");
+              
+                console.log(currentStoryLinks)
+                currentStoryLinks.on("click", function (d) {
+                  console.log(this.id);
+                  let test = dataset.find(e=>e.raceDetails.raceAbbrev === this.id).raceIdFerrari
+                  console.log(test)
+                });
 
               if (raceInFocus) {
                 let inFocusNode = d3
@@ -1560,6 +1351,234 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
 
         drawViz(ferrariCompleteRaces);
         drawSparklines(ferrariCompleteRaces);
+
+        function tooltipFunction(raceObj) {
+          raceInFocus = raceObj;
+
+          let thisNode = d3.select(`#r${raceObj.raceIdFerrari}`).node()
+            console.log(raceObj);
+            console.log(thisNode);
+
+
+            let ctm = thisNode.getCTM();
+            console.log(thisNode.getCTM());
+
+            // d3.select("#story-stats-wrapper").style("display", "none");
+            d3.select("#race-details-wrapper")
+              .style("display", "block")
+              .style("left", `${ctm.e - 100}px`)
+              .style("top", `${ctm.f + 100}px`);
+
+            // Fade all elements
+            d3.selectAll(".label").style("opacity", 0.3);
+            d3.selectAll(".race-main-circle").style("opacity", 0.3);
+            d3.selectAll(".led-arc").style("opacity", 0.3);
+            d3.selectAll(".year-label").style("opacity", 0.3);
+            d3.selectAll(".driver-pole").style("opacity", 0.3);
+            d3.selectAll(".driver-fl").style("opacity", 0.3);
+            d3.selectAll(".driver-led").style("opacity", 0.3);
+            d3.selectAll(".driver-championship").style("opacity", 0.3);
+            d3.selectAll(".constructor-championship").style("opacity", 0.3);
+
+            // Highlight selected
+            d3.select(thisNode).selectAll(".label").style("opacity", 1);
+            d3.select(thisNode).selectAll(".race-main-circle").style("opacity", 1);
+            d3.select(thisNode).selectAll(".led-arc").style("opacity", 1);
+            d3.select(thisNode).selectAll(".driver-pole").style("opacity", 1);
+            d3.select(thisNode).selectAll(".driver-fl").style("opacity", 1);
+            d3.select(thisNode).selectAll(".driver-led").style("opacity", 1);
+            d3.select(thisNode)
+              .selectAll(".driver-championship")
+              .style("opacity", 1);
+            d3.select(thisNode)
+              .selectAll(".constructor-championship")
+              .style("opacity", 1);
+
+            // Tooltip - race title
+            d3.select("#race-header-title").text(
+              `${raceObj.year} ${raceObj.raceDetails.raceName}`
+            );
+
+            d3.select("#temp-image img").remove();
+            // Tooltip - circuit image
+            d3.select("#temp-image")
+              .append("img")
+              .attr("class", raceObj.circuitName.name)
+              .attr(
+                "src",
+                // `SVG/svgCircuits/Circuits_${raceObj.circuitName.circuitRef}.svg`
+
+                circuitMap.find(
+                  (c) =>
+                    c.name === raceObj.circuitName.circuitRef &&
+                    c.yearFirst <= raceObj.year &&
+                    c.yearLast >= raceObj.year
+                ).svgPath
+              )
+              .attr("width", 80)
+              .attr("height", 80);
+
+            // Tooltip - race circuit
+            d3.select("#race-circuit").text(raceObj.circuitName.name);
+
+            // Tooltip - race date
+            let formatDate = d3.timeFormat("%B %d");
+            let dateString = raceObj.raceDetails.date + "T14:00:00+0000";
+            let raceDate = new Date(Date.parse(dateString));
+            d3.select("#race-date").text(formatDate(raceDate));
+
+            // Sidebar - race count text
+            d3.select("#races-count").text("Race #" + raceObj.raceIdFerrari);
+
+            // Sidebar - race count chart
+
+            let countScale = d3.scaleLinear().domain([0, 1000]).range([0, 100]);
+
+            d3.select("#races-count-chart").selectAll("svg").remove();
+
+            let countSvg = d3
+              .select("#races-count-chart")
+              .append("svg")
+              .attr("width", "100%")
+              .attr("height", 8)
+              .append("g");
+
+            countSvg
+              .append("rect")
+              .attr("x", 0)
+              .attr("y", 0)
+              .attr("width", "100%")
+              .attr("height", 3)
+              .attr("fill", "#330b0b");
+
+            countSvg
+              .append("rect")
+              .attr("x", 0)
+              .attr("y", 0)
+              .attr("width", `${countScale(raceObj.raceIdFerrari)}%`)
+              .attr("height", 3)
+              .attr("fill", colours.red);
+
+            // Tooltip - driver divs
+            let driverDivs = d3
+              .select("#drivers")
+              .selectAll(".driver-div")
+              .data(raceObj.drivers)
+              .join("div")
+              .attr("class", "driver-div")
+              .text("");
+
+            driverDivs
+              .append("img")
+              .attr("class", "driver-helmet")
+              .attr("src", (e) => {
+                if (e.driver === "michael_schumacher" && +e.raceYear >= 2000) {
+                  return `SVG/SVG_michael_schumacher_2.svg`;
+                } else {
+                  return `SVG/SVG_${e.driver}.svg`;
+                }
+              })
+              .attr("width", 50)
+              .attr("height", 50);
+            driverDivs
+              .append("p")
+              .attr("class", "driver-number")
+              .text((e) => e.number);
+            driverDivs
+              .append("p")
+              .attr("class", "driver-name")
+              .text((e) => e.name);
+
+            // Driver result area
+            let driverResultWrapper = driverDivs
+              .append("div")
+              .attr("class", "tooltip-driver-result-wrapper");
+
+            driverResultWrapper
+              .append("div")
+              .attr("class", "tooltip-driver-position")
+              .style("background", (e) => {
+                return e.position === "1"
+                  ? colours.red
+                  : e.position === "2" || e.position === "3"
+                  ? colours.yellow
+                  : e.position === "4" ||
+                    e.position === "5" ||
+                    e.position === "6"
+                  ? colours.yellow2
+                  : colours.grey;
+              })
+              .append("p")
+              .text((e) => {
+                if (e.position.includes("N")) {
+                  return "/";
+                } else {
+                  return e.position;
+                }
+              });
+
+            let driverDetailsWrapper = driverResultWrapper
+              .append("div")
+              .attr("class", "tooltip-driver-details-wrapper");
+
+            let driverDetailsSymbols = driverDetailsWrapper
+              .append("div")
+              .attr("class", "tooltip-driver-symbols");
+
+            let driverDetailsLead = driverDetailsWrapper
+              .append("div")
+              .attr("class", "tooltip-driver-lead");
+
+            // Pole Position symbol
+            driverDetailsSymbols
+              .append("svg")
+              .attr("width", "16px")
+              .attr("height", "16px")
+              .append("circle")
+              .attr("fill", (e) => {
+                return e.grid === "1" ? colours.white : colours.grey;
+              })
+              .attr("stroke", "none")
+              .attr("cx", 8)
+              .attr("cy", 8)
+              .attr("r", 4)
+              .append("title")
+              .text("test");
+
+            // Fl symbol
+            driverDetailsSymbols
+              .append("svg")
+              .attr("width", "16px")
+              .attr("height", "16px")
+              .append("circle")
+              .attr("fill", "none")
+              .attr("stroke", (e) => {
+                return e.fLap1 === "1" ? colours.white : colours.grey;
+              })
+              .attr("stroke-width", 1)
+              .attr("cx", 8)
+              .attr("cy", 8)
+              .attr("r", 4);
+
+            // All laps led symbol
+            driverDetailsSymbols
+              .append("svg")
+              .attr("width", "16px")
+              .attr("height", "16px")
+              .append("circle")
+              .attr("fill", "none")
+              .attr("stroke", (e) => {
+                console.log(e.lapsLed);
+                console.log(e.winnerLaps);
+                return e.lapsLed / e.winnerLaps === 1
+                  ? colours.white
+                  : colours.grey;
+              })
+              .attr("stroke-width", 1)
+              .attr("cx", 8)
+              .attr("cy", 8)
+              .attr("r", 7);
+        }
 
         // Filtering test
         filter = () => {
