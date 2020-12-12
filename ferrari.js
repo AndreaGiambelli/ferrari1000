@@ -55,6 +55,10 @@ let raceNameDict = {
   Azerbaijan: "Aze",
   Styrian: "Sty",
   "70th Anniversary": "70A",
+  Tuscan: "Tus",
+  Eifel: "Eif",
+  "Emilia Romagna": "Emi",
+  Sakhir: "Skh",
 };
 
 let privateers = [
@@ -617,7 +621,9 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                 isInViewport(d3.select(`#r${88}`).node())
               ) {
                 console.log("early years");
-                d3.select("#story-title").text("Tragedies and success in the 50’s");
+                d3.select("#story-title").text(
+                  "Tragedies and success in the 50’s"
+                );
                 d3.select("#story").html(
                   "Ascari would move to rival team Lancia, before passing in a tragic accident at Monza. Argentinian legend-in-the-making Juan Manuel Fangio joins Ferrari in 1956, and wins his 4th world championship in a dramatic fashion at the <a id='Ita.56'>Italian GP</a>: his car breaks down but teammate Peter Collins, himself a title contender, sportingly hands his own car to Fangio during a pit stop, allowing him to take the title. 1957 proves unsuccessful and brings more tragedies as two Ferrari drivers, Eugenio Castellotti and Alfonso De Portago are killed in non-F1 racing cars. Mike Hawthorn takes the Scuderia’s last title of the 50’s with just a single win at the <a id='Fra.58'>French GP</a>, in the cursed 1958 in which two drivers, Luigi Musso and Peter Collins, are killed while racing their Ferraris."
                 );
@@ -1055,11 +1061,17 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             //   return d.grid === "1" ? "3px" : d.grid === "2" ? "2px" : "0px";
             // })
             .append("polygon")
-            .attr("transform", `translate(${-mainCircleRadius - 8}, ${-driverStripWidth/2})`)
-            .attr("points", (d) => {
-                return d.grid === "1" ? "0 0 0 6.16 5.33 3.08 0 0" : d.grid === "2" ? "0 0 0 3.23 2.8 1.61 0 0" : "";
-              }
+            .attr(
+              "transform",
+              `translate(${-mainCircleRadius - 8}, ${-driverStripWidth / 2})`
             )
+            .attr("points", (d) => {
+              return d.grid === "1"
+                ? "0 0 0 6.16 5.33 3.08 0 0"
+                : d.grid === "2"
+                ? "0 0 0 3.23 2.8 1.61 0 0"
+                : "";
+            })
             .attr("fill", (d) => {
               return d.grid === "1"
                 ? colours.white
@@ -1450,7 +1462,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
 
           // Tooltip - race date
           let formatDate = d3.timeFormat("%B %d");
-          let dateString = raceObj.raceDetails.date + "T14:00:00+0000";
+          let dateString = raceObj.raceDetails.date + "  14:00:00 GMT";
           let raceDate = new Date(Date.parse(dateString));
           d3.select("#race-date").text(formatDate(raceDate));
 
