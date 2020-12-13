@@ -136,12 +136,11 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
   // Scale to set up grid
   scaleGrid = d3
-  .scaleLinear()
-  .domain([0, numPerRow - 1])
-  .range([0, size * numPerRow]);
+    .scaleLinear()
+    .domain([0, numPerRow - 1])
+    .range([0, size * numPerRow]);
 
-  let heightViz =
-    scaleGrid(Math.floor(ferrariData.length / numPerRow)) + size;
+  let heightViz = scaleGrid(Math.floor(ferrariData.length / numPerRow)) + size;
 
   // Viz SVG
   let wrapperViz = d3
@@ -170,10 +169,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     );
 
     d3.select("#races-count-right").text(dataset.length);
-
-    console.log(dataset);
-
-    
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////// TIMELINE ////////////////////////////////////////////
@@ -250,8 +245,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         return d ? `b${d.raceIdFerrari}` : this.id;
       });
 
-
-
     const backGroundEnter = backGroundUpdate
       .enter()
       .append("g")
@@ -269,9 +262,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         // Vertical positioning
         const m = Math.floor(i / numPerRow);
 
-        console.log("x: " + n)
-        console.log("y: " + m)
-
+        // console.log("x: " + n)
+        // console.log("y: " + m)
 
         // Translating groups to grid position
         return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
@@ -306,7 +298,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         // Translating groups to grid position
         return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
       });
-    // aaa.selectAll("text").text((d) => d.raceIdFerrari);
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// MAIN GROUPS ///////////////////////////////////////////
@@ -371,6 +362,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
     // CLICK on body to reset focus state
     d3.select("body").on("click", function (d) {
+      console.log("body click");
       d3.select("#race-details-wrapper").style("display", "none");
 
       // Remove fade from all elements
@@ -760,11 +752,11 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .filter((d) => hundredRaces.includes(parseInt(d.raceIdFerrari)))
       .append("text")
       .attr("class", "label")
-      .attr("x", size / 1.5)
+      .attr("x", size / 1.3)
       .attr("y", size / 3)
       .attr("transform", `rotate(${-tiltAngle})`)
-      .style("font-size", "10px")
-      .style("font-family", "sans-serif")
+      .style("font-size", "16px")
+      .style("font-family", "Epilogue")
       .style("font-weight", "bold")
       .style("text-transform", "uppercase")
       .style("fill", colours.white)
@@ -831,8 +823,11 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("id", "drivers-group")
       .attr("transform", `translate(${size / 2}, ${size / 2}), rotate(-${14})`);
 
-    let driverStripWidth = 3;
-    let driverStripDistance = 10;
+    let driverStripWidth = size/30;
+    console.log(driverStripWidth)
+    let driverStripDistance = size/9;
+    console.log(driverStripDistance)
+
 
     let innerDriversGroup = driversGroup
       .append("g")
@@ -872,6 +867,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       })
       .attr("height", driverStripWidth)
       .attr("fill", colours.black);
+
 
     // Pole Position or first row
     singleDriverGroup
@@ -924,19 +920,22 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       })
       .attr("fill", "none");
 
+      console.log(size/22)
+      console.log(size/13)
+
     // Triangular shape for driver strips
     singleDriverGroup
       .append("polyline")
       .attr("points", (d) => {
         if (d.position === "1") {
           return `${mainCircleRadius * 0.45} ${driverStripWidth}
-            ${mainCircleRadius * 0.45} -7
-            32 ${driverStripWidth}
+            ${mainCircleRadius * 0.45} -${size/13}
+            ${size/3} ${driverStripWidth}
             ${mainCircleRadius * 0.45} ${driverStripWidth}`;
         } else if (d.position === "2" || d.position === "3") {
           return `${mainCircleRadius * 0.6} ${driverStripWidth}
-          ${mainCircleRadius * 0.6} -4
-          32 ${driverStripWidth}
+          ${mainCircleRadius * 0.6} -${size/22}
+          ${size/3} ${driverStripWidth}
           ${mainCircleRadius * 0.6} ${driverStripWidth}`;
         }
       })
