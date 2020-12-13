@@ -35,15 +35,7 @@ header p {
   grid-gap: 8%;
 }
 
-@media only screen and (max-width: 1000px) {
-  #intro-legend {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    padding: 64px;
-    font-weight: 300;
-    grid-gap: 8%;
-  }
-}
+
 
 #story-intro {
   padding-top: 36px;
@@ -240,4 +232,18 @@ header p {
   border-bottom: 2px solid #d40000;
   font-weight: 600;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 1000px) {
+  #intro-legend {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 64px;
+    font-weight: 300;
+    grid-gap: 8%;
+  }
+
+  .grid-main {
+    grid-template-columns: 60% auto;
+  }
 }
