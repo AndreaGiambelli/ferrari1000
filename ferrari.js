@@ -179,7 +179,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     timeline.selectAll(".yearsLine").remove();
     timeline.selectAll("#timeline-arcs").remove();
 
-    console.log(size);
     let timelineRects = timeline
       .selectAll(".yearsLine")
       .data(d3.range(dataset.length / numPerRow))
@@ -362,7 +361,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
     // CLICK on body to reset focus state
     d3.select("body").on("click", function (d) {
-      console.log("body click");
       d3.select("#race-details-wrapper").style("display", "none");
 
       // Remove fade from all elements
@@ -434,7 +432,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         d3.select("#wCcInView").text(`Constructors: ${wCcInView}`);
 
         if (isInViewport(d3.select(`#r${1}`).node())) {
-          console.log("early years");
+          // console.log("early years");
           d3.select("#story-title").text("The Early Years");
           d3.select("#story").html(
             "On May 21, 1950, <span>Scuderia Ferrari</span> makes its debut in the Formula 1 World Championship, in the second round of the newly-born series at the <a id='Mon.50'>Monaco GP</a>. Italian driver Alberto Ascari’s finishes second in the race, claiming the team’s maiden podium, while the first victory comes the following year, thanks to José Froilan Gonzalez at <a id='Gbr.51'>Silverstone</a>. The team’s constant growth and the retirement of early rivals Alfa Romeo, would set the stage for the first winning cycle of the Scuderia. Ascari takes back to back world championships in 1952 and 1953, totally dominating the series and setting <a href='https://en.wikipedia.org/wiki/Alberto_Ascari#Formula_One_records' target='_blank'>records that still stand to this day. </a>"
@@ -443,7 +441,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           isInViewport(d3.select(`#r${49}`).node()) ||
           isInViewport(d3.select(`#r${88}`).node())
         ) {
-          console.log("early years");
+          // console.log("early years");
           d3.select("#story-title").text("Tragedies and success in the 50’s");
           d3.select("#story").html(
             "Ascari would move to rival team Lancia, before passing in a tragic accident at Monza. Argentinian legend-in-the-making Juan Manuel Fangio joins Ferrari in 1956, and wins his 4th world championship in a dramatic fashion at the <a id='Ita.56'>Italian GP</a>: his car breaks down but teammate Peter Collins, himself a title contender, sportingly hands his own car to Fangio during a pit stop, allowing him to take the title. 1957 proves unsuccessful and brings more tragedies as two Ferrari drivers, Eugenio Castellotti and Alfonso De Portago are killed in non-F1 racing cars. Mike Hawthorn takes the Scuderia’s last title of the 50’s with just a single win at the <a id='Fra.58'>French GP</a>, in the cursed 1958 in which two drivers, Luigi Musso and Peter Collins, are killed while racing their Ferraris."
@@ -532,25 +530,25 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
         currentStoryLinks = d3.select("#story").selectAll("a");
 
-        console.log(currentStoryLinks);
+        // console.log(currentStoryLinks);
         currentStoryLinks.on("click", function (d) {
           d3.event.stopPropagation();
 
-          console.log(this.id);
+          // console.log(this.id);
           let linkRace = dataset.find(
             (e) => e.raceDetails.raceAbbrev === this.id
           );
-          console.log(linkRace);
+          // console.log(linkRace);
           tooltipFunction(linkRace);
         });
 
         if (raceInFocus) {
           let inFocusNode = d3.select(`#r${raceInFocus.raceIdFerrari}`).node();
-          console.log(inFocusNode);
+          // console.log(inFocusNode);
           if (isInViewport(inFocusNode)) {
-            console.log("in");
+            // console.log("in");
           } else {
-            console.log("out");
+            // console.log("out");
             // d3.select("#story-stats-wrapper").style("display", "block");
             d3.select("#race-details-wrapper").style("display", "none");
 
@@ -797,9 +795,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("transform", `translate(${size / 2}, ${size / 2}), rotate(-${14})`);
 
     let driverStripWidth = size / 30;
-    console.log(driverStripWidth);
     let driverStripDistance = size / 9;
-    console.log(driverStripDistance);
 
     let innerDriversGroup = driversGroup
       .append("g")
@@ -892,9 +888,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         }
       })
       .attr("fill", "none");
-
-    console.log(size / 15);
-    console.log(size / 13);
 
     // Triangular shape for driver strips
     singleDriverGroup
@@ -1418,8 +1411,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .append("circle")
       .attr("fill", "none")
       .attr("stroke", (e) => {
-        console.log(e.lapsLed);
-        console.log(e.winnerLaps);
+        // console.log(e.lapsLed);
+        // console.log(e.winnerLaps);
         return e.lapsLed / e.winnerLaps === 1 ? colours.white : colours.grey;
       })
       .attr("stroke-width", 1)
