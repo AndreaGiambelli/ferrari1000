@@ -26,12 +26,23 @@ header p {
   margin-top: 16%;
 }
 
+
 #intro-legend {
   display: grid;
   grid-template-columns: auto 30%;
   padding: 64px;
   font-weight: 300;
   grid-gap: 8%;
+}
+
+@media only screen and (max-width: 1000px) {
+  #intro-legend {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 64px;
+    font-weight: 300;
+    grid-gap: 8%;
+  }
 }
 
 #story-intro {

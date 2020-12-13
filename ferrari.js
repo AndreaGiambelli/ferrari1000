@@ -114,10 +114,16 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
   // Map Margins and dimensions
   let marginViz = { top: 30, right: 70, bottom: 30, left: 70 },
-    widthViz = 1000 - marginViz.left - marginViz.right;
+    widthViz = window.innerWidth * 0.7 - marginViz.left - marginViz.right;
 
   let grid, backgroundGrid, timeline, scaleGrid;
-  const numPerRow = 8;
+  let numPerRow;
+  if (window.innerWidth >= 1000) {
+    numPerRow = 8;
+  } else {
+    numPerRow = 4;
+
+  }
   const size = (widthViz - marginViz.left - marginViz.right) / numPerRow;
   const mainCircleRadius = size / 3.5;
   let lineWidth = 4;
@@ -325,21 +331,23 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
     const gridExit = gridUpdate.exit().remove();
 
-    let smallMultiple = gridEnter.merge(gridUpdate).attr("transform", function (d, i) {
-      // Backwards on odd rows
-      let n;
-      if (Math.floor(i / numPerRow) % 2 === 0) {
-        n = i % numPerRow;
-      } else {
-        n = numPerRow - (i % numPerRow) - 1;
-      }
+    let smallMultiple = gridEnter
+      .merge(gridUpdate)
+      .attr("transform", function (d, i) {
+        // Backwards on odd rows
+        let n;
+        if (Math.floor(i / numPerRow) % 2 === 0) {
+          n = i % numPerRow;
+        } else {
+          n = numPerRow - (i % numPerRow) - 1;
+        }
 
-      // Vertical positioning
-      const m = Math.floor(i / numPerRow);
+        // Vertical positioning
+        const m = Math.floor(i / numPerRow);
 
-      // Translating groups to grid position
-      return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
-    });
+        // Translating groups to grid position
+        return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
+      });
     smallMultiple.selectAll("race-label").text((d) => d.raceDetails.raceAbbrev);
 
     // CLICK on race symbol - focus
