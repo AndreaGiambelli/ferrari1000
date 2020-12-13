@@ -177,7 +177,7 @@ let circuitMap = [
     {
       "name": "bahrain",
       yearFirst: 2004,
-      yearLast: 2019,
+      yearLast: 2020,
       "svgPath": "SVG/svgCircuits/Circuits_bahrain_2004.svg"
     },
     {
