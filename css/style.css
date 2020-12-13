@@ -84,14 +84,16 @@ header p {
 #race-details-wrapper {
   display: none;
   position: absolute;
-  width: 350px;
+  width: 320px;
   background: rgba(15, 15, 15, 0.95);
   border: 2px solid #323232;
   padding: 16px;
+  box-sizing: border-box;
 }
 
 #ferrari-races-count {
   font-size: 12.8px;
+  margin-top: 8px; 
 }
 
 #races-count-wrapper,
@@ -139,11 +141,16 @@ header p {
 
 #race-details {
   transform: translateY(-20px);
-  font-size: 13.6px;
+  font-size: 12.8px;
+  width: 50%;
 }
 
 #race-details p {
   margin: 0;
+}
+
+#race-date {
+  margin-top: 8px;
 }
 
 #drivers {
@@ -193,7 +200,7 @@ header p {
   color: #0f0f0f;
   font-size: 1rem;
   font-weight: 700;
-  line-height: 32px;
+  line-height: 34px;
 }
 
 .tooltip-driver-details-wrapper {

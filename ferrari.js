@@ -624,6 +624,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         }), rotate(${-tiltAngle})`
       );
 
+
     // Constructor World Championships
     gridEnter
       .filter((d) => d.drivers.map((e) => e.conChamp).includes("1"))
@@ -1201,17 +1202,28 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     raceInFocus = raceObj;
 
     let thisNode = d3.select(`#r${raceObj.raceIdFerrari}`).node();
-    console.log(raceObj);
-    console.log(thisNode);
+    // console.log(raceObj);
+    // console.log(thisNode);
 
     let ctm = thisNode.getCTM();
-    console.log(thisNode.getCTM());
+    // console.log(thisNode.getCTM());
 
-    // d3.select("#story-stats-wrapper").style("display", "none");
-    d3.select("#race-details-wrapper")
+    if (ctm.e < 160 && numPerRow === 8) {
+      d3.select("#race-details-wrapper")
       .style("display", "block")
-      .style("left", `${ctm.e - 100}px`)
+      .style("left", `${ctm.e + size/2}px`)
       .style("top", `${ctm.f + 100}px`);
+    } else if (ctm.e < 140 && numPerRow === 4) {
+      d3.select("#race-details-wrapper")
+      .style("display", "block")
+      .style("left", `${ctm.e + size/2}px`)
+      .style("top", `${ctm.f + 100}px`);
+    } else {
+      d3.select("#race-details-wrapper")
+      .style("display", "block")
+      .style("left", `${ctm.e - 160 + size/2}px`)
+      .style("top", `${ctm.f + 100}px`);
+    }
 
     // Fade all elements
     d3.selectAll(".label").style("opacity", 0.3);
@@ -1277,7 +1289,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
     // Sidebar - race count chart
 
-    let countScale = d3.scaleLinear().domain([0, 1000]).range([0, 100]);
+    let countScale = d3.scaleLinear().domain([0, ferrariData.length]).range([0, 100]);
 
     d3.select("#races-count-chart").selectAll("svg").remove();
 
