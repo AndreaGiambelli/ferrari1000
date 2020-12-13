@@ -373,8 +373,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       d3.selectAll(".driver-led").style("opacity", 1);
       d3.selectAll(".driver-championship").style("opacity", 1);
       d3.selectAll(".constructor-championship").style("opacity", 1);
-    d3.selectAll(".first-row-triangle").style("opacity", 1);
-
+      d3.selectAll(".first-row-triangle").style("opacity", 1);
 
       raceInFocus = undefined;
     });
@@ -1239,7 +1238,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     d3.selectAll(".constructor-championship").style("opacity", 0.3);
     d3.selectAll(".first-row-triangle").style("opacity", 0.3);
 
-
     // Highlight selected
     d3.select(thisNode).selectAll(".label").style("opacity", 1);
     d3.select(thisNode).selectAll(".race-main-circle").style("opacity", 1);
@@ -1252,7 +1250,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .selectAll(".constructor-championship")
       .style("opacity", 1);
     d3.select(thisNode).selectAll(".first-row-triangle").style("opacity", 1);
-
 
     // Tooltip - race title
     d3.select("#race-header-title").text(
@@ -1441,31 +1438,36 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("cy", 8)
       .attr("r", 7);
 
-      let driverDetailsSymbolsLabels = driverDetailsWrapper
+    let driverDetailsSymbolsLabels = driverDetailsWrapper
       .append("div")
       .attr("class", "tooltip-driver-symbols-labels");
-      driverDetailsSymbolsLabels.append("p").text("PP").attr("fill", (e) => {
+    driverDetailsSymbolsLabels
+      .append("p")
+      .text("PP")
+      .attr("fill", (e) => {
         return e.grid === "1" ? colours.white : colours.grey;
-      })
-      driverDetailsSymbolsLabels.append("p").text("FL").attr("fill", (e) => {
+      });
+    driverDetailsSymbolsLabels
+      .append("p")
+      .text("FL")
+      .attr("fill", (e) => {
         return e.fLap1 === "1" ? colours.white : colours.grey;
-      })
-      driverDetailsSymbolsLabels.append("p").text("LL").attr("fill", (e) => {
+      });
+    driverDetailsSymbolsLabels
+      .append("p")
+      .text("LL")
+      .attr("fill", (e) => {
         return e.lapsLed / e.winnerLaps === 1 ? colours.white : colours.grey;
-      })
-
+      });
 
     // Tooltip - Driver laps led area
     let driverLapsLed = driverDivs
       .append("div")
       .attr("id", "tooltip-driver-laps-led");
 
-      let countLapsLedScale = d3
-      .scaleLinear()
-      .domain([0, 1])
-      .range([0, 100]);
+    let countLapsLedScale = d3.scaleLinear().domain([0, 1]).range([0, 100]);
 
-      driverLapsLed.selectAll("svg").remove();
+    driverLapsLed.selectAll("svg").remove();
 
     let driverLapsLedSvg = driverLapsLed
       .append("svg")
@@ -1473,7 +1475,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("height", 8)
       .append("g");
 
-      driverLapsLedSvg
+    driverLapsLedSvg
       .append("rect")
       .attr("x", 0)
       .attr("y", 0)
@@ -1481,13 +1483,13 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("height", 3)
       .attr("fill", "#330b0b");
 
-      driverLapsLedSvg
+    driverLapsLedSvg
       .append("rect")
       .attr("x", 0)
       .attr("y", 0)
-      .attr("width", e => {
-        console.log(e)
-        return `${countLapsLedScale(e.lapsLed / e.winnerLaps)}%`
+      .attr("width", (e) => {
+        console.log(e);
+        return `${countLapsLedScale(e.lapsLed / e.winnerLaps)}%`;
       })
       .attr("height", 3)
       .attr("fill", colours.red);
