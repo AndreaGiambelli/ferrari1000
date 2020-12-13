@@ -790,63 +790,37 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     ////////////////////////////////////////// SYMBOLS //////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // Laps led arc
-    let angleScale = d3
-      .scaleLinear()
-      .domain([0, 1])
-      .range([-Math.PI / 2 + tiltAngle * (Math.PI / 180), 0]);
-
-    gridEnter
-      .append("g")
-      .style("transform", `translate(${size / 2}px, ${size / 2}px)`)
-      .attr("class", "led-arc")
-      .append("path")
-      .attr("d", (d) => {
-        let sum = [];
-        d.drivers.forEach((e) => sum.push(parseInt(e.lapsLed)));
-        let sum2 = sum.reduce((a, b) => a + b, 0);
-
-        let arcValue = d3
-          .arc()
-          .innerRadius(scaleGrid(0.35) - lineWidth / 4)
-          .outerRadius(scaleGrid(0.35) + lineWidth / 4)
-          .startAngle(-Math.PI / 2 + tiltAngle * (Math.PI / 180))
-          .endAngle(angleScale(sum2 / parseInt(d.drivers[0].winnerLaps)));
-        return arcValue(d);
-      })
-      .attr("fill", colours.white)
-      .attr("stroke", "none");
-
     // Drivers strips structure
     let driversGroup = gridEnter
       .append("g")
       .attr("id", "drivers-group")
       .attr("transform", `translate(${size / 2}, ${size / 2}), rotate(-${14})`);
 
-    let driverStripWidth = size/30;
-    console.log(driverStripWidth)
-    let driverStripDistance = size/9;
-    console.log(driverStripDistance)
-
+    let driverStripWidth = size / 30;
+    console.log(driverStripWidth);
+    let driverStripDistance = size / 9;
+    console.log(driverStripDistance);
 
     let innerDriversGroup = driversGroup
       .append("g")
       .attr("id", (d) => d.raceDetails.raceAbbrev)
-      .attr(
-        "transform",
-        (d) =>
-          `translate(0, ${
-            (-d.drivers.length * driverStripWidth -
-              (d.drivers.length - 1) *
-                (driverStripDistance - driverStripWidth)) /
-            2
-          })`
-      );
+      .attr("transform", (d) => {
+        // #of drivers in small multiples limited to 4
+        let shortenedDriversLength =
+          d.drivers.length <= 4 ? d.drivers.length : 4;
+        return `translate(0, ${
+          (-shortenedDriversLength * driverStripWidth -
+            (shortenedDriversLength - 1) *
+              (driverStripDistance - driverStripWidth)) /
+          2
+        })`;
+      });
 
     singleDriverGroup = innerDriversGroup
       .selectAll(".single-driver-g")
       .data((d) => d.drivers)
       .enter()
+      .filter((d, i) => i <= 3)
       .append("g")
       .attr("class", "single-driver-g")
       .attr("transform", (d, i) => {
@@ -867,7 +841,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       })
       .attr("height", driverStripWidth)
       .attr("fill", colours.black);
-
 
     // Pole Position or first row
     singleDriverGroup
@@ -898,7 +871,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("class", "driver-fl")
       .attr("cx", mainCircleRadius + 5)
       .attr("cy", driverStripWidth / 2)
-      .attr("r", "2px")
+      .attr("r", size / 40)
       .attr("stroke", (d) => {
         if (d.fLap1) {
           return d.fLap1 === "1" ? colours.white : "none";
@@ -912,7 +885,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("class", "driver-led")
       .attr("cx", mainCircleRadius + 5)
       .attr("cy", driverStripWidth / 2)
-      .attr("r", "6px")
+      .attr("r", size / 15)
       .attr("stroke", (d) => {
         if (d.rank) {
           return d.lapsLed / d.winnerLaps === 1 ? colours.white : "none";
@@ -920,8 +893,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       })
       .attr("fill", "none");
 
-      console.log(size/22)
-      console.log(size/13)
+    console.log(size / 15);
+    console.log(size / 13);
 
     // Triangular shape for driver strips
     singleDriverGroup
@@ -929,17 +902,44 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("points", (d) => {
         if (d.position === "1") {
           return `${mainCircleRadius * 0.45} ${driverStripWidth}
-            ${mainCircleRadius * 0.45} -${size/13}
-            ${size/3} ${driverStripWidth}
+            ${mainCircleRadius * 0.45} -${size / 13}
+            ${size / 3} ${driverStripWidth}
             ${mainCircleRadius * 0.45} ${driverStripWidth}`;
         } else if (d.position === "2" || d.position === "3") {
           return `${mainCircleRadius * 0.6} ${driverStripWidth}
-          ${mainCircleRadius * 0.6} -${size/22}
-          ${size/3} ${driverStripWidth}
+          ${mainCircleRadius * 0.6} -${size / 22}
+          ${size / 3} ${driverStripWidth}
           ${mainCircleRadius * 0.6} ${driverStripWidth}`;
         }
       })
       .attr("fill", colours.black);
+
+    // Laps led arc
+    let angleScale = d3
+      .scaleLinear()
+      .domain([0, 1])
+      .range([-Math.PI / 2 + tiltAngle * (Math.PI / 180), 0]);
+
+    gridEnter
+      .append("g")
+      .style("transform", `translate(${size / 2}px, ${size / 2}px)`)
+      .attr("class", "led-arc")
+      .append("path")
+      .attr("d", (d) => {
+        let sum = [];
+        d.drivers.forEach((e) => sum.push(parseInt(e.lapsLed)));
+        let sum2 = sum.reduce((a, b) => a + b, 0);
+
+        let arcValue = d3
+          .arc()
+          .innerRadius(scaleGrid(0.32) - lineWidth / 4)
+          .outerRadius(scaleGrid(0.32) + lineWidth / 4)
+          .startAngle(-Math.PI / 2 + 1.5 * tiltAngle * (Math.PI / 180))
+          .endAngle(angleScale(sum2 / parseInt(d.drivers[0].winnerLaps)));
+        return arcValue(d);
+      })
+      .attr("fill", colours.white)
+      .attr("stroke", "none");
   }
 
   function drawSparklines(dataset) {
