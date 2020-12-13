@@ -1,4 +1,14 @@
-// Context variables
+///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// FERRARI 1000+ /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+////////////////// Visual storytelling & Data Visualization ///////////////////
+///////////////////////////////////////////////////////////////////////////////
+////////////////////////// Andrea Giambelli, 2020 /////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+/////////////////////////// www.andreagiambelli.com ///////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+// Global variables
 
 let colours = {
   red: "#d40000",
@@ -85,9 +95,7 @@ let privateers = [
 
 const hundredRaces = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
 
-// Global variables
 let ferrariRaces = [];
-// let allFerrariRaces;
 let raceInFocus;
 let isFiltered;
 let maxRaceInView;
@@ -96,11 +104,6 @@ let polesInView = 0;
 let flInView = 0;
 let wDcInView = 0;
 let wCcInView = 0;
-// let winsMap = [];
-// let polesMap = [];
-// let flMap = [];
-// let wDcMap = [];
-// let wCcMap = [];
 let xScaleSp;
 let currentStoryLinks = null;
 
@@ -257,7 +260,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
       });
 
-    // backGroundEnter.append("text").attr("fill", "green");
     backGroundEnter
       .append("g")
       .append("circle")
@@ -323,7 +325,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
     const gridExit = gridUpdate.exit().remove();
 
-    let bbb = gridEnter.merge(gridUpdate).attr("transform", function (d, i) {
+    let smallMultiple = gridEnter.merge(gridUpdate).attr("transform", function (d, i) {
       // Backwards on odd rows
       let n;
       if (Math.floor(i / numPerRow) % 2 === 0) {
@@ -338,71 +340,10 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       // Translating groups to grid position
       return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
     });
-    bbb.selectAll("race-label").text((d) => d.raceDetails.raceAbbrev);
-
-    // grid = bounds
-    //   .select(".races-group")
-    //   .selectAll(".race")
-    //   .data(dataset, (d) => {
-    //     return d ? `r${d.raceIdFerrari}` : this.id;
-    //   })
-    //   .join(
-    //     (enter) =>
-    //       enter
-    //         .append("g")
-    //         .attr("class", "race")
-    //         .attr("id", (d) => `r${d.raceIdFerrari}`),
-    //     (update) =>
-    //       update.attr("transform", function (d, i) {
-    //         // Horizontal positioning
-
-    //         // Regular:
-    //         // const n = i % numPerRow;
-
-    //         // Backwards on odd rows
-    //         let n;
-    //         if (Math.floor(i / numPerRow) % 2 === 0) {
-    //           n = i % numPerRow;
-    //         } else {
-    //           n = numPerRow - (i % numPerRow) - 1;
-    //         }
-
-    //         // Vertical positioning
-    //         const m = Math.floor(i / numPerRow);
-
-    //         //   console.log("xi: " + i + " " + numPerRow + " n: " + n + " xn: " + (12 - n))
-
-    //         // Translating groups to grid position
-    //         return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
-    //       }),
-    //     (exit) => exit.remove()
-    //   )
-    //   .attr("transform", function (d, i) {
-    //     // Horizontal positioning
-
-    //     // Regular:
-    //     // const n = i % numPerRow;
-
-    //     // Backwards on odd rows
-    //     let n;
-    //     if (Math.floor(i / numPerRow) % 2 === 0) {
-    //       n = i % numPerRow;
-    //     } else {
-    //       n = numPerRow - (i % numPerRow) - 1;
-    //     }
-
-    //     // Vertical positioning
-    //     const m = Math.floor(i / numPerRow);
-
-    //     //   console.log("xi: " + i + " " + numPerRow + " n: " + n + " xn: " + (12 - n))
-
-    //     // Translating groups to grid position
-    //     return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
-    //   })
-    //
+    smallMultiple.selectAll("race-label").text((d) => d.raceDetails.raceAbbrev);
 
     // CLICK on race symbol - focus
-    bbb.on("click", function (d, i, n) {
+    smallMultiple.on("click", function (d, i, n) {
       d3.event.stopPropagation();
 
       // Display and populate tooltip
@@ -915,13 +856,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
     // Pole Position or first row
     singleDriverGroup
-      // .append("circle")
-      // .attr("class", "driver-pole")
-      // .attr("cx", -mainCircleRadius - 5)
-      // .attr("cy", driverStripWidth / 2)
-      // .attr("r", (d) => {
-      //   return d.grid === "1" ? "3px" : d.grid === "2" ? "2px" : "0px";
-      // })
       .append("polygon")
       .attr(
         "transform",
