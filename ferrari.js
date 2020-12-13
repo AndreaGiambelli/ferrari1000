@@ -535,6 +535,12 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         currentStoryLinks.on("click", function (d) {
           d3.event.stopPropagation();
 
+          $(document).ready(function () {
+            $("html, body").animate({
+                scrollTop: $(`#r${raceInFocus.raceIdFerrari}`).offset().top -100
+            }, 800);
+        });
+
           // console.log(this.id);
           let linkRace = dataset.find(
             (e) => e.raceDetails.raceAbbrev === this.id
