@@ -17,9 +17,33 @@ header {
   padding: 64px;
 }
 
+header p {
+  line-height: 1.6;
+}
+
 .title-img {
   width: 100%;
   margin-top: 16%;
+}
+
+#intro-legend {
+  display: grid;
+  grid-template-columns: auto 30%;
+  padding: 64px;
+  font-weight: 300;
+  grid-gap: 8%;
+}
+
+#story-intro {
+  padding-top: 36px;
+}
+
+#story-intro p {
+  line-height: 1.6;
+}
+
+#viz-title {
+  margin: 0 0 24px 6%;
 }
 
 .grid-main {
@@ -43,7 +67,7 @@ header {
 }
 
 .race-label {
-  font-family: Sans-Serif; 
+  font-family: Sans-Serif;
 }
 
 /* Main Stats */
@@ -102,8 +126,8 @@ header {
 }
 
 #temp-image path {
-  fill: red; 
-  stroke: blue; 
+  fill: red;
+  stroke: blue;
 }
 
 #race-header-details > div {
@@ -167,14 +191,14 @@ header {
   font-size: 1rem;
   font-weight: 700;
   line-height: 32px;
-
 }
 
 .tooltip-driver-details-wrapper {
   display: inline-block;
 }
 
-.tooltip-driver-symbols, .tooltip-driver-lead {
+.tooltip-driver-symbols,
+.tooltip-driver-lead {
   display: block;
 }
 
@@ -185,23 +209,23 @@ header {
 }
 
 #story-title {
-  font-size: 16px; 
+  font-size: 16px;
   font-weight: 600;
-  line-height: 1.4; 
+  line-height: 1.4;
   border-bottom: 7px solid #d40000;
 }
 
 #story {
-  font-size: 14.4px; 
+  font-size: 14.4px;
   font-weight: 300;
-  line-height: 1.7; 
+  line-height: 1.7;
 }
 
-#story span{
+#story span {
   font-weight: 800;
 }
 
-#story a{
+#story a {
   border-bottom: 2px solid #d40000;
   font-weight: 600;
   cursor: pointer;
