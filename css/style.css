@@ -86,7 +86,7 @@ header p {
   position: absolute;
   width: 320px;
   background: rgba(15, 15, 15, 0.95);
-  border: 2px solid #323232;
+  border: 1px solid #323232;
   padding: 16px;
   box-sizing: border-box;
 }
@@ -192,6 +192,7 @@ header p {
   width: 32px;
   height: 32px;
   border-radius: 50%;
+  vertical-align: top;
 }
 
 .tooltip-driver-position p {
@@ -216,6 +217,23 @@ header p {
   width: 100px;
   display: flex;
   justify-content: space-around;
+}
+
+.tooltip-driver-symbols-labels {
+  width: 100px;
+  display: flex;
+  justify-content: space-around;
+  font-size: 9px; 
+}
+
+.tooltip-driver-symbols-labels p {
+  width: 20px;
+  margin: 6px 0 0 0; 
+  text-align: center;
+}
+
+#tooltip-driver-laps-led {
+  margin-top: 16px;
 }
 
 #story-title {

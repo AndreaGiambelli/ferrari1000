@@ -624,7 +624,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         }), rotate(${-tiltAngle})`
       );
 
-
     // Constructor World Championships
     gridEnter
       .filter((d) => d.drivers.map((e) => e.conChamp).includes("1"))
@@ -842,6 +841,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     // Pole Position or first row
     singleDriverGroup
       .append("polygon")
+      .attr("class", "first-row-triangle")
       .attr(
         "transform",
         `translate(${-mainCircleRadius - 8}, ${-driverStripWidth / 2})`
@@ -1210,19 +1210,19 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
     if (ctm.e < 160 && numPerRow === 8) {
       d3.select("#race-details-wrapper")
-      .style("display", "block")
-      .style("left", `${ctm.e + size/2}px`)
-      .style("top", `${ctm.f + 100}px`);
+        .style("display", "block")
+        .style("left", `${ctm.e + size / 2}px`)
+        .style("top", `${ctm.f + 100}px`);
     } else if (ctm.e < 140 && numPerRow === 4) {
       d3.select("#race-details-wrapper")
-      .style("display", "block")
-      .style("left", `${ctm.e + size/2}px`)
-      .style("top", `${ctm.f + 100}px`);
+        .style("display", "block")
+        .style("left", `${ctm.e + size / 2}px`)
+        .style("top", `${ctm.f + 100}px`);
     } else {
       d3.select("#race-details-wrapper")
-      .style("display", "block")
-      .style("left", `${ctm.e - 160 + size/2}px`)
-      .style("top", `${ctm.f + 100}px`);
+        .style("display", "block")
+        .style("left", `${ctm.e - 160 + size / 2}px`)
+        .style("top", `${ctm.f + 100}px`);
     }
 
     // Fade all elements
@@ -1235,6 +1235,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     d3.selectAll(".driver-led").style("opacity", 0.3);
     d3.selectAll(".driver-championship").style("opacity", 0.3);
     d3.selectAll(".constructor-championship").style("opacity", 0.3);
+    d3.selectAll(".first-row-triangle").style("opacity", 0.3);
+
 
     // Highlight selected
     d3.select(thisNode).selectAll(".label").style("opacity", 1);
@@ -1247,6 +1249,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     d3.select(thisNode)
       .selectAll(".constructor-championship")
       .style("opacity", 1);
+    d3.select(thisNode).selectAll(".first-row-triangle").style("opacity", 1);
+
 
     // Tooltip - race title
     d3.select("#race-header-title").text(
@@ -1289,7 +1293,10 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
     // Sidebar - race count chart
 
-    let countScale = d3.scaleLinear().domain([0, ferrariData.length]).range([0, 100]);
+    let countScale = d3
+      .scaleLinear()
+      .domain([0, ferrariData.length])
+      .range([0, 100]);
 
     d3.select("#races-count-chart").selectAll("svg").remove();
 
@@ -1380,9 +1387,9 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .append("div")
       .attr("class", "tooltip-driver-symbols");
 
-    let driverDetailsLead = driverDetailsWrapper
-      .append("div")
-      .attr("class", "tooltip-driver-lead");
+    // let driverDetailsLead = driverDetailsWrapper
+    //   .append("div")
+    //   .attr("class", "tooltip-driver-lead");
 
     // Pole Position symbol
     driverDetailsSymbols
@@ -1431,6 +1438,57 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("cx", 8)
       .attr("cy", 8)
       .attr("r", 7);
+
+      let driverDetailsSymbolsLabels = driverDetailsWrapper
+      .append("div")
+      .attr("class", "tooltip-driver-symbols-labels");
+      driverDetailsSymbolsLabels.append("p").text("PP").attr("fill", (e) => {
+        return e.grid === "1" ? colours.white : colours.grey;
+      })
+      driverDetailsSymbolsLabels.append("p").text("FL").attr("fill", (e) => {
+        return e.fLap1 === "1" ? colours.white : colours.grey;
+      })
+      driverDetailsSymbolsLabels.append("p").text("LL").attr("fill", (e) => {
+        return e.lapsLed / e.winnerLaps === 1 ? colours.white : colours.grey;
+      })
+
+
+    // Tooltip - Driver laps led area
+    let driverLapsLed = driverDivs
+      .append("div")
+      .attr("id", "tooltip-driver-laps-led");
+
+      let countLapsLedScale = d3
+      .scaleLinear()
+      .domain([0, 1])
+      .range([0, 100]);
+
+      driverLapsLed.selectAll("svg").remove();
+
+    let driverLapsLedSvg = driverLapsLed
+      .append("svg")
+      .attr("width", "90%")
+      .attr("height", 8)
+      .append("g");
+
+      driverLapsLedSvg
+      .append("rect")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", "100%")
+      .attr("height", 3)
+      .attr("fill", "#330b0b");
+
+      driverLapsLedSvg
+      .append("rect")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", e => {
+        console.log(e)
+        return `${countLapsLedScale(e.lapsLed / e.winnerLaps)}%`
+      })
+      .attr("height", 3)
+      .attr("fill", colours.red);
   }
 
   // Checking if in viewport
