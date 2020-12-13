@@ -373,6 +373,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       d3.selectAll(".driver-led").style("opacity", 1);
       d3.selectAll(".driver-championship").style("opacity", 1);
       d3.selectAll(".constructor-championship").style("opacity", 1);
+    d3.selectAll(".first-row-triangle").style("opacity", 1);
+
 
       raceInFocus = undefined;
     });
