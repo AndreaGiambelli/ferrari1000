@@ -106,39 +106,47 @@ let wDcInView = 0;
 let wCcInView = 0;
 let xScaleSp;
 let currentStoryLinks = null;
+let windowWidth;
 
 d3.json("ferrariData.json").then(function (ferrariData) {
   console.log(ferrariData);
 
   /// VIZ ///
 
+  windowWidth = window.innerWidth;
+
   // Map Margins and dimensions
-  let marginViz = { top: 30, right: 70, bottom: 30, left: 70 },
-    widthViz = window.innerWidth * 0.7 - marginViz.left - marginViz.right;
+  let marginViz = { top: 30, right: 70, bottom: 30, left: 70 };
+  let widthViz =
+    (windowWidth >= 768 ? windowWidth * 0.7 : 500) -
+    marginViz.left -
+    marginViz.right;
 
   let grid, backgroundGrid, timeline, scaleGrid;
   let numPerRow;
-  if (window.innerWidth >= 1000) {
+  if (windowWidth >= 1000) {
     numPerRow = 8;
   } else {
     numPerRow = 4;
-
   }
   const size = (widthViz - marginViz.left - marginViz.right) / numPerRow;
   const mainCircleRadius = size / 3.5;
-  let lineWidth = 4;
-  let tiltAngle = 14;
+  let lineWidth = size / 20;
+  let tiltAngle = 14; // Fixed
 
-  // let heightViz =
-  //   (size * ferrariData.length) / numPerRow -
-  //   marginViz.top -
-  //   marginViz.bottom;
-  let heightViz = 13000;
+  // Scale to set up grid
+  scaleGrid = d3
+  .scaleLinear()
+  .domain([0, numPerRow - 1])
+  .range([0, size * numPerRow]);
+
+  let heightViz =
+    scaleGrid(Math.floor(ferrariData.length / numPerRow)) + size;
+
   // Viz SVG
   let wrapperViz = d3
     .select("#viz")
     .append("svg")
-    // .style("background", "gray")
     .attr("width", widthViz + marginViz.left + marginViz.right)
     .attr("height", heightViz + marginViz.top + marginViz.bottom);
 
@@ -165,11 +173,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
     console.log(dataset);
 
-    // Scale to set up grid
-    scaleGrid = d3
-      .scaleLinear()
-      .domain([0, numPerRow - 1])
-      .range([0, size * numPerRow]);
+    
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////// TIMELINE ////////////////////////////////////////////
@@ -180,6 +184,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     timeline.selectAll(".yearsLine").remove();
     timeline.selectAll("#timeline-arcs").remove();
 
+    console.log(size);
     let timelineRects = timeline
       .selectAll(".yearsLine")
       .data(d3.range(dataset.length / numPerRow))
@@ -189,7 +194,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("x", size / 2 - 30 - 1)
       .attr("y", (d, i) => scaleGrid(i) + size / 2 - lineWidth / 2)
       .attr("width", size * numPerRow + 30 + 2)
-      .attr("height", "4px")
+      .attr("height", lineWidth)
       .attr("fill", colours.timeline)
       .attr("stroke", "none");
 
@@ -245,6 +250,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         return d ? `b${d.raceIdFerrari}` : this.id;
       });
 
+
+
     const backGroundEnter = backGroundUpdate
       .enter()
       .append("g")
@@ -261,6 +268,10 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
         // Vertical positioning
         const m = Math.floor(i / numPerRow);
+
+        console.log("x: " + n)
+        console.log("y: " + m)
+
 
         // Translating groups to grid position
         return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
@@ -1431,3 +1442,9 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     );
   };
 });
+
+window.addEventListener("resize", getWidth);
+
+function getWidth() {
+  windowWidth = window.innerWidth;
+}
