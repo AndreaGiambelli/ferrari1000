@@ -118,7 +118,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             let drivers = resultsData
               .filter((e) => e.raceId === d.raceIdOverall) // Find corresponding race result
               .filter((e) => e.constructorId === "6") // Filter for Ferrari cars
-              .filter((e) => !privateers.includes(e.driver)) // Filter for Ferrari works drivers
+              .filter((e) => !privateers.includes(e.driver) || (e.driver === "whitehead" && d.year === "1950")) // Filter for Ferrari works drivers
               .sort((a, b) => +a.number - +b.number); // Sort by driver race numbers
   
             d.drivers = drivers;
