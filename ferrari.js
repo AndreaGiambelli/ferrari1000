@@ -276,7 +276,9 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("r", mainCircleRadius * 1.7)
       .attr("fill", colours.black)
       .attr("class", "race-backrgound-circle1")
-      .attr("stroke", "none");
+      .attr("stroke", d => d.raceIdFerrari === 1000 ? colours.red : "none")
+      .attr("stroke-dasharray", d => d.raceIdFerrari === 1000 ? "1px 2px" : "none");
+
 
     const backGroundExit = backGroundUpdate.exit().remove();
 
