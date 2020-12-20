@@ -13,23 +13,24 @@ a {
 
 header {
   height: 400px;
-  background: linear-gradient(180deg, #d40000 53.65%, rgba(212, 0, 0, 0) 100%);
-  padding: 64px;
+  background: linear-gradient(180deg, #d40000 70.65%, rgba(212, 0, 0, 0) 100%);
+  padding: 64px 64px 120px 64px;
+  margin-bottom: 60px;
 }
 
 header p {
   line-height: 1.6;
+  text-align: center;
 }
 
 .title-img {
   width: 100%;
-  margin-top: 16%;
 }
 
 
 #intro-legend {
-  display: grid;
-  grid-template-columns: auto 30%;
+  /* display: grid;
+  grid-template-columns: auto 30%; */
   padding: 64px;
   font-weight: 300;
   grid-gap: 8%;
@@ -261,8 +262,8 @@ header p {
 
 @media only screen and (max-width: 1000px) {
   #intro-legend {
-    display: grid;
-    grid-template-columns: 50% 50%;
+    /* display: grid;
+    grid-template-columns: 50% 50%; */
     padding: 64px;
     font-weight: 300;
     grid-gap: 8%;
