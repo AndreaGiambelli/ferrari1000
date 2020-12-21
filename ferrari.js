@@ -276,9 +276,10 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("r", mainCircleRadius * 1.7)
       .attr("fill", colours.black)
       .attr("class", "race-backrgound-circle1")
-      .attr("stroke", d => d.raceIdFerrari === 1000 ? colours.red : "none")
-      .attr("stroke-dasharray", d => d.raceIdFerrari === 1000 ? "1px 2px" : "none");
-
+      .attr("stroke", (d) => (d.raceIdFerrari === 1000 ? colours.red : "none"))
+      .attr("stroke-dasharray", (d) =>
+        d.raceIdFerrari === 1000 ? "1px 2px" : "none"
+      );
 
     const backGroundExit = backGroundUpdate.exit().remove();
 
@@ -538,10 +539,14 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           d3.event.stopPropagation();
 
           $(document).ready(function () {
-            $("html, body").animate({
-                scrollTop: $(`#r${raceInFocus.raceIdFerrari}`).offset().top -100
-            }, 800);
-        });
+            $("html, body").animate(
+              {
+                scrollTop:
+                  $(`#r${raceInFocus.raceIdFerrari}`).offset().top - 100,
+              },
+              800
+            );
+          });
 
           // console.log(this.id);
           let linkRace = dataset.find(
@@ -1268,6 +1273,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     console.log(raceObj.year);
 
     d3.select("#temp-image img").remove();
+    d3.select("#car-model img").remove();
     // Tooltip - circuit image
     d3.select("#temp-image")
       .append("img")
@@ -1394,25 +1400,19 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .append("div")
       .attr("class", "tooltip-driver-symbols");
 
-    // let driverDetailsLead = driverDetailsWrapper
-    //   .append("div")
-    //   .attr("class", "tooltip-driver-lead");
-
     // Pole Position symbol
     driverDetailsSymbols
       .append("svg")
       .attr("width", "16px")
       .attr("height", "16px")
-      .append("circle")
+      .append("polygon")
+      .attr("transform", `translate(6, 6), rotate(${-tiltAngle})`)
+      .attr("points", "0 0 0 6.16 5.33 3.08 0 0")
       .attr("fill", (e) => {
         return e.grid === "1" ? colours.white : colours.grey;
       })
-      .attr("stroke", "none")
-      .attr("cx", 8)
-      .attr("cy", 8)
-      .attr("r", 4)
       .append("title")
-      .text("test");
+      .text("Pole Position");
 
     // Fl symbol
     driverDetailsSymbols
@@ -1427,7 +1427,9 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("stroke-width", 1)
       .attr("cx", 8)
       .attr("cy", 8)
-      .attr("r", 4);
+      .attr("r", 4)
+      .append("title")
+      .text("Fastest Lap");
 
     // All laps led symbol
     driverDetailsSymbols
@@ -1444,7 +1446,9 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("stroke-width", 1)
       .attr("cx", 8)
       .attr("cy", 8)
-      .attr("r", 7);
+      .attr("r", 7)
+      .append("title")
+      .text("All Laps Led");
 
     let driverDetailsSymbolsLabels = driverDetailsWrapper
       .append("div")
@@ -1454,53 +1458,72 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .text("PP")
       .attr("fill", (e) => {
         return e.grid === "1" ? colours.white : colours.grey;
-      });
+      })
+      .append("title")
+      .text("Pole Position");
     driverDetailsSymbolsLabels
       .append("p")
       .text("FL")
       .attr("fill", (e) => {
         return e.fLap1 === "1" ? colours.white : colours.grey;
-      });
+      })
+      .append("title")
+      .text("Fastest Lap");
     driverDetailsSymbolsLabels
       .append("p")
       .text("LL")
       .attr("fill", (e) => {
         return e.lapsLed / e.winnerLaps === 1 ? colours.white : colours.grey;
-      });
+      })
+      .append("title")
+      .text("All Laps Led");
 
     // Tooltip - Driver laps led area
-    let driverLapsLed = driverDivs
-      .append("div")
-      .attr("id", "tooltip-driver-laps-led");
+    // let driverLapsLed = driverDivs
+    //   .append("div")
+    //   .attr("id", "tooltip-driver-laps-led");
 
-    let countLapsLedScale = d3.scaleLinear().domain([0, 1]).range([0, 100]);
+    // let countLapsLedScale = d3.scaleLinear().domain([0, 1]).range([0, 100]);
 
-    driverLapsLed.selectAll("svg").remove();
+    // driverLapsLed.selectAll("svg").remove();
 
-    let driverLapsLedSvg = driverLapsLed
-      .append("svg")
-      .attr("width", "90%")
-      .attr("height", 8)
-      .append("g");
+    // let driverLapsLedSvg = driverLapsLed
+    //   .append("svg")
+    //   .attr("width", "90%")
+    //   .attr("height", 8)
+    //   .append("g");
 
-    driverLapsLedSvg
-      .append("rect")
-      .attr("x", 0)
-      .attr("y", 0)
-      .attr("width", "100%")
-      .attr("height", 3)
-      .attr("fill", "#330b0b");
+    // driverLapsLedSvg
+    //   .append("rect")
+    //   .attr("x", 0)
+    //   .attr("y", 0)
+    //   .attr("width", "100%")
+    //   .attr("height", 3)
+    //   .attr("fill", "#330b0b");
 
-    driverLapsLedSvg
-      .append("rect")
-      .attr("x", 0)
-      .attr("y", 0)
-      .attr("width", (e) => {
-        console.log(e);
-        return `${countLapsLedScale(e.lapsLed / e.winnerLaps)}%`;
+    // driverLapsLedSvg
+    //   .append("rect")
+    //   .attr("x", 0)
+    //   .attr("y", 0)
+    //   .attr("width", (e) => {
+    //     console.log(e);
+    //     return `${countLapsLedScale(e.lapsLed / e.winnerLaps)}%`;
+    //   })
+    //   .attr("height", 3)
+    //   .attr("fill", colours.red);
+
+    // Tooltip - Driver cars
+    let driverCar = driverDivs.append("div").attr("id", "tooltip-driver-car");
+    driverCar
+      .append("img")
+      .attr("class", "car-image")
+      .attr("src", (e) => {
+        let carString = e.car.replace("/", "-");
+        return `SVG/svgCars/Cars_${carString}.svg`;
       })
-      .attr("height", 3)
-      .attr("fill", colours.red);
+      .attr("width", 70);
+
+    driverCar.append("p").text((e) => e.car);
   }
 
   // Checking if in viewport

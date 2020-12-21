@@ -15,7 +15,23 @@ header {
   height: 400px;
   background: linear-gradient(180deg, #d40000 70.65%, rgba(212, 0, 0, 0) 100%);
   padding: 64px 64px 120px 64px;
+  font-weight: 300;
+}
+
+#header-img {
+  display: flex;
+  justify-content: space-around;
+}
+
+#header-img img {
+  height: 300px;
+}
+
+#header-title {
+  display: grid;
+  grid-template-columns: 16% 66% 16%;
   margin-bottom: 60px;
+  justify-content: center;
 }
 
 header p {
@@ -27,6 +43,16 @@ header p {
   width: 100%;
 }
 
+#gif-wrapper {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  justify-items: center;
+  padding: 60px 10%;
+}
+
+#gif-wrapper img {
+  width: 100px;
+}
 
 #intro-legend {
   /* display: grid;
@@ -36,14 +62,23 @@ header p {
   grid-gap: 8%;
 }
 
-
-
-#story-intro {
-  padding-top: 36px;
+.story-intro {
+  padding: 0 20%;
+  text-align: center;
+  line-height: 1.6;
 }
 
-#story-intro p {
-  line-height: 1.6;
+.p-bold {
+  font-weight: 700;
+}
+
+#legend-wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+#legend-wrapper img {
+  height: 400px;
 }
 
 #viz-title {
@@ -59,6 +94,22 @@ header p {
 #viz {
   padding: 0 2% 0 0;
   display: inline-block;
+  position: relative;
+}
+
+#story-stats-wrapper {
+  position: relative;
+}
+
+#stats-wrapper {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+#stats-wdc-wrapper {
+  display: grid;
+  grid-template-columns: 50% 50%;
 }
 
 #sidebar {
@@ -90,11 +141,17 @@ header p {
   border: 1px solid #323232;
   padding: 16px;
   box-sizing: border-box;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
 }
 
 #ferrari-races-count {
   font-size: 12.8px;
-  margin-top: 8px; 
+  margin-top: 8px;
 }
 
 #races-count-wrapper,
@@ -224,17 +281,23 @@ header p {
   width: 100px;
   display: flex;
   justify-content: space-around;
-  font-size: 9px; 
+  font-size: 9px;
 }
 
 .tooltip-driver-symbols-labels p {
   width: 20px;
-  margin: 6px 0 0 0; 
+  margin: 6px 0 0 0;
   text-align: center;
 }
 
-#tooltip-driver-laps-led {
+/* #tooltip-driver-laps-led {
   margin-top: 16px;
+} */
+
+#tooltip-driver-car {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 #story-title {
@@ -260,7 +323,16 @@ header p {
   cursor: pointer;
 }
 
+footer {
+  font-weight: 300;
+  padding: 64px;
+}
+
 @media only screen and (max-width: 1000px) {
+  #header-title {
+    grid-template-columns: 8% 84% 8%;
+  }
+
   #intro-legend {
     /* display: grid;
     grid-template-columns: 50% 50%; */
