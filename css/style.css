@@ -350,7 +350,44 @@ footer {
   .grid-main {
     grid-template-columns: 60% auto;
   }
+
+
 }
+
+@media only screen and (max-width: 768px) {
+  #race-header-title {
+    font-size: 14.4px; 
+  }
+  #temp-image img {
+    width: 50px; 
+  }
+  #race-details, #ferrari-races-count, #drivers {
+    font-size: 11.5px; 
+  }
+
+  .driver-helmet {
+    width: 25%;
+  }
+  .driver-number {
+    font-size: 1rem; 
+  }
+
+  .tooltip-driver-position {
+    width: 24px; 
+    height: 24px; 
+  }
+
+  .tooltip-driver-position p {
+    font-size: 12.8px; 
+    line-height: 27px;
+  }
+
+  .car-image {
+    width: 40px;
+  }
+}
+
+
 @media only screen and (max-width: 414px) {
   header {
     padding: 64px 32px;
