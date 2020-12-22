@@ -107,61 +107,76 @@ let wCcInView = 0;
 let xScaleSp;
 let currentStoryLinks = null;
 let windowWidth;
+let numPerRow; 
+let size; 
+let mainCircleRadius; 
+let lineWidth; 
+let tiltAngle; 
 
 d3.json("ferrariData.json").then(function (ferrariData) {
   console.log(ferrariData);
 
-  /// VIZ ///
+  const handleResize = () => {
+    windowWidth = window.innerWidth;
+    drawViz(ferrariData);
+  };
 
-  windowWidth = window.innerWidth;
-
-  // Map Margins and dimensions
-  let marginViz = { top: 30, right: 70, bottom: 30, left: 70 };
-  let widthViz =
-    (windowWidth >= 768 ? windowWidth * 0.7 : 500) -
-    marginViz.left -
-    marginViz.right;
-
-  let grid, backgroundGrid, timeline, scaleGrid;
-  let numPerRow;
-  if (windowWidth >= 1000) {
-    numPerRow = 8;
-  } else {
-    numPerRow = 4;
-  }
-  const size = (widthViz - marginViz.left - marginViz.right) / numPerRow;
-  const mainCircleRadius = size / 3.5;
-  let lineWidth = size / 20;
-  let tiltAngle = 14; // Fixed
-
-  // Scale to set up grid
-  scaleGrid = d3
-    .scaleLinear()
-    .domain([0, numPerRow - 1])
-    .range([0, size * numPerRow]);
-
-  let heightViz = scaleGrid(Math.floor(ferrariData.length / numPerRow)) + size;
-
-  // Viz SVG
-  let wrapperViz = d3
-    .select("#viz")
-    .append("svg")
-    .attr("width", widthViz + marginViz.left + marginViz.right)
-    .attr("height", heightViz + marginViz.top + marginViz.bottom);
-
-  let bounds = wrapperViz
-    .append("g")
-    .attr(
-      "transform",
-      "translate(" + marginViz.left + "," + marginViz.top + ")"
-    );
-
-  // Initialize static elements
-  bounds.append("g").attr("class", "timeline-group");
-  bounds.append("g").attr("class", "background-group");
-  bounds.append("g").attr("class", "races-group");
+  window.addEventListener("resize", handleResize);
 
   function drawViz(dataset) {
+    /// VIZ ///
+
+    windowWidth = window.innerWidth;
+
+    // Map Margins and dimensions
+    let marginViz = { top: 30, right: 70, bottom: 30, left: 70 };
+    let widthViz =
+      (windowWidth >= 768 ? windowWidth * 0.7 : 500) -
+      marginViz.left -
+      marginViz.right;
+
+    let grid, backgroundGrid, timeline, scaleGrid;
+    numPerRow;
+    if (windowWidth >= 1000) {
+      numPerRow = 8;
+    } else {
+      numPerRow = 4;
+    }
+    size = (widthViz - marginViz.left - marginViz.right) / numPerRow;
+    mainCircleRadius = size / 3.5;
+    lineWidth = size / 20;
+    tiltAngle = 14; // Fixed
+
+    // Scale to set up grid
+    scaleGrid = d3
+      .scaleLinear()
+      .domain([0, numPerRow - 1])
+      .range([0, size * numPerRow]);
+
+    let heightViz =
+      scaleGrid(Math.floor(ferrariData.length / numPerRow)) + size;
+
+      d3.select("#viz").selectAll("svg").remove(); 
+
+    // Viz SVG
+    let wrapperViz = d3
+      .select("#viz")
+      .append("svg")
+      .attr("width", widthViz + marginViz.left + marginViz.right)
+      .attr("height", heightViz + marginViz.top + marginViz.bottom);
+
+    let bounds = wrapperViz
+      .append("g")
+      .attr(
+        "transform",
+        "translate(" + marginViz.left + "," + marginViz.top + ")"
+      );
+
+    // Initialize static elements
+    bounds.append("g").attr("class", "timeline-group");
+    bounds.append("g").attr("class", "background-group");
+    bounds.append("g").attr("class", "races-group");
+
     // Setting height of sidebar stats wrapper to ensure stats are at the bottom
     d3.select("#story-stats-wrapper").style(
       "height",
@@ -1212,6 +1227,10 @@ d3.json("ferrariData.json").then(function (ferrariData) {
   drawViz(ferrariData);
   drawSparklines(ferrariData);
 
+  
+
+  
+
   function tooltipFunction(raceObj) {
     raceInFocus = raceObj;
 
@@ -1539,9 +1558,3 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     );
   };
 });
-
-window.addEventListener("resize", getWidth);
-
-function getWidth() {
-  windowWidth = window.innerWidth;
-}
