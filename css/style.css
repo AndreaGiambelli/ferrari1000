@@ -353,7 +353,7 @@ footer {
 }
 @media only screen and (max-width: 414px) {
   header {
-    padding: 64px 32px 120px 32px;
+    padding: 64px 32px;
   }
 
   #header-img img {
@@ -363,9 +363,6 @@ footer {
 
 #turn-device {
   display: none;
-  position: absolute;
-  top: 75%;
-  left: 25%;
   text-align: center;
 }
 
