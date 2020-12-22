@@ -1260,18 +1260,19 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       d3.select("#race-details-wrapper")
         .style("display", "block")
         .style("left", `${ctm.e + size / 2}px`)
-        .style("top", `${ctm.f + 100}px`);
     } else if (ctm.e < 140 && numPerRow === 4) {
       d3.select("#race-details-wrapper")
         .style("display", "block")
         .style("left", `${ctm.e + size / 2}px`)
-        .style("top", `${ctm.f + 100}px`);
     } else {
       d3.select("#race-details-wrapper")
         .style("display", "block")
         .style("left", `${ctm.e - 160 + size / 2}px`)
-        .style("top", `${ctm.f + 100}px`);
     }
+
+    d3.select("#race-details-wrapper").style("top", c => {return innerWidth > 812 ? `${ctm.f + 100}px` : `${ctm.f + 70}px`}); 
+
+
 
     // Fade all elements
     d3.selectAll(".label").style("opacity", 0.3);
@@ -1306,10 +1307,10 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     console.log(raceObj.circuitName.circuitRef);
     console.log(raceObj.year);
 
-    d3.select("#temp-image img").remove();
+    d3.select("#circuit-image img").remove();
     d3.select("#car-model img").remove();
     // Tooltip - circuit image
-    d3.select("#temp-image")
+    d3.select("#circuit-image")
       .append("img")
       .attr("class", raceObj.circuitName.name)
       .attr(
