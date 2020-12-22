@@ -5,6 +5,12 @@ body {
   font-family: "Epilogue", sans-serif;
   color: white;
   box-sizing: border-box;
+  overflow: auto;
+}
+
+body.fixed {
+  height: 100%;
+  overflow: hidden;
 }
 
 a {
@@ -142,11 +148,11 @@ header p {
   padding: 16px;
   box-sizing: border-box;
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
 }
 
 #ferrari-races-count {
@@ -344,4 +350,29 @@ footer {
   .grid-main {
     grid-template-columns: 60% auto;
   }
+}
+@media only screen and (max-width: 414px) {
+  header {
+    padding: 64px 32px 120px 32px;
+  }
+
+  #header-img img {
+    height: 200px;
+  }
+}
+
+#turn-device {
+  display: none;
+  position: absolute;
+  top: 75%;
+  left: 25%;
+  text-align: center;
+}
+
+#turn-device.open {
+  display: block;
+}
+
+#turn-device img {
+  width: 48px;
 }

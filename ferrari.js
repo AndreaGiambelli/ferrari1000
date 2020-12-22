@@ -113,18 +113,33 @@ let mainCircleRadius;
 let lineWidth; 
 let tiltAngle; 
 
+if (window.innerWidth <= 414) {
+  d3.select("body").classed("fixed", true)
+  d3.select("#turn-device").classed("open", true)
+}
+
+/// READING DATA
 d3.json("ferrariData.json").then(function (ferrariData) {
   console.log(ferrariData);
 
+
   const handleResize = () => {
     windowWidth = window.innerWidth;
-    drawViz(ferrariData);
+    console.log(windowWidth)
+    if (windowWidth <= 414) {
+      d3.select("body").classed("fixed", true)
+      d3.select("#turn-device").classed("open", true)
+    } else {
+      d3.select("body").classed("fixed", false)
+      d3.select("#turn-device").classed("open", false)
+      drawViz(ferrariData);
+    }
   };
 
   window.addEventListener("resize", handleResize);
 
+  /// VIZ ///
   function drawViz(dataset) {
-    /// VIZ ///
 
     windowWidth = window.innerWidth;
 
