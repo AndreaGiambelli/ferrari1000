@@ -8,6 +8,10 @@ body {
   overflow: auto;
 }
 
+#story-title {
+  display: none;
+}
+
 body.fixed {
   height: 100%;
   overflow: hidden;
@@ -110,7 +114,7 @@ header p {
 #stats-wrapper {
   position: absolute;
   width: 100%;
-  bottom: 0;
+  bottom: -50px;
 }
 
 #stats-wdc-wrapper {
@@ -325,6 +329,7 @@ header p {
   font-size: 14.4px;
   font-weight: 300;
   line-height: 1.7;
+  margin: 0;
 }
 
 #story span {
@@ -364,9 +369,7 @@ footer {
 
 @media only screen and (max-width: 812px) {
 
-  #stats-wrapper {
-    display: none; 
-  }
+  
 
   #race-details-wrapper {
     width: 450px; 
@@ -456,6 +459,15 @@ footer {
     width: 30px;
   }
 }
+
+@media only screen and (max-width: 812px) and (orientation: landscape) {
+  #stats-wrapper {
+    display: none; 
+  }
+  #story {
+    font-size: 12px; 
+  }
+ }
 
 
 @media only screen and (max-width: 414px) {

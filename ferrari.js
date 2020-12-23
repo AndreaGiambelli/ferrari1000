@@ -511,7 +511,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         } else if (
           // Digiuno
           maxRaceInView > 506 &&
-          maxRaceInView < 565
+          maxRaceInView < 580
         ) {
           // console.log("digiuno");
           d3.select("#story-title").text("Setting up for the comeback");
@@ -521,47 +521,61 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         } else if (
           // MSC
           maxRaceInView > 581 &&
-          maxRaceInView < 606
+          maxRaceInView < 632
         ) {
           // console.log("Msc");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "Dawn of the Schumacher era Double world champion Michael Schumacher joins the team and takes a spectacular first win for Ferrari in the soaked <a id='Spa.96'>1996 Spanish GP</a>. With the best driver of his generation and a revamped technical team, the Scuderia is finally able to place a serious bid for the title in 97, which would end in misery after the controversial crash between Schumacher and Villeneuve at <a id='Eur.97'>European GP</a>. Finn Mika Hakkinen and his McLaren emerge the following year as new rivals, and not even Schumacher’s most heroic efforts would be enough to bring the title back to Maranello. The 1999 season takes an unexpected turn when the German is injured at the <a id='Gbr.99'>Silverstone</a>, which leaves his teammate Eddie Irvine to battle for the title with Hakkinen until <a id='Jap.99'>the last race</a>. The Finn takes the title again, but Ferrari celebrates its first Constructor’s championship in 16 years."
+            "Double world champion Michael Schumacher joins the team and takes a spectacular first win for Ferrari in the soaked <a id='Spa.96'>1996 Spanish GP</a>. With the best driver of his generation and a revamped technical team, the Scuderia is finally able to place a serious bid for the title in 97, which would end in misery after the controversial crash between Schumacher and Villeneuve at <a id='Eur.97'>European GP</a>. Finn Mika Hakkinen and his McLaren emerge the following year as new rivals, and not even Schumacher’s most heroic efforts would be enough to bring the title back to Maranello. The 1999 season takes an unexpected turn when the German is injured at the <a id='Gbr.99'>Silverstone</a>, which leaves his teammate Eddie Irvine to battle for the title with Hakkinen until <a id='Jap.99'>the last race</a>. The Finn takes the title again, but Ferrari celebrates its first Constructor’s championship in 16 years."
           );
         } else if (
           // 2000s
-          maxRaceInView > 606 &&
-          maxRaceInView < 702
+          maxRaceInView > 633 &&
+          maxRaceInView < 779
         ) {
           // console.log("Msc 2000s");
           d3.select("#story-title").text("Title");
-          d3.select("#story").html("Msc 2000s");
+          d3.select("#story").html(
+            "With a new teammate in Rubens Barrichello, and after another year spent battling with McLarens, at the 2000 Japanese GP Michael Schumacher finally brings the Driver’s World Title back to Maranello after 21 years. This will be the start of the most successful cycle for the team to date, with the German and Ferrari winning 5 back to back championships, effectively dominating the series and crushing all sorts of records. Rising star Fernando Alonso and his Renault manage to break the cycle by winning titles in 2005. At the end of a final, heroic yet unsuccessful title bid the following year against the Spaniard, Michael Schumacher retires from the sport. The 2006 Chinese GP would stand as his 91st and last victory, while his new teammate Felipe Massa takes his first one in Turkey. "
+          );
         } else if (
           // Last Championships
-          isInViewport(d3.select(`#r${741}`).node()) ||
-          isInViewport(d3.select(`#r${811}`).node())
+          maxRaceInView > 780 &&
+          maxRaceInView < 807
         ) {
           // console.log("Last championships");
           d3.select("#story-title").text("Title");
-          d3.select("#story").html("Last Championships, Alonso");
+          d3.select("#story").html(
+            "Kimi Raikkonen joins Ferrari for 2007, winning on his debut with the team in Australia. McLaren’s opposition—with world champion Fernando Alonso and rookie Lewis Hamilton—is mighty but unstable, and the Finn manages to take the title in a spectacular finale at Interlagos. 2008 brings more success with Ferrari winning its 16th Constructor’s Championship, but also heartbreak when Felipe Massa gets dramatically close to winning the title on his home turf, only to be beaten by Lewis Hamilton with an overtake at the very last corner. "
+          );
+        } else if (
+          // Early 2010s
+          maxRaceInView > 808 &&
+          maxRaceInView < 869
+        ) {
+          // console.log("Last championships");
+          d3.select("#story-title").text("Title");
+          d3.select("#story").html(
+            "Fernando Alonso is brought in to replace the retired Raikkonen and, like the Finn, he’s immediately successful. 2010 proves to be an exciting three-way battle against McLarens and Red Bulls, with Sebastian Vettel managing to pip Alonso for the title at the very last race in Abu Dhabi. The Spaniard is able to place another, heroic, bid for the title in 2012. Despite not having the fastest car, he and Ferrari manage to get 3 wins and to challenge Vettel until the season finale—unfortunately for the Scuderia, without success. "
+          );
         } else if (
           // Hybrid Era
-          isInViewport(d3.select(`#r${870}`).node()) ||
-          isInViewport(d3.select(`#r${981}`).node())
+          maxRaceInView > 870 &&
+          maxRaceInView < 981
         ) {
           // console.log("hybrid");
           d3.select("#story-title").text("Title");
           d3.select("#story").html("Hybrid Era");
         } else if (
           // Latest victories
-          isInViewport(d3.select(`#r${982}`).node()) ||
-          isInViewport(d3.select(`#r${993}`).node())
+          maxRaceInView > 982 &&
+          maxRaceInView < 1010
         ) {
           // console.log("latest");
           d3.select("#story-title").text("Title");
           d3.select("#story").html("Latest victories");
         } else {
-          d3.select("#story").html("none");
+          d3.select("#story").html("");
         }
 
         currentStoryLinks = d3.select("#story").selectAll("a");
@@ -601,20 +615,21 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             (e) => e.raceDetails.raceAbbrev === this.id
           );
 
+          $(document).ready(function () {
+            $("html, body").animate(
+              {
+                scrollTop:
+                  $(`#r${raceInFocus.raceIdFerrari}`).offset().top - 100,
+              },
+              800
+            );
+          });
+          raceInFocus = linkRace;
 
-          $(document)
-            .ready(function () {
-              $("html, body").animate(
-                {
-                  scrollTop:
-                    $(`#r${raceInFocus.raceIdFerrari}`).offset().top - 100,
-                },
-                800
-              );
-            })
-            raceInFocus = linkRace
-
-            setTimeout(function(){tooltipFunction(linkRace)}, 800);
+          // Timeout to set raceInFocus AFTER scroll is finished
+          setTimeout(function () {
+            tooltipFunction(linkRace);
+          }, 800);
 
           console.log(linkRace);
         });
@@ -964,7 +979,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     let angleScale = d3
       .scaleLinear()
       .domain([0, 1])
-      .range([-Math.PI / 2 + tiltAngle * (Math.PI / 180), 0]);
+      .range([-Math.PI / 2 + 1.5 * tiltAngle * (Math.PI / 180), 0]);
 
     gridEnter
       .append("g")
@@ -980,6 +995,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           .arc()
           .innerRadius(scaleGrid(0.32) - lineWidth / 4)
           .outerRadius(scaleGrid(0.32) + lineWidth / 4)
+          // .startAngle(-Math.PI / 2 + tiltAngle * (Math.PI / 180))
           .startAngle(-Math.PI / 2 + 1.5 * tiltAngle * (Math.PI / 180))
           .endAngle(angleScale(sum2 / parseInt(d.drivers[0].winnerLaps)));
         return arcValue(d);
