@@ -365,7 +365,7 @@ footer {
 @media only screen and (max-width: 812px) {
 
   #race-details-wrapper {
-    width: 250px; 
+    width: 450px; 
   }
 
   #race-header-title {
@@ -399,6 +399,14 @@ footer {
     display: none; 
   }
 
+  .driver-div {
+    width: 24%; 
+  }
+
+  .driver-name {
+    height: 24px;
+  }
+
   .driver-helmet {
     width: 25%;
   }
@@ -409,6 +417,7 @@ footer {
   .tooltip-driver-position {
     width: 24px; 
     height: 24px; 
+    margin-right: 8px; 
   }
 
   .tooltip-driver-position p {
@@ -417,7 +426,7 @@ footer {
   }
 
   .tooltip-driver-symbols, .tooltip-driver-symbols-labels {
-    width: 50px; 
+    width: 75%; 
     font-size: 7.5px;
   }
 
