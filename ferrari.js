@@ -107,31 +107,30 @@ let wCcInView = 0;
 let xScaleSp;
 let currentStoryLinks = null;
 let windowWidth;
-let numPerRow; 
-let size; 
-let mainCircleRadius; 
-let lineWidth; 
-let tiltAngle; 
+let numPerRow;
+let size;
+let mainCircleRadius;
+let lineWidth;
+let tiltAngle;
 
 if (window.innerWidth <= 414) {
-  d3.select("body").classed("fixed", true)
-  d3.select("#turn-device").classed("open", true)
+  d3.select("body").classed("fixed", true);
+  d3.select("#turn-device").classed("open", true);
 }
 
 /// READING DATA
 d3.json("ferrariData.json").then(function (ferrariData) {
   console.log(ferrariData);
 
-
   const handleResize = () => {
     windowWidth = window.innerWidth;
-    console.log(windowWidth)
+    console.log(windowWidth);
     if (windowWidth <= 414) {
-      d3.select("body").classed("fixed", true)
-      d3.select("#turn-device").classed("open", true)
+      d3.select("body").classed("fixed", true);
+      d3.select("#turn-device").classed("open", true);
     } else {
-      d3.select("body").classed("fixed", false)
-      d3.select("#turn-device").classed("open", false)
+      d3.select("body").classed("fixed", false);
+      d3.select("#turn-device").classed("open", false);
       drawViz(ferrariData);
     }
   };
@@ -140,7 +139,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
   /// VIZ ///
   function drawViz(dataset) {
-
     windowWidth = window.innerWidth;
 
     // Map Margins and dimensions
@@ -152,7 +150,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
     let grid, backgroundGrid, timeline, scaleGrid;
     numPerRow;
-    if (windowWidth >= 1000) {
+    if (windowWidth >= 1200) {
       numPerRow = 8;
     } else {
       numPerRow = 4;
@@ -171,7 +169,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     let heightViz =
       scaleGrid(Math.floor(ferrariData.length / numPerRow)) + size;
 
-      d3.select("#viz").selectAll("svg").remove(); 
+    d3.select("#viz").selectAll("svg").remove();
 
     // Viz SVG
     let wrapperViz = d3
@@ -459,6 +457,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           }
         });
 
+        console.log(maxRaceInView);
+
         d3.select("#winsInView").text(`${winsInView}`);
         d3.select("#polesInView").text(`${polesInView}`);
         d3.select("#flInView").text(`${flInView}`);
@@ -482,24 +482,26 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           );
         } else if (
           // The 1970s
-          isInViewport(d3.select(`#r${230}`).node()) ||
-          isInViewport(d3.select(`#r${267}`).node())
+          maxRaceInView > 230 &&
+          maxRaceInView < 267
         ) {
           // console.log("1970s");
           d3.select("#story-title").text("Title");
           d3.select("#story").html("1970s");
         } else if (
           // The Turbo era
-          isInViewport(d3.select(`#r${317}`).node()) ||
-          isInViewport(d3.select(`#r${363}`).node())
+          maxRaceInView > 317 &&
+          maxRaceInView < 363
         ) {
           // console.log("turbo era");
           d3.select("#story-title").text("Title");
           d3.select("#story").html("inizio turbo era, gilles, alboreto");
         } else if (
           // 88-90
-          isInViewport(d3.select(`#r${436}`).node()) ||
-          isInViewport(d3.select(`#r${462}`).node())
+          maxRaceInView > 436 &&
+          maxRaceInView < 505
+          // isInViewport(d3.select(`#r${436}`).node()) ||
+          // isInViewport(d3.select(`#r${462}`).node())
         ) {
           // console.log("88-90");
           d3.select("#story-title").text("Title");
@@ -508,18 +510,18 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           );
         } else if (
           // Digiuno
-          isInViewport(d3.select(`#r${473}`).node()) ||
-          isInViewport(d3.select(`#r${515}`).node())
+          maxRaceInView > 506 &&
+          maxRaceInView < 565
         ) {
           // console.log("digiuno");
-          d3.select("#story-title").text("Title");
+          d3.select("#story-title").text("Setting up for the comeback");
           d3.select("#story").html(
-            "Setting up for the comeback With the arrival of Jean Todt as team principal and the comeback of Luca di Montezemolo, Ferrari lays the foundation for a strong comeback. Gerhard Berger claims the team’s first victory in 4 years at the <a id='Ger.94'>1994 German GP</a>, while Jean Alesi gets his long-awaited first win the following year <a id='Can.95'>in Canada</a>. Nicola Larini takes the last podium to date for an Italian driver on a Ferrari, during the tragic <a id='Smr.94'>Imola weekend</a> which claimed the lives of Roland Ratzenberger and Ayrton Senna. "
+            "With the arrival of Jean Todt as team principal and the comeback of Luca di Montezemolo, Ferrari lays the foundation for a strong comeback. Gerhard Berger claims the team’s first victory in 4 years at the <a id='Ger.94'>1994 German GP</a>, while Jean Alesi gets his long-awaited first win the following year <a id='Can.95'>in Canada</a>. Nicola Larini takes the last podium to date for an Italian driver on a Ferrari, during the tragic <a id='Smr.94'>Imola weekend</a> which claimed the lives of Roland Ratzenberger and Ayrton Senna. "
           );
         } else if (
           // MSC
-          isInViewport(d3.select(`#r${566}`).node()) ||
-          isInViewport(d3.select(`#r${606}`).node())
+          maxRaceInView > 581 &&
+          maxRaceInView < 606
         ) {
           // console.log("Msc");
           d3.select("#story-title").text("Title");
@@ -528,8 +530,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           );
         } else if (
           // 2000s
-          isInViewport(d3.select(`#r${619}`).node()) ||
-          isInViewport(d3.select(`#r${702}`).node())
+          maxRaceInView > 606 &&
+          maxRaceInView < 702
         ) {
           // console.log("Msc 2000s");
           d3.select("#story-title").text("Title");
@@ -565,26 +567,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         currentStoryLinks = d3.select("#story").selectAll("a");
 
         // console.log(currentStoryLinks);
-        currentStoryLinks.on("click", function (d) {
-          d3.event.stopPropagation();
-
-          $(document).ready(function () {
-            $("html, body").animate(
-              {
-                scrollTop:
-                  $(`#r${raceInFocus.raceIdFerrari}`).offset().top - 100,
-              },
-              800
-            );
-          });
-
-          // console.log(this.id);
-          let linkRace = dataset.find(
-            (e) => e.raceDetails.raceAbbrev === this.id
-          );
-          // console.log(linkRace);
-          tooltipFunction(linkRace);
-        });
 
         if (raceInFocus) {
           let inFocusNode = d3.select(`#r${raceInFocus.raceIdFerrari}`).node();
@@ -610,6 +592,32 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             raceInFocus = undefined;
           }
         }
+
+        currentStoryLinks.on("click", function (d) {
+          d3.event.stopPropagation();
+
+          console.log(this.id);
+          let linkRace = dataset.find(
+            (e) => e.raceDetails.raceAbbrev === this.id
+          );
+
+
+          $(document)
+            .ready(function () {
+              $("html, body").animate(
+                {
+                  scrollTop:
+                    $(`#r${raceInFocus.raceIdFerrari}`).offset().top - 100,
+                },
+                800
+              );
+            })
+            raceInFocus = linkRace
+
+            setTimeout(function(){tooltipFunction(linkRace)}, 800);
+
+          console.log(linkRace);
+        });
       },
       false
     );
@@ -1242,37 +1250,37 @@ d3.json("ferrariData.json").then(function (ferrariData) {
   drawViz(ferrariData);
   drawSparklines(ferrariData);
 
-  
-
-  
-
   function tooltipFunction(raceObj) {
     raceInFocus = raceObj;
 
     let thisNode = d3.select(`#r${raceObj.raceIdFerrari}`).node();
-    // console.log(raceObj);
+    console.log("NOWW");
     // console.log(thisNode);
 
     let ctm = thisNode.getCTM();
-    // console.log(thisNode.getCTM());
+    console.log(thisNode.getCTM());
 
     if (ctm.e < 160 && numPerRow === 8) {
-      d3.select("#race-details-wrapper")
-        .style("display", "block")
-        .style("left", `${ctm.e + size / 2}px`)
+      d3.select("#race-details-wrapper").style("left", `${ctm.e + size / 2}px`);
     } else if (ctm.e < 140 && numPerRow === 4) {
-      d3.select("#race-details-wrapper")
-        .style("display", "block")
-        .style("left", `${ctm.e + size / 2}px`)
+      d3.select("#race-details-wrapper").style("left", `${ctm.e + size / 2}px`);
+    } else if (ctm.e > 320 && numPerRow === 4) {
+      d3.select("#race-details-wrapper").style(
+        "left",
+        `${ctm.e - raceObj.drivers.length * 60}px`
+      );
     } else {
-      d3.select("#race-details-wrapper")
-        .style("display", "block")
-        .style("left", `${ctm.e - 160 + size / 2}px`)
+      d3.select("#race-details-wrapper").style(
+        "left",
+        `${ctm.e - 160 + size / 2}px`
+      );
     }
 
-    d3.select("#race-details-wrapper").style("top", c => {return innerWidth > 812 ? `${ctm.f + 100}px` : `${ctm.f + 70}px`}); 
-
-
+    d3.select("#race-details-wrapper")
+      .style("display", "block")
+      .style("top", (c) => {
+        return innerWidth > 812 ? `${ctm.f + 100}px` : `${ctm.f + 70}px`;
+      });
 
     // Fade all elements
     d3.selectAll(".label").style("opacity", 0.3);
@@ -1304,8 +1312,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       `${raceObj.year} ${raceObj.raceDetails.raceName}`
     );
 
-    console.log(raceObj.circuitName.circuitRef);
-    console.log(raceObj.year);
+    console.log(raceObj.raceIdFerrari);
 
     d3.select("#circuit-image img").remove();
     d3.select("#car-model img").remove();
@@ -1559,6 +1566,24 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("width", 70);
 
     driverCar.append("p").text((e) => e.car);
+
+    if (innerWidth <= 812) {
+      d3.select("#race-details-wrapper").style("width", (c) => {
+        return raceObj.drivers.length <= 2
+          ? "250px"
+          : raceObj.drivers.length === 3
+          ? "350px"
+          : "450px";
+      });
+
+      d3.selectAll(".driver-div").style("width", (c) => {
+        return raceObj.drivers.length <= 2
+          ? "50%"
+          : raceObj.drivers.length === 3
+          ? "33%"
+          : "24%";
+      });
+    }
   }
 
   // Checking if in viewport
