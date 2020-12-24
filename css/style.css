@@ -64,6 +64,12 @@ header p {
   width: 100px;
 }
 
+#race-portrait-label {
+  margin-top: 64px;
+  margin-bottom: 0px;
+  font-size: 20px;
+}
+
 #intro-legend {
   /* display: grid;
   grid-template-columns: auto 30%; */
@@ -93,6 +99,10 @@ header p {
 
 #viz-title {
   margin: 0 0 24px 6%;
+}
+
+#viz-title img {
+  width: 60%; 
 }
 
 .grid-main {
@@ -252,11 +262,11 @@ header p {
 }
 
 #ferrari-races-count {
-  display: block; 
+  display: block;
 }
 
 #drivers-title {
-  display: block; 
+  display: block;
 }
 
 .tooltip-driver-result-wrapper {
@@ -363,25 +373,20 @@ footer {
   .grid-main {
     grid-template-columns: 60% auto;
   }
-
-
 }
 
 @media only screen and (max-width: 812px) {
-
-  
-
   #race-details-wrapper {
-    width: 450px; 
+    width: 450px;
   }
 
   #race-header-title {
-    font-size: 13.6px; 
+    font-size: 13.6px;
     margin-bottom: 8px;
   }
 
   #circuit-image {
-    margin-right: 8px; 
+    margin-right: 8px;
   }
 
   #circuit-image img {
@@ -394,20 +399,22 @@ footer {
     transform: translateY(0);
   }
 
-  #race-details, #ferrari-races-count, #drivers {
-    font-size: 11.5px; 
+  #race-details,
+  #ferrari-races-count,
+  #drivers {
+    font-size: 11.5px;
   }
 
   #race-circuit {
-    margin-bottom: 4px!important;
+    margin-bottom: 4px !important;
   }
 
   #ferrari-races-count {
-    display: none; 
+    display: none;
   }
 
   #drivers-title {
-    display: none; 
+    display: none;
   }
 
   .driver-div {
@@ -424,35 +431,36 @@ footer {
     height: auto;
   }
   .driver-number {
-    font-size: 0.8rem; 
+    font-size: 0.8rem;
     vertical-align: middle;
     transform: translateY(0px);
     margin-bottom: 8px;
   }
 
   .tooltip-driver-position {
-    width: 24px; 
-    height: 24px; 
-    margin-right: 8px; 
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
   }
 
   .tooltip-driver-position p {
-    font-size: 12.8px; 
+    font-size: 12.8px;
     line-height: 27px;
   }
 
-  .tooltip-driver-symbols, .tooltip-driver-symbols-labels {
-    width: 75%; 
+  .tooltip-driver-symbols,
+  .tooltip-driver-symbols-labels {
+    width: 75%;
     font-size: 7.5px;
   }
 
   #tooltip-driver-car {
-    width: 74px; 
-    font-size: 9px; 
+    width: 74px;
+    font-size: 9px;
   }
 
   #tooltip-driver-car p {
-    margin: 0px; 
+    margin: 0px;
   }
 
   .car-image {
@@ -462,13 +470,12 @@ footer {
 
 @media only screen and (max-width: 812px) and (orientation: landscape) {
   #stats-wrapper {
-    display: none; 
+    display: none;
   }
   #story {
-    font-size: 12px; 
+    font-size: 12px;
   }
- }
-
+}
 
 @media only screen and (max-width: 414px) {
   header {

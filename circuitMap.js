@@ -607,6 +607,12 @@ let circuitMap = [
       "svgPath": "SVG/svgCircuits/Circuits_osterreichring_1997.svg"
     },
     {
+      "name": "red_bull_ring",
+      yearFirst: 2014,
+      yearLast: 2020,
+      "svgPath": "SVG/svgCircuits/Circuits_red_bull_ring_2014.svg"
+    },
+    {
       "name": "reims",
       yearFirst: 1950,
       yearLast: 1952,

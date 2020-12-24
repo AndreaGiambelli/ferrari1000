@@ -112,6 +112,7 @@ let size;
 let mainCircleRadius;
 let lineWidth;
 let tiltAngle;
+let topOffset; 
 
 if (window.innerWidth <= 414) {
   d3.select("body").classed("fixed", true);
@@ -133,13 +134,24 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       d3.select("#turn-device").classed("open", false);
       drawViz(ferrariData);
     }
+
+    
   };
+
+  
 
   window.addEventListener("resize", handleResize);
 
   /// VIZ ///
   function drawViz(dataset) {
     windowWidth = window.innerWidth;
+
+    if (windowWidth <= 812) {
+      topOffset = 500
+      console.log(topOffset)
+    } else {
+      topOffset = 100; 
+    }
 
     // Map Margins and dimensions
     let marginViz = { top: 30, right: 70, bottom: 30, left: 70 };
@@ -465,25 +477,42 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         d3.select("#wDcInView").text(`WDC: ${wDcInView}`);
         d3.select("#wCcInView").text(`Constructors: ${wCcInView}`);
 
-        if (isInViewport(d3.select(`#r${1}`).node())) {
+        if (maxRaceInView > 1 &&
+          maxRaceInView < 57) {
           // console.log("early years");
           d3.select("#story-title").text("The Early Years");
           d3.select("#story").html(
             "On May 21, 1950, <span>Scuderia Ferrari</span> makes its debut in the Formula 1 World Championship, in the second round of the newly-born series at the <a id='Mon.50'>Monaco GP</a>. Italian driver Alberto Ascari’s finishes second in the race, claiming the team’s maiden podium, while the first victory comes the following year, thanks to José Froilan Gonzalez at <a id='Gbr.51'>Silverstone</a>. The team’s constant growth and the retirement of early rivals Alfa Romeo, would set the stage for the first winning cycle of the Scuderia. Ascari takes back to back world championships in 1952 and 1953, totally dominating the series and setting <a href='https://en.wikipedia.org/wiki/Alberto_Ascari#Formula_One_records' target='_blank'>records that still stand to this day. </a>"
           );
         } else if (
-          isInViewport(d3.select(`#r${49}`).node()) ||
-          isInViewport(d3.select(`#r${88}`).node())
+          maxRaceInView > 58 &&
+          maxRaceInView < 88
         ) {
           // console.log("early years");
-          d3.select("#story-title").text("Tragedies and success in the 50’s");
           d3.select("#story").html(
             "Ascari would move to rival team Lancia, before passing in a tragic accident at Monza. Argentinian legend-in-the-making Juan Manuel Fangio joins Ferrari in 1956, and wins his 4th world championship in a dramatic fashion at the <a id='Ita.56'>Italian GP</a>: his car breaks down but teammate Peter Collins, himself a title contender, sportingly hands his own car to Fangio during a pit stop, allowing him to take the title. 1957 proves unsuccessful and brings more tragedies as two Ferrari drivers, Eugenio Castellotti and Alfonso De Portago are killed in non-F1 racing cars. Mike Hawthorn takes the Scuderia’s last title of the 50’s with just a single win at the <a id='Fra.58'>French GP</a>, in the cursed 1958 in which two drivers, Luigi Musso and Peter Collins, are killed while racing their Ferraris."
           );
-        } else if (
+        }  else if (
+          maxRaceInView > 88 &&
+          maxRaceInView < 149
+        ) {
+          // console.log("early sixties");
+          d3.select("#story").html(
+            "Early sixties"
+          );
+        }   else if (
+          maxRaceInView > 150 &&
+          maxRaceInView < 201
+        ) {
+          // console.log("60s-70s");
+          d3.select("#story").html(
+            "60s-70s"
+          );
+        } 
+        else if (
           // The 1970s
-          maxRaceInView > 230 &&
-          maxRaceInView < 267
+          maxRaceInView > 201 &&
+          maxRaceInView < 316
         ) {
           // console.log("1970s");
           d3.select("#story-title").text("Title");
@@ -491,15 +520,15 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         } else if (
           // The Turbo era
           maxRaceInView > 317 &&
-          maxRaceInView < 363
+          maxRaceInView < 436
         ) {
           // console.log("turbo era");
           d3.select("#story-title").text("Title");
           d3.select("#story").html("inizio turbo era, gilles, alboreto");
         } else if (
           // 88-90
-          maxRaceInView > 436 &&
-          maxRaceInView < 505
+          maxRaceInView >= 436 &&
+          maxRaceInView < 515
           // isInViewport(d3.select(`#r${436}`).node()) ||
           // isInViewport(d3.select(`#r${462}`).node())
         ) {
@@ -510,8 +539,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           );
         } else if (
           // Digiuno
-          maxRaceInView > 506 &&
-          maxRaceInView < 580
+          maxRaceInView > 516 &&
+          maxRaceInView < 576
         ) {
           // console.log("digiuno");
           d3.select("#story-title").text("Setting up for the comeback");
@@ -520,8 +549,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           );
         } else if (
           // MSC
-          maxRaceInView > 581 &&
-          maxRaceInView < 632
+          maxRaceInView >= 576 &&
+          maxRaceInView < 653
         ) {
           // console.log("Msc");
           d3.select("#story-title").text("Title");
@@ -530,50 +559,54 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           );
         } else if (
           // 2000s
-          maxRaceInView > 633 &&
-          maxRaceInView < 779
+          maxRaceInView > 653 &&
+          maxRaceInView < 764
         ) {
           // console.log("Msc 2000s");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "With a new teammate in Rubens Barrichello, and after another year spent battling with McLarens, at the 2000 Japanese GP Michael Schumacher finally brings the Driver’s World Title back to Maranello after 21 years. This will be the start of the most successful cycle for the team to date, with the German and Ferrari winning 5 back to back championships, effectively dominating the series and crushing all sorts of records. Rising star Fernando Alonso and his Renault manage to break the cycle by winning titles in 2005. At the end of a final, heroic yet unsuccessful title bid the following year against the Spaniard, Michael Schumacher retires from the sport. The 2006 Chinese GP would stand as his 91st and last victory, while his new teammate Felipe Massa takes his first one in Turkey. "
+            "With a new teammate in Rubens Barrichello, and after another year spent battling with McLarens, at the <a id='Jap.00'>2000 Japanese GP</a> Michael Schumacher finally brings the Driver’s World Title back to Maranello after 21 years. This will be the start of the most successful cycle for the team to date, with the German and Ferrari winning 5 back to back championships, effectively dominating the series and crushing all sorts of records. Rising star Fernando Alonso and his Renault manage to break the cycle by winning titles in 2005. At the end of a final, heroic yet unsuccessful title bid the following year against the Spaniard, Michael Schumacher retires from the sport. The <a id='Chi.06'>2006 Chinese GP</a> would stand as his 91st and last victory, while his new teammate Felipe Massa takes his first one in <a id='Tur.06'>Turkey</a>. "
           );
         } else if (
           // Last Championships
-          maxRaceInView > 780 &&
-          maxRaceInView < 807
+          maxRaceInView >= 764 &&
+          maxRaceInView < 824
         ) {
           // console.log("Last championships");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "Kimi Raikkonen joins Ferrari for 2007, winning on his debut with the team in Australia. McLaren’s opposition—with world champion Fernando Alonso and rookie Lewis Hamilton—is mighty but unstable, and the Finn manages to take the title in a spectacular finale at Interlagos. 2008 brings more success with Ferrari winning its 16th Constructor’s Championship, but also heartbreak when Felipe Massa gets dramatically close to winning the title on his home turf, only to be beaten by Lewis Hamilton with an overtake at the very last corner. "
+            "Kimi Raikkonen joins Ferrari for 2007, winning on his debut with the team in <a id='Aus.07'>Australia</a>. McLaren’s opposition—with world champion Fernando Alonso and rookie Lewis Hamilton—is mighty but unstable, and the Finn manages to take the title in a spectacular finale at <a id='Bra.07'>Interlagos</a>. 2008 brings more success with Ferrari winning its 16th Constructor’s Championship, but also heartbreak when Felipe Massa gets dramatically close to winning the title <a id='Bra.08'>on his home turf</a>, only to be beaten by Lewis Hamilton with an overtake at the very last corner. "
           );
         } else if (
           // Early 2010s
-          maxRaceInView > 808 &&
-          maxRaceInView < 869
+          maxRaceInView > 824 &&
+          maxRaceInView < 876
         ) {
           // console.log("Last championships");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "Fernando Alonso is brought in to replace the retired Raikkonen and, like the Finn, he’s immediately successful. 2010 proves to be an exciting three-way battle against McLarens and Red Bulls, with Sebastian Vettel managing to pip Alonso for the title at the very last race in Abu Dhabi. The Spaniard is able to place another, heroic, bid for the title in 2012. Despite not having the fastest car, he and Ferrari manage to get 3 wins and to challenge Vettel until the season finale—unfortunately for the Scuderia, without success. "
+            "Fernando Alonso is brought in to replace the retired Raikkonen and, like the Finn, he’s <a id='Bah.10'>immediately successful</a>. 2010 proves to be an exciting three-way battle against McLarens and Red Bulls, with Sebastian Vettel managing to pip Alonso for the title at the very last race in <a id='Abu.10'>Abu Dhabi</a>. The Spaniard is able to place another, heroic, bid for the title in 2012. Despite not having the fastest car, he and Ferrari manage to get 3 wins and to challenge Vettel until the <a id='Bra.12'>season finale</a>—unfortunately for the Scuderia, without success. "
           );
         } else if (
           // Hybrid Era
-          maxRaceInView > 870 &&
+          maxRaceInView >= 876 &&
           maxRaceInView < 981
         ) {
           // console.log("hybrid");
           d3.select("#story-title").text("Title");
-          d3.select("#story").html("Hybrid Era");
+          d3.select("#story").html(
+            "The last Ferrari world champion to date, Kimi Raikkonen, rejoins the team for 2014—a challenging year for the Scuderia as the sport enters its Hybrid era. After 9 years, another German champion joins Ferrari the following season: Sebastian Vettel, who manages to win in his second race for the team at the <a id='Mal.15'>Malaysian GP</a>. The outfit from Maranello is finally back to being a title contender in 2017, scoring 5 wins including a 1-2 on the streets of <a id='Mon.17'>Monaco</a>. Lewis Hamilton and his Mercedes would ultimately claim the titles, amid technical woes, some errors and <a id='Sin.17'>a bit of bad luck</a> for the Scuderia. 2018 is a similar story: after a very strong first half of the season, Vettel’s and Ferrari’s efforts are not enough to beat Hamilton. "
+          );
         } else if (
           // Latest victories
-          maxRaceInView > 982 &&
+          maxRaceInView > 991 &&
           maxRaceInView < 1010
         ) {
           // console.log("latest");
           d3.select("#story-title").text("Title");
-          d3.select("#story").html("Latest victories");
+          d3.select("#story").html(
+            "Young Monegasque Charles Leclerc replaces Raikkonen for the 2019 season, and claims spectacular back to back victories at <a id='Bel.19'>Spa</a> and <a id='Ita.19'>Monza</a>. Vettel leads a 1-2 at the following race in <a id='Sin.19'>Singapore</a>, claiming the Scuderia’s last victory to date, but besides these highlight the championship is once again dominated by Lewis Hamilton and Mercedes. 2020, as the sport manages to put together a calendar of races despite the global pandemic, proves to be a very hard year in terms of results for the team—Leclerc’s second place in the <a id='Aut.20'>first race</a> would stand to be the best result of the whole season. Nevertheless, the season brings some opportunity for celebration as Ferrari reaches the 1000th race landmark on home turf at <a id='Tus.20'>Mugello</a>. 2021 will once again bring on change, with Carlos Sainz as Leclerc’s new teammate. All fans—<i>tifosi</i>—hope the Scuderia will be able to add some more red symbols to this timeline soon. "
+          );
         } else {
           d3.select("#story").html("");
         }
@@ -619,7 +652,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             $("html, body").animate(
               {
                 scrollTop:
-                  $(`#r${raceInFocus.raceIdFerrari}`).offset().top - 100,
+                  $(`#r${raceInFocus.raceIdFerrari}`).offset().top - topOffset,
               },
               800
             );
