@@ -112,7 +112,7 @@ let size;
 let mainCircleRadius;
 let lineWidth;
 let tiltAngle;
-let topOffset; 
+let topOffset;
 
 if (window.innerWidth <= 414) {
   d3.select("body").classed("fixed", true);
@@ -134,11 +134,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       d3.select("#turn-device").classed("open", false);
       drawViz(ferrariData);
     }
-
-    
   };
-
-  
 
   window.addEventListener("resize", handleResize);
 
@@ -147,10 +143,10 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     windowWidth = window.innerWidth;
 
     if (windowWidth <= 812) {
-      topOffset = 500
-      console.log(topOffset)
+      topOffset = 500;
+      console.log(topOffset);
     } else {
-      topOffset = 100; 
+      topOffset = 100;
     }
 
     // Map Margins and dimensions
@@ -474,42 +470,43 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         d3.select("#winsInView").text(`${winsInView}`);
         d3.select("#polesInView").text(`${polesInView}`);
         d3.select("#flInView").text(`${flInView}`);
-        d3.select("#wDcInView").text(`WDC: ${wDcInView}`);
-        d3.select("#wCcInView").text(`Constructors: ${wCcInView}`);
 
-        if (maxRaceInView > 1 &&
-          maxRaceInView < 57) {
+        d3.select("#wDcSymbols").selectAll(".championship-symbol").remove();
+        for (i = 0; i < wDcInView; i++) {
+          d3.select("#wDcSymbols")
+            .append("div")
+            .attr("class", "championship-symbol");
+        }
+        d3.select("#wDcInViewValue").text(wDcInView)
+        
+
+        d3.select("#wCcSymbols").selectAll(".championship-symbol").remove();
+        for (i = 0; i < wCcInView; i++) {
+          d3.select("#wCcSymbols")
+            .append("div")
+            .attr("class", "championship-symbol").append("img").attr("src", );
+        }
+        d3.select("#wCcInViewValue").text(wCcInView)
+
+
+        if (maxRaceInView > 1 && maxRaceInView < 57) {
           // console.log("early years");
           d3.select("#story-title").text("The Early Years");
           d3.select("#story").html(
             "On May 21, 1950, <span>Scuderia Ferrari</span> makes its debut in the Formula 1 World Championship, in the second round of the newly-born series at the <a id='Mon.50'>Monaco GP</a>. Italian driver Alberto Ascari’s finishes second in the race, claiming the team’s maiden podium, while the first victory comes the following year, thanks to José Froilan Gonzalez at <a id='Gbr.51'>Silverstone</a>. The team’s constant growth and the retirement of early rivals Alfa Romeo, would set the stage for the first winning cycle of the Scuderia. Ascari takes back to back world championships in 1952 and 1953, totally dominating the series and setting <a href='https://en.wikipedia.org/wiki/Alberto_Ascari#Formula_One_records' target='_blank'>records that still stand to this day. </a>"
           );
-        } else if (
-          maxRaceInView > 58 &&
-          maxRaceInView < 88
-        ) {
+        } else if (maxRaceInView > 58 && maxRaceInView < 88) {
           // console.log("early years");
           d3.select("#story").html(
             "Ascari would move to rival team Lancia, before passing in a tragic accident at Monza. Argentinian legend-in-the-making Juan Manuel Fangio joins Ferrari in 1956, and wins his 4th world championship in a dramatic fashion at the <a id='Ita.56'>Italian GP</a>: his car breaks down but teammate Peter Collins, himself a title contender, sportingly hands his own car to Fangio during a pit stop, allowing him to take the title. 1957 proves unsuccessful and brings more tragedies as two Ferrari drivers, Eugenio Castellotti and Alfonso De Portago are killed in non-F1 racing cars. Mike Hawthorn takes the Scuderia’s last title of the 50’s with just a single win at the <a id='Fra.58'>French GP</a>, in the cursed 1958 in which two drivers, Luigi Musso and Peter Collins, are killed while racing their Ferraris."
           );
-        }  else if (
-          maxRaceInView > 88 &&
-          maxRaceInView < 149
-        ) {
+        } else if (maxRaceInView > 88 && maxRaceInView < 149) {
           // console.log("early sixties");
-          d3.select("#story").html(
-            "Early sixties"
-          );
-        }   else if (
-          maxRaceInView > 150 &&
-          maxRaceInView < 201
-        ) {
+          d3.select("#story").html("Early sixties");
+        } else if (maxRaceInView > 150 && maxRaceInView < 201) {
           // console.log("60s-70s");
-          d3.select("#story").html(
-            "60s-70s"
-          );
-        } 
-        else if (
+          d3.select("#story").html("60s-70s");
+        } else if (
           // The 1970s
           maxRaceInView > 201 &&
           maxRaceInView < 316

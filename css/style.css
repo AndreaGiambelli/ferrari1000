@@ -102,7 +102,7 @@ header p {
 }
 
 #viz-title img {
-  width: 60%; 
+  width: 60%;
 }
 
 .grid-main {
@@ -128,8 +128,13 @@ header p {
 }
 
 #stats-wdc-wrapper {
+  width: 78%;
   display: grid;
   grid-template-columns: 50% 50%;
+}
+
+#stats-wdc-wrapper p {
+  display: inline-block;
 }
 
 #sidebar {
@@ -376,6 +381,21 @@ footer {
 }
 
 @media only screen and (max-width: 812px) {
+
+  #stats-wdc-wrapper {
+    width: 100%; 
+  }
+
+  #stats-wdc-wrapper p {
+    display: block; 
+  }
+
+  .championship-symbol {
+    width: 10px;
+    height: 10px;
+  }
+
+
   #race-details-wrapper {
     width: 450px;
   }
@@ -468,7 +488,16 @@ footer {
   }
 }
 
-@media only screen and (max-width: 812px) and (orientation: landscape) {
+.championship-symbol {
+  background: #d40000;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  margin-right: 3px; 
+  border-radius: 50%; 
+}
+
+@media only screen and (max-width: 1024px) and (orientation: landscape) {
   #stats-wrapper {
     display: none;
   }
@@ -499,3 +528,5 @@ footer {
 #turn-device img {
   width: 48px;
 }
+
+

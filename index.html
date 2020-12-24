@@ -34,11 +34,7 @@
         <div id="header-title">
           <div></div>
           <div>
-            <img
-              class="title-img"
-              src="SVG/Title.svg"
-              alt="Ferrari 1000+"
-            />
+            <img class="title-img" src="SVG/Title.svg" alt="Ferrari 1000+" />
             <p>
               Exploring the Prancing Horse’s first 70 years in Formula&nbsp1
             </p>
@@ -56,7 +52,10 @@
 
     <div class="turn-device" id="turn-device">
       <p>Please turn your device</p>
-      <img src="Icons/turn-device-01.svg" alt="Please turn your device to horizontal orientation">
+      <img
+        src="Icons/turn-device-01.svg"
+        alt="Please turn your device to horizontal orientation"
+      />
     </div>
 
     <section id="intro-legend">
@@ -154,10 +153,19 @@
               <p>Fastest Laps</p>
               <div id="sp-fl"></div>
             </div>
-            <div id="stats-wdc-title">World Championships</div>
             <div id="stats-wdc-wrapper">
-              <p id="wDcInView">0</p>
-              <p id="wCcInView">0</p>
+              <div >
+                <p id="wDcInView" style="margin-right: 8px; font-size: 13.6px;">Driver's titles</p>
+                <p id="wDcInViewValue" style="font-size: 13.6px;">1</p>
+
+                <div id="wDcSymbols"></div>
+              </div>
+              <div >
+                <p id="wCcInView" style="margin-right: 8px; font-size: 13.6px;">Constructor's titles</p>
+                <p id="wCcInViewValue" style="font-size: 13.6px;">1</p>
+
+                <div id="wCcSymbols"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -190,12 +198,13 @@
             >Racingcircuits</a
           >
         </p>
-        <p>Cover image by Nick Fewings from <a href="https://unsplash.com/photos/_w6nbweEPIc">Unsplash</a></p>
+        <p>
+          Cover image by Nick Fewings from
+          <a href="https://unsplash.com/photos/_w6nbweEPIc">Unsplash</a>
+        </p>
         <p>Made with <a href="https://d3js.org" target="_blank">D3.js</a></p>
       </div>
     </footer>
-
-
   </body>
   <script
     src="https://code.jquery.com/jquery-3.5.1.min.js"
