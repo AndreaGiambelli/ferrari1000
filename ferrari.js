@@ -126,14 +126,19 @@ d3.json("ferrariData.json").then(function (ferrariData) {
   const handleResize = () => {
     windowWidth = window.innerWidth;
     console.log(windowWidth);
+
     if (windowWidth <= 414) {
       window.scroll({ top: 100, left: 0, behavior: 'smooth' });
       d3.select("body").classed("fixed", true);
       d3.select("#turn-device").classed("open", true);
+    d3.select("#test").text(windowWidth)
+
     } else {
       d3.select("body").classed("fixed", false);
       d3.select("#turn-device").classed("open", false);
       drawViz(ferrariData);
+    d3.select("#test").text(windowWidth)
+
     }
   };
 
