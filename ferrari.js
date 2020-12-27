@@ -477,17 +477,17 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             .append("div")
             .attr("class", "championship-symbol");
         }
-        d3.select("#wDcInViewValue").text(wDcInView)
-        
+        d3.select("#wDcInViewValue").text(wDcInView);
 
         d3.select("#wCcSymbols").selectAll(".championship-symbol").remove();
         for (i = 0; i < wCcInView; i++) {
           d3.select("#wCcSymbols")
             .append("div")
-            .attr("class", "championship-symbol").append("img").attr("src", );
+            .attr("class", "championship-symbol")
+            .append("img")
+            .attr("src");
         }
-        d3.select("#wCcInViewValue").text(wCcInView)
-
+        d3.select("#wCcInViewValue").text(wCcInView);
 
         if (maxRaceInView > 1 && maxRaceInView < 57) {
           // console.log("early years");
@@ -502,29 +502,47 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           );
         } else if (maxRaceInView > 88 && maxRaceInView < 149) {
           // console.log("early sixties");
-          d3.select("#story").html("Early sixties");
-        } else if (maxRaceInView > 150 && maxRaceInView < 201) {
+          d3.select("#story").html(
+            "The new ‘shark-nosed’ 156 model—the first Ferrari purposely designed as rear-engined—dominates the 1961 season, allowing Phil Hill to take the title, and Giancarlo Baghetti to claim a historic win on his F1 debut in <a id='Fra.61'>France</a>. The Scuderia is once again struck by tragedy when German driver Von Trips is killed in an accident at <a id='Ita.61'>Monza</a>, along with 14 spectators. The following years bring upheaval in the team as young engineer Mauro Forghieri is promoted to head the racing division. He and his team pen the 158 model, which British ace John Surtees races to the title in 1964, beating the mighty Jim Clark and his superior Lotus. Despite the team’s efforts the rest of the Sixties is not very successful against strong rivals like Lotus, Brabham, Cooper and McLaren. One of the few highlights is Ludovico Scarfiotti’s win at the <a id='Ita.66'>1966 Italian GP</a>, the last victory for an Italian on home soil to date. "
+          );
+        } else if (maxRaceInView > 150 && maxRaceInView < 232) {
           // console.log("60s-70s");
-          d3.select("#story").html("60s-70s");
+          d3.select("#story").html(
+            "At the end of the Sixties, new drivers (Jacky Ickx, Chris Amon) and technological innovation (the appearance of front and rear wings on Ferrari cars) seem to pave the way for a new successful period. 1970’s 312B model, with its flat 12V engine looks incredibly fast in the hands of Ickx and Swiss Clay Regazzoni. However, several victories and a 1-2 at the season finale in <a id='Mex.70'>Mexico</a>, are not enough for the Belgian to beat Lotus’ Jochen Rindt, the only driver to be posthumously awarded the F1 championship. American Mario Andretti manages to win on his Ferrari debut at the <a id='Rsa.71'>1971 South African GP</a>, but the following seasons bring generally poor results and instability for the team. However, the 312 model would prove to be a very strong foundation for the years to come. "
+          );
         } else if (
-          // The 1970s
-          maxRaceInView > 201 &&
-          maxRaceInView < 316
+          // Early 1970s
+          maxRaceInView >= 232 &&
+          maxRaceInView < 312
         ) {
-          // console.log("1970s");
+          // console.log("early 1970s");
           d3.select("#story-title").text("Title");
-          d3.select("#story").html("1970s");
+          d3.select("#story").html(
+            "Ferrari is back battilng at the top of the pack in 1974, with Luca Cordero di Montezemolo heading the racing team, and a strong pair of drivers in Regazzoni and Austrian youngster Niki Lauda. Glory finally comes in 1975, as Lauda brings the driver’s title back to Maranello after 11 years and Regazzoni helps secure the Constructor’s Championship as well. Ferrari and Lauda dominate the following year, until the Austrian’s life-threatening accident at the <a id='Ger.76'>Nurburgring</a>. Lauda’s physical recovery is incredibly quick, but would famously give in at a soaked season finale in <a id='Jap.76'>Japan</a>, handing the title to British rising star James Hunt. The Austrian comes back strongly in ’77, winning his second title before leaving the team acrimoniously. Enzo Ferrari replaces him with a relatively unknown Canadian youngster by the name of Gilles Villeneuve"
+          );
+        } else if (
+          // End of 1970s
+          maxRaceInView >= 312 &&
+          maxRaceInView < 345
+        ) {
+          // console.log("end of 1970s");
+          d3.select("#story-title").text("Title");
+          d3.select("#story").html(
+            "With his spectacular, beyond-the-edge driving Villeneuve instantly becomes a favorite of racing fans, who cheer his maiden victory on home turf at <a id='Can.78'>Montreal</a> in 1978 and his epic duel with René Arnoux in <a id='Fra.79'>France</a> the following year.  He is joined by South African ace Jody Scheckter, who manages to clinch the ’79 title amid an exciting 1-2 for the team at the <a id='Ita.79'>Italian GP</a>. These results conclude a very successful decade for Ferrari, which saw the team win 4 Constructor’s and 3 Driver’s championships in 5 years—a stark contrast with the 1980 season which brings very poor results and sees a struggling Scheckter retiring at the end of the year. "
+          );
         } else if (
           // The Turbo era
-          maxRaceInView > 317 &&
+          maxRaceInView > 345 &&
           maxRaceInView < 436
         ) {
           // console.log("turbo era");
           d3.select("#story-title").text("Title");
-          d3.select("#story").html("inizio turbo era, gilles, alboreto");
+          d3.select("#story").html(
+            "By the early 80s turbo engines are the next big thing in the sport. Ferrari follows suit and develops its first turbo car (126CK), which Villeneuve uses to produce some of the most heroic drives in the history of the sport at <a id='Mon.81'>Monaco</a> and in <a id='Spa.81'>Spain</a>. Unfortunately they will stand as his last wins as he loses his life during the qualifying session for the 1982 Belgian GP. The year brings more heartbreak for the Scuderia: despite having the best car, another dramatic accident to Gilles’ teammate, Didier Pironi, effectively ends Ferrari’s bid for the driver title. The team can at least celebrate the Constructor’s title, repeating the result in ’83. Young Italian Michele Alboreto joins the team and battles with Alain Prost and his McLaren for a chance at the 1985 title, ultimately succumbing amid technical issues. His win in <a id='Ger.85'>Germany</a> is the last one for an Italian on a Ferrari to date. "
+          );
         } else if (
           // 88-90
-          maxRaceInView >= 436 &&
+          maxRaceInView >= 441 &&
           maxRaceInView < 515
           // isInViewport(d3.select(`#r${436}`).node()) ||
           // isInViewport(d3.select(`#r${462}`).node())
@@ -602,7 +620,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           // console.log("latest");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "Young Monegasque Charles Leclerc replaces Raikkonen for the 2019 season, and claims spectacular back to back victories at <a id='Bel.19'>Spa</a> and <a id='Ita.19'>Monza</a>. Vettel leads a 1-2 at the following race in <a id='Sin.19'>Singapore</a>, claiming the Scuderia’s last victory to date, but besides these highlight the championship is once again dominated by Lewis Hamilton and Mercedes. 2020, as the sport manages to put together a calendar of races despite the global pandemic, proves to be a very hard year in terms of results for the team—Leclerc’s second place in the <a id='Aut.20'>first race</a> would stand to be the best result of the whole season. Nevertheless, the season brings some opportunity for celebration as Ferrari reaches the 1000th race landmark on home turf at <a id='Tus.20'>Mugello</a>. 2021 will once again bring on change, with Carlos Sainz as Leclerc’s new teammate. All fans—<i>tifosi</i>—hope the Scuderia will be able to add some more red symbols to this timeline soon. "
+            "Young Monegasque Charles Leclerc replaces Raikkonen for the 2019 season, and claims spectacular back to back victories at <a id='Bel.19'>Spa</a> and <a id='Ita.19'>Monza</a>. Vettel leads a 1-2 at the following race in <a id='Sin.19'>Singapore</a>, claiming the Scuderia’s last victory to date. 2020, as the sport manages to put together a calendar of races despite the global pandemic, proves to be a very hard year in terms of results for the team—Leclerc’s second place in the <a id='Aut.20'>first race</a> would stand to be the best result of the whole season. Nevertheless, the season brings some opportunity for celebration as Ferrari reaches the 1000th race landmark on home turf at <a id='Tus.20'>Mugello</a>. 2021 will once again bring on change, with Carlos Sainz as Leclerc’s new teammate. All fans—<i>tifosi</i>—hope the Scuderia will be able to add some more red symbols to this timeline soon. "
           );
         } else {
           d3.select("#story").html("");
@@ -1035,10 +1053,13 @@ d3.json("ferrariData.json").then(function (ferrariData) {
   }
 
   function drawSparklines(dataset) {
+
+    let containerWidth = d3.select("#sp-wins").node().clientWidth
     // Sparklines - set the dimensions and margins of the graph
     let spMargin = { top: 5, right: 5, bottom: 5, left: 5 },
-      spWidth = 160 - spMargin.left - spMargin.right,
+      spWidth = containerWidth*0.9 - spMargin.left - spMargin.right,
       spHeight = 50 - spMargin.top - spMargin.bottom;
+
 
     let spWinsSvg = d3
       .select("#sp-wins")
