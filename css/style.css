@@ -131,10 +131,13 @@ header p {
   width: 78%;
   display: grid;
   grid-template-columns: 50% 50%;
+  font-size: 13.6px; 
 }
 
 #stats-wdc-wrapper p {
   display: inline-block;
+  font-size: 13.6px; 
+
 }
 
 #sidebar {

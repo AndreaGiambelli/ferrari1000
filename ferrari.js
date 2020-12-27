@@ -666,20 +666,20 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           );
           console.log(linkRace);
 
-          // Detect Safari
-          let safariAgent = navigator.userAgent.indexOf("Safari") > -1;
-          // Detect Chrome
-          let chromeAgent = navigator.userAgent.indexOf("Chrome") > -1;
-          console.log(navigator.userAgent)
+          // // Detect Safari
+          // let safariAgent = navigator.userAgent.indexOf("Safari") > -1;
+          // // Detect Chrome
+          // let chromeAgent = navigator.userAgent.indexOf("Chrome") > -1;
+          // console.log(navigator.userAgent)
 
-          console.log(safariAgent)
-          console.log(chromeAgent)
+          // console.log(safariAgent)
+          // console.log(chromeAgent)
 
 
-          // Discard Safari since it also matches Chrome
-          if (chromeAgent && safariAgent) safariAgent = false;
+          // // Discard Safari since it also matches Chrome
+          // if (chromeAgent && safariAgent) safariAgent = false;
 
-          console.log(safariAgent);
+          // console.log(safariAgent);
 
           raceInFocus = linkRace;
 
