@@ -508,7 +508,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         } else if (maxRaceInView > 150 && maxRaceInView < 232) {
           // console.log("60s-70s");
           d3.select("#story").html(
-            "At the end of the Sixties, new drivers (Jacky Ickx, Chris Amon) and technological innovation (the appearance of front and rear wings on Ferrari cars) seem to pave the way for a new successful period. 1970’s 312B model, with its flat 12V engine looks incredibly fast in the hands of Ickx and Swiss Clay Regazzoni. However, several victories and a 1-2 at the season finale in <a id='Mex.70'>Mexico</a>, are not enough for the Belgian to beat Lotus’ Jochen Rindt, the only driver to be posthumously awarded the F1 championship. American Mario Andretti manages to win on his Ferrari debut at the <a id='Rsa.71'>1971 South African GP</a>, but the following seasons bring generally poor results and instability for the team. However, the 312 model would prove to be a very strong foundation for the years to come. "
+            "At the end of the Sixties, new drivers (Jacky Ickx, Chris Amon) and technological innovation (the appearance of front and rear wings on Ferrari cars) seem to pave the way for a new successful period. 1970’s 312B model, with its flat 12V engine looks incredibly fast in the hands of Ickx and Swiss Clay Regazzoni. However, several victories and a 1-2 at the season finale in <a id='Mex.70' href='#r175'>Mexico</a>, are not enough for the Belgian to beat Lotus’ Jochen Rindt, the only driver to be posthumously awarded the F1 championship. American Mario Andretti manages to win on his Ferrari debut at the <a id='Rsa.71'>1971 South African GP</a>, but the following seasons bring generally poor results and instability for the team. However, the 312 model would prove to be a very strong foundation for the years to come. "
           );
         } else if (
           // Early 1970s
@@ -538,7 +538,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           // console.log("turbo era");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "By the early 80s turbo engines are the next big thing in the sport. Ferrari follows suit and develops its first turbo car (126CK), which Villeneuve uses to produce some of the most heroic drives in the history of the sport at <a id='Mon.81'>Monaco</a> and in <a id='Spa.81'>Spain</a>. Unfortunately they will stand as his last wins as he loses his life during the qualifying session for the 1982 Belgian GP. The year brings more heartbreak for the Scuderia: despite having the best car, another dramatic accident to Gilles’ teammate, Didier Pironi, effectively ends Ferrari’s bid for the driver title. The team can at least celebrate the Constructor’s title, repeating the result in ’83. Young Italian Michele Alboreto joins the team and battles with Alain Prost and his McLaren for a chance at the 1985 title, ultimately succumbing amid technical issues. His win in <a id='Ger.85'>Germany</a> is the last one for an Italian on a Ferrari to date. "
+            "By the early 80s turbo engines are the next big thing in the sport. Ferrari follows suit and develops its first turbo car (126CK), which Villeneuve uses to produce some of the most heroic drives in the history of the sport at <a id='Mon.81'>Monaco</a> and in <a id='Spa.81' href='#r24'>Spain</a>. Unfortunately they will stand as his last wins as he loses his life during the qualifying session for the 1982 Belgian GP. The year brings more heartbreak for the Scuderia: despite having the best car, another dramatic accident to Gilles’ teammate, Didier Pironi, effectively ends Ferrari’s bid for the driver title. The team can at least celebrate the Constructor’s title, repeating the result in ’83. Young Italian Michele Alboreto joins the team and battles with Alain Prost and his McLaren for a chance at the 1985 title, ultimately succumbing amid technical issues. His win in <a id='Ger.85'>Germany</a> is the last one for an Italian on a Ferrari to date. "
           );
         } else if (
           // 88-90
@@ -662,16 +662,34 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           let linkRace = dataset.find(
             (e) => e.raceDetails.raceAbbrev === this.id
           );
+          console.log(linkRace);
 
-          $(document).ready(function () {
-            $("html, body").animate(
-              {
-                scrollTop:
-                  $(`#r${raceInFocus.raceIdFerrari}`).offset().top - topOffset,
-              },
-              800
-            );
-          });
+          // Detect Safari
+          let safariAgent = navigator.userAgent.indexOf("Safari") > -1;
+          // Detect Chrome
+          let chromeAgent = navigator.userAgent.indexOf("Chrome") > -1;
+
+          // Discard Safari since it also matches Chrome
+          if (chromeAgent && safariAgent) safariAgent = false;
+
+          console.log(safariAgent);
+
+          // window.scroll({ top: 100, left: 0, behavior: 'smooth' });
+
+          
+          if (!safariAgent) {
+            $(document).ready(function () {
+              $("html, body").animate(
+                {
+                  scrollTop:
+                    $(`#r${raceInFocus.raceIdFerrari}`).offset().top -
+                    topOffset,
+                },
+                800
+              );
+            });
+          }
+
           raceInFocus = linkRace;
 
           // Timeout to set raceInFocus AFTER scroll is finished
@@ -1053,13 +1071,11 @@ d3.json("ferrariData.json").then(function (ferrariData) {
   }
 
   function drawSparklines(dataset) {
-
-    let containerWidth = d3.select("#sp-wins").node().clientWidth
+    let containerWidth = d3.select("#sp-wins").node().clientWidth;
     // Sparklines - set the dimensions and margins of the graph
     let spMargin = { top: 5, right: 5, bottom: 5, left: 5 },
-      spWidth = containerWidth*0.9 - spMargin.left - spMargin.right,
+      spWidth = containerWidth * 0.9 - spMargin.left - spMargin.right,
       spHeight = 50 - spMargin.top - spMargin.bottom;
-
 
     let spWinsSvg = d3
       .select("#sp-wins")
