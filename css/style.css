@@ -519,6 +519,7 @@ footer {
 #turn-device {
   display: none;
   text-align: center;
+  margin-bottom: 500px;
 }
 
 #turn-device.open {
