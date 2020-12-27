@@ -127,6 +127,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     windowWidth = window.innerWidth;
     console.log(windowWidth);
     if (windowWidth <= 414) {
+      window.scroll({ top: 100, left: 0, behavior: 'smooth' });
       d3.select("body").classed("fixed", true);
       d3.select("#turn-device").classed("open", true);
     } else {
@@ -498,17 +499,17 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         } else if (maxRaceInView > 58 && maxRaceInView < 88) {
           // console.log("early years");
           d3.select("#story").html(
-            "Ascari would move to rival team Lancia, before passing in a tragic accident at Monza. Argentinian legend-in-the-making Juan Manuel Fangio joins Ferrari in 1956, and wins his 4th world championship in a dramatic fashion at the <a id='Ita.56'>Italian GP</a>: his car breaks down but teammate Peter Collins, himself a title contender, sportingly hands his own car to Fangio during a pit stop, allowing him to take the title. 1957 proves unsuccessful and brings more tragedies as two Ferrari drivers, Eugenio Castellotti and Alfonso De Portago are killed in non-F1 racing cars. Mike Hawthorn takes the Scuderia’s last title of the 50’s with just a single win at the <a id='Fra.58'>French GP</a>, in the cursed 1958 in which two drivers, Luigi Musso and Peter Collins, are killed while racing their Ferraris."
+            "Argentinian legend-in-the-making Juan Manuel Fangio joins Ferrari in 1956, and wins his 4th world championship in a dramatic fashion at the <a id='Ita.56'>Italian GP</a>: his car breaks down but teammate Peter Collins, himself a title contender, sportingly hands his own car to Fangio during a pit stop, allowing him to take the title. 1957 proves unsuccessful and brings more tragedies as two Ferrari drivers, Eugenio Castellotti and Alfonso De Portago are killed in non-F1 racing cars. Mike Hawthorn takes the Scuderia’s last title of the 50’s with just a single win at the <a id='Fra.58'>French GP</a>, in the cursed 1958 in which two drivers, Luigi Musso and Peter Collins, are killed while racing their Ferraris."
           );
-        } else if (maxRaceInView > 88 && maxRaceInView < 149) {
+        } else if (maxRaceInView > 88 && maxRaceInView < 150) {
           // console.log("early sixties");
           d3.select("#story").html(
-            "The new ‘shark-nosed’ 156 model—the first Ferrari purposely designed as rear-engined—dominates the 1961 season, allowing Phil Hill to take the title, and Giancarlo Baghetti to claim a historic win on his F1 debut in <a id='Fra.61'>France</a>. The Scuderia is once again struck by tragedy when German driver Von Trips is killed in an accident at <a id='Ita.61'>Monza</a>, along with 14 spectators. New engineering head Mauro Forghieri pens the 158 model, which British ace John Surtees races to the title in 1964, beating the mighty Jim Clark and his superior Lotus. Despite the team’s efforts the rest of the Sixties is not very successful against strong rivals like Lotus, Brabham, Cooper and McLaren. One of the few highlights is Ludovico Scarfiotti’s win at the <a id='Ita.66'>1966 Italian GP</a>, the last victory for an Italian on home soil to date. "
+            "The new ‘shark-nosed’ 156 model dominates the 1961 season, allowing Phil Hill to take the title, and Giancarlo Baghetti to claim a historic win on his F1 debut in <a id='Fra.61'>France</a>. The Scuderia is once again struck by tragedy when German driver Von Trips is killed in an accident at <a id='Ita.61'>Monza</a>, along with 14 spectators. New engineering head Mauro Forghieri pens the 158 model, which British ace John Surtees races to the title in 1964, beating the mighty Jim Clark and his superior Lotus. Despite the team’s efforts the rest of the Sixties is not very successful against strong rivals like Lotus, Brabham, Cooper and McLaren. One of the few highlights is Ludovico Scarfiotti’s win at the <a id='Ita.66'>1966 Italian GP</a>, the last victory for an Italian on home soil to date. "
           );
         } else if (maxRaceInView > 150 && maxRaceInView < 232) {
           // console.log("60s-70s");
           d3.select("#story").html(
-            "At the end of the Sixties, new drivers (Jacky Ickx, Chris Amon) and technological innovation (the appearance of front and rear wings on Ferrari cars) seem to pave the way for a new successful period. 1970’s 312B model, with its flat 12V engine looks incredibly fast in the hands of Ickx and Swiss Clay Regazzoni. However, several victories and a 1-2 at the season finale in <a id='Mex.70' href='#r175'>Mexico</a>, are not enough for the Belgian to beat Lotus’ Jochen Rindt, the only driver to be posthumously awarded the F1 championship. American Mario Andretti manages to win on his Ferrari debut at the <a id='Rsa.71'>1971 South African GP</a>, but the following seasons bring generally poor results and instability for the team. However, the 312 model would prove to be a very strong foundation for the years to come. "
+            "At the end of the Sixties, new drivers (Jacky Ickx, Chris Amon) and technological innovation (the appearance of front and rear wings on Ferrari cars) seem to pave the way for a new successful period. 1970’s 312B model, with its flat 12V engine looks incredibly fast in the hands of Ickx and Swiss Clay Regazzoni. However, several victories and a 1-2 at the season finale in <a id='Mex.70'>Mexico</a>, are not enough for the Belgian to beat Lotus’ Jochen Rindt, the only driver to be posthumously awarded the F1 championship. American Mario Andretti manages to win on his Ferrari debut at the <a id='Rsa.71'>1971 South African GP</a>, but the following seasons bring generally poor results and instability for the team. "
           );
         } else if (
           // Early 1970s
@@ -518,7 +519,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           // console.log("early 1970s");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "Ferrari is back battilng at the top of the pack in 1974, with Luca Cordero di Montezemolo heading the racing team, and a strong pair of drivers in Regazzoni and Austrian youngster Niki Lauda. Glory finally comes in 1975, as Lauda brings the driver’s title back to Maranello after 11 years and Regazzoni helps secure the Constructor’s Championship as well. Ferrari and Lauda dominate the following year, until the Austrian’s life-threatening accident at the <a id='Ger.76'>Nurburgring</a>. Lauda’s recovery is incredibly quick, but would famously give in at a soaked season finale in <a id='Jap.76'>Japan</a>, handing the title to British James Hunt. The Austrian comes back strongly in ’77, winning his second title before leaving the team. Enzo Ferrari replaces him with a Canadian youngster by the name of Gilles Villeneuve"
+            "Ferrari is back battilng at the top of the pack in 1974, with Luca Cordero di Montezemolo heading the racing team, and a strong pair of drivers in Regazzoni and Austrian youngster Niki Lauda. In 1975, Lauda finally brings the driver’s title back to Maranello after 11 years and Regazzoni helps secure the Constructor’s Championship as well. Ferrari and Lauda dominate the following year, until the Austrian’s life-threatening accident at the <a id='Ger.76'>Nurburgring</a>. Lauda’s recovery is heroic, but he famously gives in at a soaked season finale in <a id='Jap.76'>Japan</a>, handing the title to British James Hunt. The Austrian comes back strongly in ’77, winning his second title before leaving the team. "
           );
         } else if (
           // End of 1970s
@@ -528,7 +529,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           // console.log("end of 1970s");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "With his spectacular, beyond-the-edge driving Villeneuve instantly becomes a favorite of racing fans, who cheer his maiden victory on home turf at <a id='Can.78'>Montreal</a> in 1978 and his epic duel with René Arnoux in <a id='Fra.79'>France</a> the following year.  He is joined by South African ace Jody Scheckter, who manages to clinch the ’79 title amid an exciting 1-2 for the team at the <a id='Ita.79'>Italian GP</a>. These results conclude a very successful decade for Ferrari, which saw the team win 4 Constructor’s and 3 Driver’s championships in 5 years—a stark contrast with the 1980 season which brings very poor results and sees a struggling Scheckter retiring at the end of the year. "
+            "Enzo Ferrari replaces Lauda with a Canadian youngster by the name of Gilles Villeneuve. With his spectacular, beyond-the-edge driving style he quickly becomes a favorite of racing fans, who cheer his maiden victory on home turf at <a id='Can.78'>Montreal</a> in 1978 and his epic duel with René Arnoux in <a id='Fra.79'>France</a> the following year.  He is joined by South African ace Jody Scheckter, who manages to clinch the ’79 title amid an exciting 1-2 for the team at the <a id='Ita.79'>Italian GP</a>. These results conclude a very successful decade for Ferrari, which saw the team win 4 Constructor’s and 3 Driver’s championships in 5 years—a stark contrast with the 1980 season which brings very poor results and sees a struggling Scheckter retiring at the end of the year. "
           );
         } else if (
           // The Turbo era
@@ -538,7 +539,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           // console.log("turbo era");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "By the early 80s turbo engines are the next big thing in the sport. Ferrari follows suit and develops its first turbo car (126CK), which Villeneuve uses to produce some of the most heroic drives in the history of the sport at <a id='Mon.81'>Monaco</a> and in <a id='Spa.81' href='#r24'>Spain</a>. Unfortunately they will stand as his last wins as he loses his life during the qualifying session for the 1982 Belgian GP. The year brings more heartbreak for the Scuderia: despite having the best car, another dramatic accident to Gilles’ teammate, Didier Pironi, effectively ends Ferrari’s bid for the driver title. The team can at least celebrate the Constructor’s title, repeating the result in ’83. Young Italian Michele Alboreto joins the team and battles with Alain Prost and his McLaren for a chance at the 1985 title, ultimately succumbing amid technical issues. His win in <a id='Ger.85'>Germany</a> is the last one for an Italian on a Ferrari to date. "
+            "Turbos are all the rage in early 80's F1, and Ferrari develops its first turbo car (126CK), which Villeneuve uses to produce some of the most heroic drives in the history of the sport at <a id='Mon.81'>Monaco</a> and in <a id='Spa.81'>Spain</a>. They will stand as his last wins as he loses his life during the qualifying session for the 1982 Belgian GP. The year brings more heartbreak: despite having the best car, another dramatic accident to Didier Pironi effectively ends Ferrari’s bid for the driver title. The team can at least celebrate the Constructor’s title. Italian Michele Alboreto joins the team and battles with Alain Prost and his McLaren for the 1985 title, ultimately succumbing amid technical issues. His win in <a id='Ger.85'>Germany</a> is the last one for an Italian on a Ferrari to date. "
           );
         } else if (
           // 88-90
@@ -550,7 +551,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           // console.log("88-90");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "On August 14 1988 founder <span>Enzo Ferrari</span> passes away at age 90. Less than a month after, Gerhard Berger and Michele Alboreto honor him by scoring a historic 1-2 on home ground <a id='Ita.88'>at Monza</a>. It would stand as the only non-McLaren win that year. Famed designer John Barnard pens the 640, F1’s first semi-automatic gearbox car. The car proves successful in the hands of <a id='Bra.89'>Nigel Mansell</a> and triple world champion <a id='Fra.90'>Alain Prost</a>, who would go on to be a championship contender in 1990—only to lose after a crash with arch-rival Ayrton Senna at the <a id='Jap.90'>Japanese GP</a> in one of the sport’s most controversial moments. Young star Jean Alesi brings hope for 1991 and the future, but unfortunately the team would slip into one of the darkest period in its history, with lack of competitiveness and unstable leadership. "
+            "On August 14 1988 founder <span>Enzo Ferrari</span> passes away at age 90. Less than a month after, Gerhard Berger and Michele Alboreto honor him by scoring a historic 1-2 on home ground <a id='Ita.88'>at Monza</a>. It would stand as the only non-McLaren win that year. Famed designer John Barnard pens the 640, F1’s first semi-automatic gearbox car. The car proves successful in the hands of <a id='Bra.89'>Nigel Mansell</a> and triple world champion <a id='Fra.90'>Alain Prost</a>, who would go on to be a championship contender in 1990—only to lose after a crash with arch-rival Ayrton Senna at the start of the <a id='Jap.90'>Japanese GP</a>. Jean Alesi brings hope for 1991 and the future, but unfortunately the team would slip into a difficult period with lack of performance and unstable leadership. "
           );
         } else if (
           // Digiuno
@@ -570,7 +571,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           // console.log("Msc");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "Double world champion Michael Schumacher joins the team and takes a spectacular first win for Ferrari in the soaked <a id='Spa.96'>1996 Spanish GP</a>. With the best driver of his generation and a revamped technical team, the Scuderia is finally able to place a serious bid for the title in 97, which would end in misery after the controversial crash between Schumacher and Villeneuve at <a id='Eur.97'>European GP</a>. Finn Mika Hakkinen and his McLaren emerge the following year as new rivals, and not even Schumacher’s most heroic efforts would be enough to bring the title back to Maranello. The 1999 season takes an unexpected turn when the German is injured at the <a id='Gbr.99'>Silverstone</a>, which leaves his teammate Eddie Irvine to battle for the title with Hakkinen until <a id='Jap.99'>the last race</a>. The Finn takes the title again, but Ferrari celebrates its first Constructor’s championship in 16 years."
+            "Double world champion Michael Schumacher joins the team and takes a spectacular first win for Ferrari in the soaked <a id='Spa.96'>1996 Spanish GP</a>. The Scuderia is finally able to place a bid for the title in '97, which would end in misery after the crash between Schumacher and Jacques Villeneuve at <a id='Eur.97'>European GP</a>. Finn Mika Hakkinen and his McLaren dominate the following year, despite some sterling drives by Schumacher. The 1999 season takes an unexpected turn when the German is injured at the <a id='Gbr.99'>Silverstone</a>, which leaves his teammate Eddie Irvine to battle for the title with Hakkinen until <a id='Jap.99'>the last race</a>. The Finn takes the title again, but Ferrari celebrates its first Constructor’s championship in 16 years."
           );
         } else if (
           // 2000s
@@ -580,7 +581,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           // console.log("Msc 2000s");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "With a new teammate in Rubens Barrichello, and after another year spent battling with McLarens, at the <a id='Jap.00'>2000 Japanese GP</a> Michael Schumacher finally brings the Driver’s World Title back to Maranello after 21 years. This will be the start of the most successful cycle for the team to date, with the German and Ferrari winning 5 back to back championships, effectively dominating the series and crushing all sorts of records. Rising star Fernando Alonso and his Renault manage to break the cycle by winning titles in 2005. At the end of a final, heroic yet unsuccessful title bid the following year against the Spaniard, Michael Schumacher retires from the sport. The <a id='Chi.06'>2006 Chinese GP</a> would stand as his 91st and last victory, while his new teammate Felipe Massa takes his first one in <a id='Tur.06'>Turkey</a>. "
+            "With a new teammate in Rubens Barrichello, and after another year spent battling with McLarens, at the <a id='Jap.00'>2000 Japanese GP</a> Michael Schumacher finally brings the Driver’s World Title back to Maranello after 21 years. This will be the start of the most successful cycle for the team to date, with the German and Ferrari winning 5 back to back championships, effectively dominating the series and crushing all sorts of records. At the end of a final, exciting yet unsuccessful title bid the following year against Fernando Alonso, Michael Schumacher retires from the sport. The <a id='Chi.06'>2006 Chinese GP</a> would stand as his 91st and last victory, while his new teammate Felipe Massa takes his first one in <a id='Tur.06'>Turkey</a>. "
           );
         } else if (
           // Last Championships
@@ -614,13 +615,12 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           );
         } else if (
           // Latest victories
-          maxRaceInView > 991 &&
-          maxRaceInView < 1010
+          maxRaceInView > 991
         ) {
           // console.log("latest");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "Young Monegasque Charles Leclerc replaces Raikkonen for the 2019 season, and claims spectacular back to back victories at <a id='Bel.19'>Spa</a> and <a id='Ita.19'>Monza</a>. Vettel leads a 1-2 at the following race in <a id='Sin.19'>Singapore</a>, claiming the Scuderia’s last victory to date. 2020, as the sport manages to put together a calendar of races despite the global pandemic, proves to be a very hard year in terms of results for the team—Leclerc’s second place in the <a id='Aut.20'>first race</a> would stand to be the best result of the whole season. Nevertheless, the season brings some opportunity for celebration as Ferrari reaches the 1000th race landmark on home turf at <a id='Tus.20'>Mugello</a>. 2021 will once again bring on change, with Carlos Sainz as Leclerc’s new teammate. All fans—<i>tifosi</i>—hope the Scuderia will be able to add some more red symbols to this timeline soon. "
+            "Monegasque Charles Leclerc replaces Raikkonen for the 2019 season, and claims spectacular back to back victories at <a id='Bel.19'>Spa</a> and <a id='Ita.19'>Monza</a>. Vettel leads a 1-2 at the following race in <a id='Sin.19'>Singapore</a>, claiming the Scuderia’s last victory to date. 2020, as F1 copes with the global pandemic, proves to be a very hard year in terms of results for the team—Leclerc’s second place in the <a id='Aut.20'>first race</a> would stand to be the best result of the whole season. Nevertheless, the season brings some opportunity for celebration as Ferrari reaches the 1000th race landmark on home turf at <a id='Tus.20'>Mugello</a>. 2021 will once again bring on change, with Carlos Sainz as Leclerc’s new teammate—and hopefully some more red symbols to this timeline. "
           );
         } else {
           d3.select("#story").html("");
@@ -668,34 +668,28 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           let safariAgent = navigator.userAgent.indexOf("Safari") > -1;
           // Detect Chrome
           let chromeAgent = navigator.userAgent.indexOf("Chrome") > -1;
+          console.log(navigator.userAgent)
+
+          console.log(safariAgent)
+          console.log(chromeAgent)
+
 
           // Discard Safari since it also matches Chrome
           if (chromeAgent && safariAgent) safariAgent = false;
 
           console.log(safariAgent);
 
-          // window.scroll({ top: 100, left: 0, behavior: 'smooth' });
+          raceInFocus = linkRace;
 
-          
-          if (!safariAgent) {
-            $(document).ready(function () {
-              $("html, body").animate(
-                {
-                  scrollTop:
-                    $(`#r${raceInFocus.raceIdFerrari}`).offset().top -
-                    topOffset,
-                },
-                800
-              );
-            });
-          }
+          // Using smooth scroll polyfill
+          d3.select(`#r${raceInFocus.raceIdFerrari}`).node().scrollIntoView({ behavior: 'smooth' })
 
           raceInFocus = linkRace;
 
           // Timeout to set raceInFocus AFTER scroll is finished
           setTimeout(function () {
             tooltipFunction(linkRace);
-          }, 800);
+          }, 300);
 
           console.log(linkRace);
         });
