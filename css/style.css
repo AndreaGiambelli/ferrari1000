@@ -499,8 +499,19 @@ footer {
 }
 
 @media only screen and (max-width: 1024px) and (orientation: landscape) {
+  #story {
+    font-size: 13.6px;
+  }
+  #stats-wdc-wrapper {
+    width: 100%; 
+    font-size: 12px; 
+  }
+}
+
+@media only screen and (max-width: 812px) and (orientation: landscape) {
   #stats-wrapper {
     display: none;
+    font-size: 12px; 
   }
   #story {
     font-size: 11.5px;

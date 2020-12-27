@@ -125,21 +125,19 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
   const handleResize = () => {
     windowWidth = window.innerWidth;
-    console.log(windowWidth);
+    // console.log(windowWidth);
 
     if (windowWidth <= 414) {
       window.scroll({ top: 100, left: 0, behavior: 'smooth' });
       d3.select("body").classed("fixed", true);
       d3.select("#turn-device").classed("open", true);
-    d3.select("#test").text(windowWidth)
-
     } else {
       d3.select("body").classed("fixed", false);
       d3.select("#turn-device").classed("open", false);
-      drawViz(ferrariData);
     d3.select("#test").text(windowWidth)
-
     }
+    drawViz(ferrariData);
+
   };
 
   window.addEventListener("resize", handleResize);
@@ -150,7 +148,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
     if (windowWidth <= 812 && windowWidth < window.innerHeight) {
       topOffset = 500;
-      console.log(topOffset);
     } else {
       topOffset = 80;
     }
@@ -499,7 +496,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           // console.log("early years");
           d3.select("#story-title").text("The Early Years");
           d3.select("#story").html(
-            "On May 21, 1950, <span>Scuderia Ferrari</span> makes its debut in the Formula 1 World Championship, in the second round of the newly-born series at the <a id='Mon.50'>Monaco GP</a>. Italian driver Alberto Ascari’s finishes second in the race, claiming the team’s maiden podium, while the first victory comes the following year, thanks to José Froilan Gonzalez at <a id='Gbr.51'>Silverstone</a>. The team’s constant growth and the retirement of early rivals Alfa Romeo, would set the stage for the first winning cycle of the Scuderia. Ascari takes back to back world championships in 1952 and 1953, totally dominating the series and setting <a href='https://en.wikipedia.org/wiki/Alberto_Ascari#Formula_One_records' target='_blank'>records that still stand to this day. </a>"
+            "On May 21, 1950, <span>Scuderia Ferrari</span> makes its debut in the Formula 1 World Championship, in the second round of the newly-born series at the <a id='Mon.50'>Monaco GP</a>. Italian driver Alberto Ascari’s finishes second in the race, claiming the team’s maiden podium, while the first victory comes the following year, thanks to José Froilan Gonzalez at <a id='Gbr.51'>Silverstone</a>. The team’s constant growth and the retirement of early rivals Alfa Romeo, would set the stage for the first winning cycle of the Scuderia. Ascari takes back to back world championships in 1952 and 1953, totally dominating the series and setting records that still stand to this day. </a>"
           );
         } else if (maxRaceInView > 58 && maxRaceInView < 88) {
           // console.log("early years");
