@@ -106,101 +106,55 @@ let wDcInView = 0;
 let wCcInView = 0;
 let xScaleSp;
 let currentStoryLinks = null;
-let windowWidth;
-let numPerRow;
-let size;
-let mainCircleRadius;
-let lineWidth;
-let tiltAngle;
-let topOffset;
 
-if (window.innerWidth <= 414) {
-  d3.select("body").classed("fixed", true);
-  d3.select("#turn-device").classed("open", true);
-}
-
-/// READING DATA
 d3.json("ferrariData.json").then(function (ferrariData) {
   console.log(ferrariData);
 
-  const handleResize = () => {
-    windowWidth = window.innerWidth;
-    // console.log(windowWidth);
-
-    if (windowWidth <= 414) {
-      window.scroll({ top: 100, left: 0, behavior: 'smooth' });
-      d3.select("body").classed("fixed", true);
-      d3.select("#turn-device").classed("open", true);
-    } else {
-      d3.select("body").classed("fixed", false);
-      d3.select("#turn-device").classed("open", false);
-    d3.select("#test").text(windowWidth)
-    }
-    drawViz(ferrariData);
-
-  };
-
-  window.addEventListener("resize", handleResize);
-
   /// VIZ ///
+
+  // Map Margins and dimensions
+  let marginViz = { top: 30, right: 70, bottom: 30, left: 70 },
+    widthViz = window.innerWidth * 0.7 - marginViz.left - marginViz.right;
+
+  let grid, backgroundGrid, timeline, scaleGrid;
+  let numPerRow;
+  if (window.innerWidth >= 1000) {
+    numPerRow = 8;
+  } else {
+    numPerRow = 4;
+
+  }
+  const size = (widthViz - marginViz.left - marginViz.right) / numPerRow;
+  const mainCircleRadius = size / 3.5;
+  let lineWidth = 4;
+  let tiltAngle = 14;
+
+  // let heightViz =
+  //   (size * ferrariData.length) / numPerRow -
+  //   marginViz.top -
+  //   marginViz.bottom;
+  let heightViz = 13000;
+  // Viz SVG
+  let wrapperViz = d3
+    .select("#viz")
+    .append("svg")
+    // .style("background", "gray")
+    .attr("width", widthViz + marginViz.left + marginViz.right)
+    .attr("height", heightViz + marginViz.top + marginViz.bottom);
+
+  let bounds = wrapperViz
+    .append("g")
+    .attr(
+      "transform",
+      "translate(" + marginViz.left + "," + marginViz.top + ")"
+    );
+
+  // Initialize static elements
+  bounds.append("g").attr("class", "timeline-group");
+  bounds.append("g").attr("class", "background-group");
+  bounds.append("g").attr("class", "races-group");
+
   function drawViz(dataset) {
-    windowWidth = window.innerWidth;
-
-    if (windowWidth <= 812 && windowWidth < window.innerHeight) {
-      topOffset = 500;
-    } else {
-      topOffset = 80;
-    }
-
-    // Map Margins and dimensions
-    let marginViz = { top: 30, right: 70, bottom: 30, left: 70 };
-    let widthViz =
-      (windowWidth >= 768 ? windowWidth * 0.7 : 500) -
-      marginViz.left -
-      marginViz.right;
-
-    let grid, backgroundGrid, timeline, scaleGrid;
-    numPerRow;
-    if (windowWidth >= 1200) {
-      numPerRow = 8;
-    } else {
-      numPerRow = 4;
-    }
-    size = (widthViz - marginViz.left - marginViz.right) / numPerRow;
-    mainCircleRadius = size / 3.5;
-    lineWidth = size / 20;
-    tiltAngle = 14; // Fixed
-
-    // Scale to set up grid
-    scaleGrid = d3
-      .scaleLinear()
-      .domain([0, numPerRow - 1])
-      .range([0, size * numPerRow]);
-
-    let heightViz =
-      scaleGrid(Math.floor(ferrariData.length / numPerRow)) + size;
-
-    d3.select("#viz").selectAll("svg").remove();
-
-    // Viz SVG
-    let wrapperViz = d3
-      .select("#viz")
-      .append("svg")
-      .attr("width", widthViz + marginViz.left + marginViz.right)
-      .attr("height", heightViz + marginViz.top + marginViz.bottom);
-
-    let bounds = wrapperViz
-      .append("g")
-      .attr(
-        "transform",
-        "translate(" + marginViz.left + "," + marginViz.top + ")"
-      );
-
-    // Initialize static elements
-    bounds.append("g").attr("class", "timeline-group");
-    bounds.append("g").attr("class", "background-group");
-    bounds.append("g").attr("class", "races-group");
-
     // Setting height of sidebar stats wrapper to ensure stats are at the bottom
     d3.select("#story-stats-wrapper").style(
       "height",
@@ -208,6 +162,14 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     );
 
     d3.select("#races-count-right").text(dataset.length);
+
+    console.log(dataset);
+
+    // Scale to set up grid
+    scaleGrid = d3
+      .scaleLinear()
+      .domain([0, numPerRow - 1])
+      .range([0, size * numPerRow]);
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////// TIMELINE ////////////////////////////////////////////
@@ -227,7 +189,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("x", size / 2 - 30 - 1)
       .attr("y", (d, i) => scaleGrid(i) + size / 2 - lineWidth / 2)
       .attr("width", size * numPerRow + 30 + 2)
-      .attr("height", lineWidth)
+      .attr("height", "4px")
       .attr("fill", colours.timeline)
       .attr("stroke", "none");
 
@@ -300,9 +262,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         // Vertical positioning
         const m = Math.floor(i / numPerRow);
 
-        // console.log("x: " + n)
-        // console.log("y: " + m)
-
         // Translating groups to grid position
         return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
       });
@@ -315,10 +274,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("r", mainCircleRadius * 1.7)
       .attr("fill", colours.black)
       .attr("class", "race-backrgound-circle1")
-      .attr("stroke", (d) => (d.raceIdFerrari === 1000 ? colours.red : "none"))
-      .attr("stroke-dasharray", (d) =>
-        d.raceIdFerrari === 1000 ? "1px 2px" : "none"
-      );
+      .attr("stroke", "none");
 
     const backGroundExit = backGroundUpdate.exit().remove();
 
@@ -339,6 +295,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         // Translating groups to grid position
         return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
       });
+    // aaa.selectAll("text").text((d) => d.raceIdFerrari);
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// MAIN GROUPS ///////////////////////////////////////////
@@ -415,7 +372,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       d3.selectAll(".driver-led").style("opacity", 1);
       d3.selectAll(".driver-championship").style("opacity", 1);
       d3.selectAll(".constructor-championship").style("opacity", 1);
-      d3.selectAll(".first-row-triangle").style("opacity", 1);
 
       raceInFocus = undefined;
     });
@@ -468,177 +424,130 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           }
         });
 
-        console.log(maxRaceInView);
-
         d3.select("#winsInView").text(`${winsInView}`);
         d3.select("#polesInView").text(`${polesInView}`);
         d3.select("#flInView").text(`${flInView}`);
+        d3.select("#wDcInView").text(`WDC: ${wDcInView}`);
+        d3.select("#wCcInView").text(`Constructors: ${wCcInView}`);
 
-        d3.select("#wDcSymbols").selectAll(".championship-symbol").remove();
-        for (i = 0; i < wDcInView; i++) {
-          d3.select("#wDcSymbols")
-            .append("div")
-            .attr("class", "championship-symbol");
-        }
-        d3.select("#wDcInViewValue").text(wDcInView);
-
-        d3.select("#wCcSymbols").selectAll(".championship-symbol").remove();
-        for (i = 0; i < wCcInView; i++) {
-          d3.select("#wCcSymbols")
-            .append("div")
-            .attr("class", "championship-symbol")
-            .append("img")
-            .attr("src");
-        }
-        d3.select("#wCcInViewValue").text(wCcInView);
-
-        if (maxRaceInView > 1 && maxRaceInView < 57) {
-          // console.log("early years");
+        if (isInViewport(d3.select(`#r${1}`).node())) {
+          console.log("early years");
           d3.select("#story-title").text("The Early Years");
           d3.select("#story").html(
-            "On May 21, 1950, <span>Scuderia Ferrari</span> makes its debut in the Formula 1 World Championship, in the second round of the newly-born series at the <a id='Mon.50'>Monaco GP</a>. Italian driver Alberto Ascari’s finishes second in the race, claiming the team’s maiden podium, while the first victory comes the following year, thanks to José Froilan Gonzalez at <a id='Gbr.51'>Silverstone</a>. The team’s constant growth and the retirement of early rivals Alfa Romeo, would set the stage for the first winning cycle of the Scuderia. Ascari takes back to back world championships in 1952 and 1953, totally dominating the series and setting records that still stand to this day. </a>"
-          );
-        } else if (maxRaceInView > 58 && maxRaceInView < 88) {
-          // console.log("early years");
-          d3.select("#story").html(
-            "Argentinian legend-in-the-making Juan Manuel Fangio joins Ferrari in 1956, and wins his 4th world championship in a dramatic fashion at the <a id='Ita.56'>Italian GP</a>: his car breaks down but teammate Peter Collins, himself a title contender, sportingly hands his own car to Fangio during a pit stop, allowing him to take the title. 1957 proves unsuccessful and brings more tragedies as two Ferrari drivers, Eugenio Castellotti and Alfonso De Portago are killed in non-F1 racing cars. Mike Hawthorn takes the Scuderia’s last title of the 50’s with just a single win at the <a id='Fra.58'>French GP</a>, in the cursed 1958 in which two drivers, Luigi Musso and Peter Collins, are killed while racing their Ferraris."
-          );
-        } else if (maxRaceInView > 88 && maxRaceInView < 150) {
-          // console.log("early sixties");
-          d3.select("#story").html(
-            "The new ‘shark-nosed’ 156 model dominates the 1961 season, allowing Phil Hill to take the title, and Giancarlo Baghetti to claim a historic win on his F1 debut in <a id='Fra.61'>France</a>. The Scuderia is once again struck by tragedy when German driver Von Trips is killed in an accident at <a id='Ita.61'>Monza</a>, along with 14 spectators. New engineering head Mauro Forghieri pens the 158 model, which British ace John Surtees races to the title in 1964, beating the mighty Jim Clark and his superior Lotus. Despite the team’s efforts the rest of the Sixties is not very successful against strong rivals like Lotus, Brabham, Cooper and McLaren. One of the few highlights is Ludovico Scarfiotti’s win at the <a id='Ita.66'>1966 Italian GP</a>, the last victory for an Italian on home soil to date. "
-          );
-        } else if (maxRaceInView > 150 && maxRaceInView < 232) {
-          // console.log("60s-70s");
-          d3.select("#story").html(
-            "At the end of the Sixties, new drivers (Jacky Ickx, Chris Amon) and technological innovation (the appearance of front and rear wings on Ferrari cars) seem to pave the way for a new successful period. 1970’s 312B model, with its flat 12V engine looks incredibly fast in the hands of Ickx and Swiss Clay Regazzoni. However, several victories and a 1-2 at the season finale in <a id='Mex.70'>Mexico</a>, are not enough for the Belgian to beat Lotus’ Jochen Rindt, the only driver to be posthumously awarded the F1 championship. American Mario Andretti manages to win on his Ferrari debut at the <a id='Rsa.71'>1971 South African GP</a>, but the following seasons bring generally poor results and instability for the team. "
+            "On May 21, 1950, <span>Scuderia Ferrari</span> makes its debut in the Formula 1 World Championship, in the second round of the newly-born series at the <a id='Mon.50'>Monaco GP</a>. Italian driver Alberto Ascari’s finishes second in the race, claiming the team’s maiden podium, while the first victory comes the following year, thanks to José Froilan Gonzalez at <a id='Gbr.51'>Silverstone</a>. The team’s constant growth and the retirement of early rivals Alfa Romeo, would set the stage for the first winning cycle of the Scuderia. Ascari takes back to back world championships in 1952 and 1953, totally dominating the series and setting <a href='https://en.wikipedia.org/wiki/Alberto_Ascari#Formula_One_records' target='_blank'>records that still stand to this day. </a>"
           );
         } else if (
-          // Early 1970s
-          maxRaceInView >= 232 &&
-          maxRaceInView < 312
+          isInViewport(d3.select(`#r${49}`).node()) ||
+          isInViewport(d3.select(`#r${88}`).node())
         ) {
-          // console.log("early 1970s");
-          d3.select("#story-title").text("Title");
+          console.log("early years");
+          d3.select("#story-title").text("Tragedies and success in the 50’s");
           d3.select("#story").html(
-            "Ferrari is back battilng at the top of the pack in 1974, with Luca Cordero di Montezemolo heading the racing team, and a strong pair of drivers in Regazzoni and Austrian youngster Niki Lauda. In 1975, Lauda finally brings the driver’s title back to Maranello after 11 years and Regazzoni helps secure the Constructor’s Championship as well. Ferrari and Lauda dominate the following year, until the Austrian’s life-threatening accident at the <a id='Ger.76'>Nurburgring</a>. Lauda’s recovery is heroic, but he famously gives in at a soaked season finale in <a id='Jap.76'>Japan</a>, handing the title to British James Hunt. The Austrian comes back strongly in ’77, winning his second title before leaving the team. "
+            "Ascari would move to rival team Lancia, before passing in a tragic accident at Monza. Argentinian legend-in-the-making Juan Manuel Fangio joins Ferrari in 1956, and wins his 4th world championship in a dramatic fashion at the <a id='Ita.56'>Italian GP</a>: his car breaks down but teammate Peter Collins, himself a title contender, sportingly hands his own car to Fangio during a pit stop, allowing him to take the title. 1957 proves unsuccessful and brings more tragedies as two Ferrari drivers, Eugenio Castellotti and Alfonso De Portago are killed in non-F1 racing cars. Mike Hawthorn takes the Scuderia’s last title of the 50’s with just a single win at the <a id='Fra.58'>French GP</a>, in the cursed 1958 in which two drivers, Luigi Musso and Peter Collins, are killed while racing their Ferraris."
           );
         } else if (
-          // End of 1970s
-          maxRaceInView >= 312 &&
-          maxRaceInView < 345
+          // The 1970s
+          isInViewport(d3.select(`#r${230}`).node()) ||
+          isInViewport(d3.select(`#r${267}`).node())
         ) {
-          // console.log("end of 1970s");
+          // console.log("1970s");
           d3.select("#story-title").text("Title");
-          d3.select("#story").html(
-            "Enzo Ferrari replaces Lauda with a Canadian youngster by the name of Gilles Villeneuve. With his spectacular, beyond-the-edge driving style he quickly becomes a favorite of racing fans, who cheer his maiden victory on home turf at <a id='Can.78'>Montreal</a> in 1978 and his epic duel with René Arnoux in <a id='Fra.79'>France</a> the following year.  He is joined by South African ace Jody Scheckter, who manages to clinch the ’79 title amid an exciting 1-2 for the team at the <a id='Ita.79'>Italian GP</a>. These results conclude a very successful decade for Ferrari, which saw the team win 4 Constructor’s and 3 Driver’s championships in 5 years—a stark contrast with the 1980 season which brings very poor results and sees a struggling Scheckter retiring at the end of the year. "
-          );
+          d3.select("#story").html("1970s");
         } else if (
           // The Turbo era
-          maxRaceInView > 345 &&
-          maxRaceInView < 436
+          isInViewport(d3.select(`#r${317}`).node()) ||
+          isInViewport(d3.select(`#r${363}`).node())
         ) {
           // console.log("turbo era");
           d3.select("#story-title").text("Title");
-          d3.select("#story").html(
-            "Turbos are all the rage in early 80's F1, and Ferrari develops its first turbo car (126CK), which Villeneuve uses to produce some of the most heroic drives in the history of the sport at <a id='Mon.81'>Monaco</a> and in <a id='Spa.81'>Spain</a>. They will stand as his last wins as he loses his life during the qualifying session for the 1982 Belgian GP. The year brings more heartbreak: despite having the best car, another dramatic accident to Didier Pironi effectively ends Ferrari’s bid for the driver title. The team can at least celebrate the Constructor’s title. Italian Michele Alboreto joins the team and battles with Alain Prost and his McLaren for the 1985 title, ultimately succumbing amid technical issues. His win in <a id='Ger.85'>Germany</a> is the last one for an Italian on a Ferrari to date. "
-          );
+          d3.select("#story").html("inizio turbo era, gilles, alboreto");
         } else if (
           // 88-90
-          maxRaceInView >= 441 &&
-          maxRaceInView < 515
-          // isInViewport(d3.select(`#r${436}`).node()) ||
-          // isInViewport(d3.select(`#r${462}`).node())
+          isInViewport(d3.select(`#r${436}`).node()) ||
+          isInViewport(d3.select(`#r${462}`).node())
         ) {
           // console.log("88-90");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "On August 14 1988 founder <span>Enzo Ferrari</span> passes away at age 90. Less than a month after, Gerhard Berger and Michele Alboreto honor him by scoring a historic 1-2 on home ground <a id='Ita.88'>at Monza</a>. It would stand as the only non-McLaren win that year. Famed designer John Barnard pens the 640, F1’s first semi-automatic gearbox car. The car proves successful in the hands of <a id='Bra.89'>Nigel Mansell</a> and triple world champion <a id='Fra.90'>Alain Prost</a>, who would go on to be a championship contender in 1990—only to lose after a crash with arch-rival Ayrton Senna at the start of the <a id='Jap.90'>Japanese GP</a>. Jean Alesi brings hope for 1991 and the future, but unfortunately the team would slip into a difficult period with lack of performance and unstable leadership. "
+            "On August 14 1988 founder <span>Enzo Ferrari</span> passes away at age 90. Less than a month after, Gerhard Berger and Michele Alboreto honor him by scoring a historic 1-2 on home ground <a id='Ita.88'>at Monza</a>. It would stand as the only non-McLaren win that year. Famed designer John Barnard pens the 640, F1’s first semi-automatic gearbox car. The car proves successful in the hands of <a id='Bra.89'>Nigel Mansell</a> and triple world champion <a id='Fra.90'>Alain Prost</a>, who would go on to be a championship contender in 1990—only to lose after a crash with arch-rival Ayrton Senna at the <a id='Jap.90'>Japanese GP</a> in one of the sport’s most controversial moments. Young star Jean Alesi brings hope for 1991 and the future, but unfortunately the team would slip into one of the darkest period in its history, with lack of competitiveness and unstable leadership. "
           );
         } else if (
           // Digiuno
-          maxRaceInView > 516 &&
-          maxRaceInView < 576
+          isInViewport(d3.select(`#r${473}`).node()) ||
+          isInViewport(d3.select(`#r${515}`).node())
         ) {
           // console.log("digiuno");
-          d3.select("#story-title").text("Setting up for the comeback");
+          d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "With the arrival of Jean Todt as team principal and the comeback of Luca di Montezemolo, Ferrari lays the foundation for a strong comeback. Gerhard Berger claims the team’s first victory in 4 years at the <a id='Ger.94'>1994 German GP</a>, while Jean Alesi gets his long-awaited first win the following year <a id='Can.95'>in Canada</a>. Nicola Larini takes the last podium to date for an Italian driver on a Ferrari, during the tragic <a id='Smr.94'>Imola weekend</a> which claimed the lives of Roland Ratzenberger and Ayrton Senna. "
+            "Setting up for the comeback With the arrival of Jean Todt as team principal and the comeback of Luca di Montezemolo, Ferrari lays the foundation for a strong comeback. Gerhard Berger claims the team’s first victory in 4 years at the <a id='Ger.94'>1994 German GP</a>, while Jean Alesi gets his long-awaited first win the following year <a id='Can.95'>in Canada</a>. Nicola Larini takes the last podium to date for an Italian driver on a Ferrari, during the tragic <a id='Smr.94'>Imola weekend</a> which claimed the lives of Roland Ratzenberger and Ayrton Senna. "
           );
         } else if (
           // MSC
-          maxRaceInView >= 576 &&
-          maxRaceInView < 653
+          isInViewport(d3.select(`#r${566}`).node()) ||
+          isInViewport(d3.select(`#r${606}`).node())
         ) {
           // console.log("Msc");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "Double world champion Michael Schumacher joins the team and takes a spectacular first win for Ferrari in the soaked <a id='Spa.96'>1996 Spanish GP</a>. The Scuderia is finally able to place a bid for the title in '97, which would end in misery after the crash between Schumacher and Jacques Villeneuve at <a id='Eur.97'>European GP</a>. Finn Mika Hakkinen and his McLaren dominate the following year, despite some sterling drives by Schumacher. The 1999 season takes an unexpected turn when the German is injured at the <a id='Gbr.99'>Silverstone</a>, which leaves his teammate Eddie Irvine to battle for the title with Hakkinen until <a id='Jap.99'>the last race</a>. The Finn takes the title again, but Ferrari celebrates its first Constructor’s championship in 16 years."
+            "Dawn of the Schumacher era Double world champion Michael Schumacher joins the team and takes a spectacular first win for Ferrari in the soaked <a id='Spa.96'>1996 Spanish GP</a>. With the best driver of his generation and a revamped technical team, the Scuderia is finally able to place a serious bid for the title in 97, which would end in misery after the controversial crash between Schumacher and Villeneuve at <a id='Eur.97'>European GP</a>. Finn Mika Hakkinen and his McLaren emerge the following year as new rivals, and not even Schumacher’s most heroic efforts would be enough to bring the title back to Maranello. The 1999 season takes an unexpected turn when the German is injured at the <a id='Gbr.99'>Silverstone</a>, which leaves his teammate Eddie Irvine to battle for the title with Hakkinen until <a id='Jap.99'>the last race</a>. The Finn takes the title again, but Ferrari celebrates its first Constructor’s championship in 16 years."
           );
         } else if (
           // 2000s
-          maxRaceInView > 653 &&
-          maxRaceInView < 764
+          isInViewport(d3.select(`#r${619}`).node()) ||
+          isInViewport(d3.select(`#r${702}`).node())
         ) {
           // console.log("Msc 2000s");
           d3.select("#story-title").text("Title");
-          d3.select("#story").html(
-            "With a new teammate in Rubens Barrichello, and after another year spent battling with McLarens, at the <a id='Jap.00'>2000 Japanese GP</a> Michael Schumacher finally brings the Driver’s World Title back to Maranello after 21 years. This will be the start of the most successful cycle for the team to date, with the German and Ferrari winning 5 back to back championships, effectively dominating the series and crushing all sorts of records. At the end of a final, exciting yet unsuccessful title bid the following year against Fernando Alonso, Michael Schumacher retires from the sport. The <a id='Chi.06'>2006 Chinese GP</a> would stand as his 91st and last victory, while his new teammate Felipe Massa takes his first one in <a id='Tur.06'>Turkey</a>. "
-          );
+          d3.select("#story").html("Msc 2000s");
         } else if (
           // Last Championships
-          maxRaceInView >= 764 &&
-          maxRaceInView < 824
+          isInViewport(d3.select(`#r${741}`).node()) ||
+          isInViewport(d3.select(`#r${811}`).node())
         ) {
           // console.log("Last championships");
           d3.select("#story-title").text("Title");
-          d3.select("#story").html(
-            "Kimi Raikkonen joins Ferrari for 2007, winning on his debut with the team in <a id='Aus.07'>Australia</a>. McLaren’s opposition—with world champion Fernando Alonso and rookie Lewis Hamilton—is mighty but unstable, and the Finn manages to take the title in a spectacular finale at <a id='Bra.07'>Interlagos</a>. 2008 brings more success with Ferrari winning its 16th Constructor’s Championship, but also heartbreak when Felipe Massa gets dramatically close to winning the title <a id='Bra.08'>on his home turf</a>, only to be beaten by Lewis Hamilton with an overtake at the very last corner. "
-          );
-        } else if (
-          // Early 2010s
-          maxRaceInView > 824 &&
-          maxRaceInView < 876
-        ) {
-          // console.log("Last championships");
-          d3.select("#story-title").text("Title");
-          d3.select("#story").html(
-            "Fernando Alonso is brought in to replace the retired Raikkonen and, like the Finn, he’s <a id='Bah.10'>immediately successful</a>. 2010 proves to be an exciting three-way battle against McLarens and Red Bulls, with Sebastian Vettel managing to pip Alonso for the title at the very last race in <a id='Abu.10'>Abu Dhabi</a>. The Spaniard is able to place another, heroic, bid for the title in 2012. Despite not having the fastest car, he and Ferrari manage to get 3 wins and to challenge Vettel until the <a id='Bra.12'>season finale</a>—unfortunately for the Scuderia, without success. "
-          );
+          d3.select("#story").html("Last Championships, Alonso");
         } else if (
           // Hybrid Era
-          maxRaceInView >= 876 &&
-          maxRaceInView < 981
+          isInViewport(d3.select(`#r${870}`).node()) ||
+          isInViewport(d3.select(`#r${981}`).node())
         ) {
           // console.log("hybrid");
           d3.select("#story-title").text("Title");
-          d3.select("#story").html(
-            "The last Ferrari world champion to date, Kimi Raikkonen, rejoins the team for 2014—a challenging year for the Scuderia as the sport enters its Hybrid era. After 9 years, another German champion joins Ferrari the following season: Sebastian Vettel, who manages to win in his second race for the team at the <a id='Mal.15'>Malaysian GP</a>. The outfit from Maranello is finally back to being a title contender in 2017, scoring 5 wins including a 1-2 on the streets of <a id='Mon.17'>Monaco</a>. Lewis Hamilton and his Mercedes would ultimately claim the titles, amid technical woes, some errors and <a id='Sin.17'>a bit of bad luck</a> for the Scuderia. 2018 is a similar story: after a very strong first half of the season, Vettel’s and Ferrari’s efforts are not enough to beat Hamilton. "
-          );
+          d3.select("#story").html("Hybrid Era");
         } else if (
           // Latest victories
-          maxRaceInView > 991
+          isInViewport(d3.select(`#r${982}`).node()) ||
+          isInViewport(d3.select(`#r${993}`).node())
         ) {
           // console.log("latest");
           d3.select("#story-title").text("Title");
-          d3.select("#story").html(
-            "Monegasque Charles Leclerc replaces Raikkonen for the 2019 season, and claims spectacular back to back victories at <a id='Bel.19'>Spa</a> and <a id='Ita.19'>Monza</a>. Vettel leads a 1-2 at the following race in <a id='Sin.19'>Singapore</a>, claiming the Scuderia’s last victory to date. 2020, as F1 copes with the global pandemic, proves to be a very hard year in terms of results for the team—Leclerc’s second place in the <a id='Aut.20'>first race</a> would stand to be the best result of the whole season. Nevertheless, the season brings some opportunity for celebration as Ferrari reaches the 1000th race landmark on home turf at <a id='Tus.20'>Mugello</a>. 2021 will once again bring on change, with Carlos Sainz as Leclerc’s new teammate—and hopefully some more red symbols to this timeline. "
-          );
+          d3.select("#story").html("Latest victories");
         } else {
-          d3.select("#story").html("");
+          d3.select("#story").html("none");
         }
 
         currentStoryLinks = d3.select("#story").selectAll("a");
 
-        // console.log(currentStoryLinks);
+        console.log(currentStoryLinks);
+        currentStoryLinks.on("click", function (d) {
+          d3.event.stopPropagation();
+
+          console.log(this.id);
+          let linkRace = dataset.find(
+            (e) => e.raceDetails.raceAbbrev === this.id
+          );
+          console.log(linkRace);
+          tooltipFunction(linkRace);
+        });
 
         if (raceInFocus) {
           let inFocusNode = d3.select(`#r${raceInFocus.raceIdFerrari}`).node();
-          // console.log(inFocusNode);
+          console.log(inFocusNode);
           if (isInViewport(inFocusNode)) {
-            // console.log("in");
+            console.log("in");
           } else {
-            // console.log("out");
+            console.log("out");
             // d3.select("#story-stats-wrapper").style("display", "block");
             d3.select("#race-details-wrapper").style("display", "none");
 
@@ -656,48 +565,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             raceInFocus = undefined;
           }
         }
-
-        currentStoryLinks.on("click", function (d) {
-          d3.event.stopPropagation();
-
-          console.log(this.id);
-          let linkRace = dataset.find(
-            (e) => e.raceDetails.raceAbbrev === this.id
-          );
-          console.log(linkRace);
-
-          // // Detect Safari
-          // let safariAgent = navigator.userAgent.indexOf("Safari") > -1;
-          // // Detect Chrome
-          // let chromeAgent = navigator.userAgent.indexOf("Chrome") > -1;
-          // console.log(navigator.userAgent)
-
-          // console.log(safariAgent)
-          // console.log(chromeAgent)
-
-
-          // // Discard Safari since it also matches Chrome
-          // if (chromeAgent && safariAgent) safariAgent = false;
-
-          // console.log(safariAgent);
-
-          raceInFocus = linkRace;
-
-          // Using smooth scroll polyfill
-          setTimeout(function () {
-            d3.select(`#r${raceInFocus.raceIdFerrari}`).node().scrollIntoView({ behavior: 'smooth' })
-          }, 0);
-          
-
-          raceInFocus = linkRace;
-
-          // Timeout to set raceInFocus AFTER scroll is finished
-          setTimeout(function () {
-            tooltipFunction(linkRace);
-          }, 800);
-
-          console.log(linkRace);
-        });
       },
       false
     );
@@ -882,11 +749,11 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .filter((d) => hundredRaces.includes(parseInt(d.raceIdFerrari)))
       .append("text")
       .attr("class", "label")
-      .attr("x", size / 1.3)
+      .attr("x", size / 1.5)
       .attr("y", size / 3)
       .attr("transform", `rotate(${-tiltAngle})`)
-      .style("font-size", "16px")
-      .style("font-family", "Epilogue")
+      .style("font-size", "10px")
+      .style("font-family", "sans-serif")
       .style("font-weight", "bold")
       .style("text-transform", "uppercase")
       .style("fill", colours.white)
@@ -920,35 +787,60 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     ////////////////////////////////////////// SYMBOLS //////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
+    // Laps led arc
+    let angleScale = d3
+      .scaleLinear()
+      .domain([0, 1])
+      .range([-Math.PI / 2 + tiltAngle * (Math.PI / 180), 0]);
+
+    gridEnter
+      .append("g")
+      .style("transform", `translate(${size / 2}px, ${size / 2}px)`)
+      .attr("class", "led-arc")
+      .append("path")
+      .attr("d", (d) => {
+        let sum = [];
+        d.drivers.forEach((e) => sum.push(parseInt(e.lapsLed)));
+        let sum2 = sum.reduce((a, b) => a + b, 0);
+
+        let arcValue = d3
+          .arc()
+          .innerRadius(scaleGrid(0.35) - lineWidth / 4)
+          .outerRadius(scaleGrid(0.35) + lineWidth / 4)
+          .startAngle(-Math.PI / 2 + tiltAngle * (Math.PI / 180))
+          .endAngle(angleScale(sum2 / parseInt(d.drivers[0].winnerLaps)));
+        return arcValue(d);
+      })
+      .attr("fill", colours.white)
+      .attr("stroke", "none");
+
     // Drivers strips structure
     let driversGroup = gridEnter
       .append("g")
       .attr("id", "drivers-group")
       .attr("transform", `translate(${size / 2}, ${size / 2}), rotate(-${14})`);
 
-    let driverStripWidth = size / 30;
-    let driverStripDistance = size / 9;
+    let driverStripWidth = 3;
+    let driverStripDistance = 10;
 
     let innerDriversGroup = driversGroup
       .append("g")
       .attr("id", (d) => d.raceDetails.raceAbbrev)
-      .attr("transform", (d) => {
-        // #of drivers in small multiples limited to 4
-        let shortenedDriversLength =
-          d.drivers.length <= 4 ? d.drivers.length : 4;
-        return `translate(0, ${
-          (-shortenedDriversLength * driverStripWidth -
-            (shortenedDriversLength - 1) *
-              (driverStripDistance - driverStripWidth)) /
-          2
-        })`;
-      });
+      .attr(
+        "transform",
+        (d) =>
+          `translate(0, ${
+            (-d.drivers.length * driverStripWidth -
+              (d.drivers.length - 1) *
+                (driverStripDistance - driverStripWidth)) /
+            2
+          })`
+      );
 
     singleDriverGroup = innerDriversGroup
       .selectAll(".single-driver-g")
       .data((d) => d.drivers)
       .enter()
-      .filter((d, i) => i <= 3)
       .append("g")
       .attr("class", "single-driver-g")
       .attr("transform", (d, i) => {
@@ -973,7 +865,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     // Pole Position or first row
     singleDriverGroup
       .append("polygon")
-      .attr("class", "first-row-triangle")
       .attr(
         "transform",
         `translate(${-mainCircleRadius - 8}, ${-driverStripWidth / 2})`
@@ -1000,7 +891,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("class", "driver-fl")
       .attr("cx", mainCircleRadius + 5)
       .attr("cy", driverStripWidth / 2)
-      .attr("r", size / 40)
+      .attr("r", "2px")
       .attr("stroke", (d) => {
         if (d.fLap1) {
           return d.fLap1 === "1" ? colours.white : "none";
@@ -1014,7 +905,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("class", "driver-led")
       .attr("cx", mainCircleRadius + 5)
       .attr("cy", driverStripWidth / 2)
-      .attr("r", size / 15)
+      .attr("r", "6px")
       .attr("stroke", (d) => {
         if (d.rank) {
           return d.lapsLed / d.winnerLaps === 1 ? colours.white : "none";
@@ -1028,52 +919,23 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("points", (d) => {
         if (d.position === "1") {
           return `${mainCircleRadius * 0.45} ${driverStripWidth}
-            ${mainCircleRadius * 0.45} -${size / 13}
-            ${size / 3} ${driverStripWidth}
+            ${mainCircleRadius * 0.45} -7
+            32 ${driverStripWidth}
             ${mainCircleRadius * 0.45} ${driverStripWidth}`;
         } else if (d.position === "2" || d.position === "3") {
           return `${mainCircleRadius * 0.6} ${driverStripWidth}
-          ${mainCircleRadius * 0.6} -${size / 22}
-          ${size / 3} ${driverStripWidth}
+          ${mainCircleRadius * 0.6} -4
+          32 ${driverStripWidth}
           ${mainCircleRadius * 0.6} ${driverStripWidth}`;
         }
       })
       .attr("fill", colours.black);
-
-    // Laps led arc
-    let angleScale = d3
-      .scaleLinear()
-      .domain([0, 1])
-      .range([-Math.PI / 2 + 1.5 * tiltAngle * (Math.PI / 180), 0]);
-
-    gridEnter
-      .append("g")
-      .style("transform", `translate(${size / 2}px, ${size / 2}px)`)
-      .attr("class", "led-arc")
-      .append("path")
-      .attr("d", (d) => {
-        let sum = [];
-        d.drivers.forEach((e) => sum.push(parseInt(e.lapsLed)));
-        let sum2 = sum.reduce((a, b) => a + b, 0);
-
-        let arcValue = d3
-          .arc()
-          .innerRadius(scaleGrid(0.32) - lineWidth / 4)
-          .outerRadius(scaleGrid(0.32) + lineWidth / 4)
-          // .startAngle(-Math.PI / 2 + tiltAngle * (Math.PI / 180))
-          .startAngle(-Math.PI / 2 + 1.5 * tiltAngle * (Math.PI / 180))
-          .endAngle(angleScale(sum2 / parseInt(d.drivers[0].winnerLaps)));
-        return arcValue(d);
-      })
-      .attr("fill", colours.white)
-      .attr("stroke", "none");
   }
 
   function drawSparklines(dataset) {
-    let containerWidth = d3.select("#sp-wins").node().clientWidth;
     // Sparklines - set the dimensions and margins of the graph
     let spMargin = { top: 5, right: 5, bottom: 5, left: 5 },
-      spWidth = containerWidth * 0.9 - spMargin.left - spMargin.right,
+      spWidth = 160 - spMargin.left - spMargin.right,
       spHeight = 50 - spMargin.top - spMargin.bottom;
 
     let spWinsSvg = d3
@@ -1336,33 +1198,17 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     raceInFocus = raceObj;
 
     let thisNode = d3.select(`#r${raceObj.raceIdFerrari}`).node();
-    console.log("NOWW");
-    // console.log(thisNode);
+    console.log(raceObj);
+    console.log(thisNode);
 
     let ctm = thisNode.getCTM();
     console.log(thisNode.getCTM());
 
-    if (ctm.e < 160 && numPerRow === 8) {
-      d3.select("#race-details-wrapper").style("left", `${ctm.e + size / 2}px`);
-    } else if (ctm.e < 140 && numPerRow === 4) {
-      d3.select("#race-details-wrapper").style("left", `${ctm.e + size / 2}px`);
-    } else if (ctm.e > 320 && numPerRow === 4) {
-      d3.select("#race-details-wrapper").style(
-        "left",
-        `${ctm.e - raceObj.drivers.length * 60}px`
-      );
-    } else {
-      d3.select("#race-details-wrapper").style(
-        "left",
-        `${ctm.e - 160 + size / 2}px`
-      );
-    }
-
+    // d3.select("#story-stats-wrapper").style("display", "none");
     d3.select("#race-details-wrapper")
       .style("display", "block")
-      .style("top", (c) => {
-        return innerWidth > 812 ? `${ctm.f + 100}px` : `${ctm.f + 70}px`;
-      });
+      .style("left", `${ctm.e - 100}px`)
+      .style("top", `${ctm.f + 100}px`);
 
     // Fade all elements
     d3.selectAll(".label").style("opacity", 0.3);
@@ -1374,7 +1220,6 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     d3.selectAll(".driver-led").style("opacity", 0.3);
     d3.selectAll(".driver-championship").style("opacity", 0.3);
     d3.selectAll(".constructor-championship").style("opacity", 0.3);
-    d3.selectAll(".first-row-triangle").style("opacity", 0.3);
 
     // Highlight selected
     d3.select(thisNode).selectAll(".label").style("opacity", 1);
@@ -1387,19 +1232,18 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     d3.select(thisNode)
       .selectAll(".constructor-championship")
       .style("opacity", 1);
-    d3.select(thisNode).selectAll(".first-row-triangle").style("opacity", 1);
 
     // Tooltip - race title
     d3.select("#race-header-title").text(
       `${raceObj.year} ${raceObj.raceDetails.raceName}`
     );
 
-    console.log(raceObj.raceIdFerrari);
+    console.log(raceObj.circuitName.circuitRef);
+    console.log(raceObj.year);
 
-    d3.select("#circuit-image img").remove();
-    d3.select("#car-model img").remove();
+    d3.select("#temp-image img").remove();
     // Tooltip - circuit image
-    d3.select("#circuit-image")
+    d3.select("#temp-image")
       .append("img")
       .attr("class", raceObj.circuitName.name)
       .attr(
@@ -1430,10 +1274,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
     // Sidebar - race count chart
 
-    let countScale = d3
-      .scaleLinear()
-      .domain([0, ferrariData.length])
-      .range([0, 100]);
+    let countScale = d3.scaleLinear().domain([0, 1000]).range([0, 100]);
 
     d3.select("#races-count-chart").selectAll("svg").remove();
 
@@ -1524,19 +1365,25 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .append("div")
       .attr("class", "tooltip-driver-symbols");
 
+    let driverDetailsLead = driverDetailsWrapper
+      .append("div")
+      .attr("class", "tooltip-driver-lead");
+
     // Pole Position symbol
     driverDetailsSymbols
       .append("svg")
       .attr("width", "16px")
       .attr("height", "16px")
-      .append("polygon")
-      .attr("transform", `translate(6, 6), rotate(${-tiltAngle})`)
-      .attr("points", "0 0 0 6.16 5.33 3.08 0 0")
+      .append("circle")
       .attr("fill", (e) => {
         return e.grid === "1" ? colours.white : colours.grey;
       })
+      .attr("stroke", "none")
+      .attr("cx", 8)
+      .attr("cy", 8)
+      .attr("r", 4)
       .append("title")
-      .text("Pole Position");
+      .text("test");
 
     // Fl symbol
     driverDetailsSymbols
@@ -1551,9 +1398,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .attr("stroke-width", 1)
       .attr("cx", 8)
       .attr("cy", 8)
-      .attr("r", 4)
-      .append("title")
-      .text("Fastest Lap");
+      .attr("r", 4);
 
     // All laps led symbol
     driverDetailsSymbols
@@ -1563,109 +1408,14 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       .append("circle")
       .attr("fill", "none")
       .attr("stroke", (e) => {
-        // console.log(e.lapsLed);
-        // console.log(e.winnerLaps);
+        console.log(e.lapsLed);
+        console.log(e.winnerLaps);
         return e.lapsLed / e.winnerLaps === 1 ? colours.white : colours.grey;
       })
       .attr("stroke-width", 1)
       .attr("cx", 8)
       .attr("cy", 8)
-      .attr("r", 7)
-      .append("title")
-      .text("All Laps Led");
-
-    let driverDetailsSymbolsLabels = driverDetailsWrapper
-      .append("div")
-      .attr("class", "tooltip-driver-symbols-labels");
-    driverDetailsSymbolsLabels
-      .append("p")
-      .text("PP")
-      .attr("fill", (e) => {
-        return e.grid === "1" ? colours.white : colours.grey;
-      })
-      .append("title")
-      .text("Pole Position");
-    driverDetailsSymbolsLabels
-      .append("p")
-      .text("FL")
-      .attr("fill", (e) => {
-        return e.fLap1 === "1" ? colours.white : colours.grey;
-      })
-      .append("title")
-      .text("Fastest Lap");
-    driverDetailsSymbolsLabels
-      .append("p")
-      .text("LL")
-      .attr("fill", (e) => {
-        return e.lapsLed / e.winnerLaps === 1 ? colours.white : colours.grey;
-      })
-      .append("title")
-      .text("All Laps Led");
-
-    // Tooltip - Driver laps led area
-    // let driverLapsLed = driverDivs
-    //   .append("div")
-    //   .attr("id", "tooltip-driver-laps-led");
-
-    // let countLapsLedScale = d3.scaleLinear().domain([0, 1]).range([0, 100]);
-
-    // driverLapsLed.selectAll("svg").remove();
-
-    // let driverLapsLedSvg = driverLapsLed
-    //   .append("svg")
-    //   .attr("width", "90%")
-    //   .attr("height", 8)
-    //   .append("g");
-
-    // driverLapsLedSvg
-    //   .append("rect")
-    //   .attr("x", 0)
-    //   .attr("y", 0)
-    //   .attr("width", "100%")
-    //   .attr("height", 3)
-    //   .attr("fill", "#330b0b");
-
-    // driverLapsLedSvg
-    //   .append("rect")
-    //   .attr("x", 0)
-    //   .attr("y", 0)
-    //   .attr("width", (e) => {
-    //     console.log(e);
-    //     return `${countLapsLedScale(e.lapsLed / e.winnerLaps)}%`;
-    //   })
-    //   .attr("height", 3)
-    //   .attr("fill", colours.red);
-
-    // Tooltip - Driver cars
-    let driverCar = driverDivs.append("div").attr("id", "tooltip-driver-car");
-    driverCar
-      .append("img")
-      .attr("class", "car-image")
-      .attr("src", (e) => {
-        let carString = e.car.replace("/", "-");
-        return `SVG/svgCars/Cars_${carString}.svg`;
-      })
-      .attr("width", 70);
-
-    driverCar.append("p").text((e) => e.car);
-
-    if (innerWidth <= 812) {
-      d3.select("#race-details-wrapper").style("width", (c) => {
-        return raceObj.drivers.length <= 2
-          ? "250px"
-          : raceObj.drivers.length === 3
-          ? "350px"
-          : "450px";
-      });
-
-      d3.selectAll(".driver-div").style("width", (c) => {
-        return raceObj.drivers.length <= 2
-          ? "50%"
-          : raceObj.drivers.length === 3
-          ? "33%"
-          : "24%";
-      });
-    }
+      .attr("r", 7);
   }
 
   // Checking if in viewport
