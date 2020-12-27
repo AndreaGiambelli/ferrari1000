@@ -142,11 +142,11 @@ d3.json("ferrariData.json").then(function (ferrariData) {
   function drawViz(dataset) {
     windowWidth = window.innerWidth;
 
-    if (windowWidth <= 812) {
+    if (windowWidth <= 812 && windowWidth < window.innerHeight) {
       topOffset = 500;
       console.log(topOffset);
     } else {
-      topOffset = 100;
+      topOffset = 80;
     }
 
     // Map Margins and dimensions
@@ -503,7 +503,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         } else if (maxRaceInView > 88 && maxRaceInView < 149) {
           // console.log("early sixties");
           d3.select("#story").html(
-            "The new ‘shark-nosed’ 156 model—the first Ferrari purposely designed as rear-engined—dominates the 1961 season, allowing Phil Hill to take the title, and Giancarlo Baghetti to claim a historic win on his F1 debut in <a id='Fra.61'>France</a>. The Scuderia is once again struck by tragedy when German driver Von Trips is killed in an accident at <a id='Ita.61'>Monza</a>, along with 14 spectators. The following years bring upheaval in the team as young engineer Mauro Forghieri is promoted to head the racing division. He and his team pen the 158 model, which British ace John Surtees races to the title in 1964, beating the mighty Jim Clark and his superior Lotus. Despite the team’s efforts the rest of the Sixties is not very successful against strong rivals like Lotus, Brabham, Cooper and McLaren. One of the few highlights is Ludovico Scarfiotti’s win at the <a id='Ita.66'>1966 Italian GP</a>, the last victory for an Italian on home soil to date. "
+            "The new ‘shark-nosed’ 156 model—the first Ferrari purposely designed as rear-engined—dominates the 1961 season, allowing Phil Hill to take the title, and Giancarlo Baghetti to claim a historic win on his F1 debut in <a id='Fra.61'>France</a>. The Scuderia is once again struck by tragedy when German driver Von Trips is killed in an accident at <a id='Ita.61'>Monza</a>, along with 14 spectators. New engineering head Mauro Forghieri pens the 158 model, which British ace John Surtees races to the title in 1964, beating the mighty Jim Clark and his superior Lotus. Despite the team’s efforts the rest of the Sixties is not very successful against strong rivals like Lotus, Brabham, Cooper and McLaren. One of the few highlights is Ludovico Scarfiotti’s win at the <a id='Ita.66'>1966 Italian GP</a>, the last victory for an Italian on home soil to date. "
           );
         } else if (maxRaceInView > 150 && maxRaceInView < 232) {
           // console.log("60s-70s");
@@ -518,7 +518,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           // console.log("early 1970s");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "Ferrari is back battilng at the top of the pack in 1974, with Luca Cordero di Montezemolo heading the racing team, and a strong pair of drivers in Regazzoni and Austrian youngster Niki Lauda. Glory finally comes in 1975, as Lauda brings the driver’s title back to Maranello after 11 years and Regazzoni helps secure the Constructor’s Championship as well. Ferrari and Lauda dominate the following year, until the Austrian’s life-threatening accident at the <a id='Ger.76'>Nurburgring</a>. Lauda’s physical recovery is incredibly quick, but would famously give in at a soaked season finale in <a id='Jap.76'>Japan</a>, handing the title to British rising star James Hunt. The Austrian comes back strongly in ’77, winning his second title before leaving the team acrimoniously. Enzo Ferrari replaces him with a relatively unknown Canadian youngster by the name of Gilles Villeneuve"
+            "Ferrari is back battilng at the top of the pack in 1974, with Luca Cordero di Montezemolo heading the racing team, and a strong pair of drivers in Regazzoni and Austrian youngster Niki Lauda. Glory finally comes in 1975, as Lauda brings the driver’s title back to Maranello after 11 years and Regazzoni helps secure the Constructor’s Championship as well. Ferrari and Lauda dominate the following year, until the Austrian’s life-threatening accident at the <a id='Ger.76'>Nurburgring</a>. Lauda’s recovery is incredibly quick, but would famously give in at a soaked season finale in <a id='Jap.76'>Japan</a>, handing the title to British James Hunt. The Austrian comes back strongly in ’77, winning his second title before leaving the team. Enzo Ferrari replaces him with a Canadian youngster by the name of Gilles Villeneuve"
           );
         } else if (
           // End of 1970s
