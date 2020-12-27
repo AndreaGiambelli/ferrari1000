@@ -684,14 +684,17 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           raceInFocus = linkRace;
 
           // Using smooth scroll polyfill
-          d3.select(`#r${raceInFocus.raceIdFerrari}`).node().scrollIntoView({ behavior: 'smooth' })
+          setTimeout(function () {
+            d3.select(`#r${raceInFocus.raceIdFerrari}`).node().scrollIntoView({ behavior: 'smooth' })
+          }, 0);
+          
 
           raceInFocus = linkRace;
 
           // Timeout to set raceInFocus AFTER scroll is finished
           setTimeout(function () {
             tooltipFunction(linkRace);
-          }, 300);
+          }, 800);
 
           console.log(linkRace);
         });
