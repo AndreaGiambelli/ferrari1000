@@ -123,24 +123,24 @@ if (window.innerWidth <= 414) {
 d3.json("ferrariData.json").then(function (ferrariData) {
   console.log(ferrariData);
 
-  // const handleResize = () => {
-  //   windowWidth = window.innerWidth;
-  //   // console.log(windowWidth);
+  const handleResize = () => {
+    windowWidth = window.innerWidth;
+    // console.log(windowWidth);
 
-  //   if (windowWidth <= 414) {
-  //     window.scroll({ top: 100, left: 0, behavior: 'smooth' });
-  //     d3.select("body").classed("fixed", true);
-  //     d3.select("#turn-device").classed("open", true);
-  //   } else {
-  //     d3.select("body").classed("fixed", false);
-  //     d3.select("#turn-device").classed("open", false);
-  //   d3.select("#test").text(windowWidth)
-  //   }
-  //   drawViz(ferrariData);
+    if (windowWidth <= 414) {
+      window.scroll({ top: 100, left: 0, behavior: 'smooth' });
+      d3.select("body").classed("fixed", true);
+      d3.select("#turn-device").classed("open", true);
+    } else {
+      d3.select("body").classed("fixed", false);
+      d3.select("#turn-device").classed("open", false);
+    d3.select("#test").text(windowWidth)
+    }
+    drawViz(ferrariData);
 
-  // };
+  };
 
-  // window.addEventListener("resize", handleResize);
+  window.addEventListener("resize", handleResize);
 
   /// VIZ ///
   function drawViz(dataset) {
