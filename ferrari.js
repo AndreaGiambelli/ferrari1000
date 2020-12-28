@@ -79,21 +79,6 @@ let privateers = [
   "tomaso",
 ];
 
-let circuitsMap = [
-  {
-    name: "estoril",
-    yearFirst: 1984,
-    yearLast: 1993,
-    svgPath: "SVG/svgCircuits/Circuits_estoril.svg",
-  },
-  {
-    name: "estoril",
-    yearFirst: 1994,
-    yearLast: 1996,
-    svgPath: "SVG/svgCircuits/Circuits_albert_park.svg",
-  },
-];
-
 const hundredRaces = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
 
 // Global variables
@@ -102,18 +87,6 @@ let allFerrariRaces;
 let raceInFocus;
 let filter;
 let isFiltered;
-let maxRaceInView;
-let winsInView = 0;
-let polesInView = 0;
-let flInView = 0;
-let wDcInView = 0;
-let wCcInView = 0;
-let winsMap = [];
-let polesMap = [];
-let flMap = [];
-let wDcMap = [];
-let wCcMap = [];
-let xScaleSp;
 
 d3.csv("f1db_csv/races.csv").then(function (racesData) {
   racesData.forEach((r) => {
@@ -132,10 +105,6 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
         url: r.url,
       },
     });
-  });
-
-  d3.csv("f1db_csv/circuitMap.csv").then(function (circuitMap) {
-    console.log(circuitMap);
   });
 
   d3.csv("f1db_csv/circuits.csv").then(function (circuitsData) {
@@ -165,7 +134,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           );
         });
 
-        ferrariRaces.forEach((d, i) => {
+        ferrariRaces.forEach((d) => {
           // Storing full race laps (laps completed by winner)
           let winnerResult = resultsData
             .filter((e) => e.raceId === d.raceIdOverall) // Find corresponding race result
@@ -197,33 +166,6 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           .filter(filterRaces)
           .sort((a, b) => +a.year - +b.year);
         ferrariCompleteRaces.forEach((d, i) => (d.raceIdFerrari = i + 1));
-
-        // Cumulative values
-        ferrariCompleteRaces.forEach((d, i) => {
-          // Cumulative Wins
-          let winsCalc = d.drivers.map((e) => e.position);
-          if (winsCalc.includes("1")) {
-            winsMap.push(...winsCalc);
-            winsMap = winsMap.filter((f) => f === "1");
-          }
-          d.cumulativeWins = winsMap.length;
-
-          // Cumulative Poles
-          let polesCalc = d.drivers.map((e) => e.grid);
-          if (polesCalc.includes("1")) {
-            polesMap.push(...polesCalc);
-            polesMap = polesMap.filter((f) => f === "1");
-          }
-          d.cumulativePoles = polesMap.length;
-
-          // Cumulative Fastest Laps
-          let flCalc = d.drivers.map((e) => e.fLap1);
-          if (flCalc.includes("1")) {
-            flMap.push(...flCalc);
-            flMap = flMap.filter((f) => f === "1");
-          }
-          d.cumulativeFl = flMap.length;
-        });
         console.log(ferrariCompleteRaces); // 994 races with Ferrari + 6 races in 2020 = 1000
 
         /// VIZ ///
@@ -265,14 +207,6 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
         bounds.append("g").attr("class", "races-group");
 
         function drawViz(dataset) {
-          // Setting height of sidebar stats wrapper to ensure stats are at the bottom
-          d3.select("#story-stats-wrapper").style(
-            "height",
-            window.innerHeight * 0.8 + "px"
-          );
-
-          d3.select("#races-count-right").text(dataset.length);
-
           console.log(dataset);
 
           // Scale to set up grid
@@ -289,6 +223,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
 
           timeline.selectAll(".yearsLine").remove();
           timeline.selectAll("#timeline-arcs").remove();
+
 
           let timelineRects = timeline
             .selectAll(".yearsLine")
@@ -520,250 +455,131 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           //     // Translating groups to grid position
           //     return `translate(${scaleGrid(n)}, ${scaleGrid(m)})`;
           //   })
-          //
-
+          //   
+          
           bbb.on("click", function (d, i, n) {
-            d3.event.stopPropagation();
+              d3.event.stopPropagation();
 
-            raceInFocus = d;
+              raceInFocus = d;
 
-            console.log(this);
+              d3.select("#sidebar").style("visibility", "visible");
 
-            // let bbox = this.getBBox();
-            let ctm = this.getCTM();
-            console.log(this.getCTM());
+              // Fade all elements
+              d3.selectAll(".label").style("opacity", 0.5);
+              d3.selectAll(".race-main-circle").style("opacity", 0.5);
+              d3.selectAll(".led-arc").style("opacity", 0.5);
+              d3.selectAll(".year-label").style("opacity", 0.5);
+              d3.selectAll(".driver-pole").style("opacity", 0.5);
+              d3.selectAll(".driver-fl").style("opacity", 0.5);
+              d3.selectAll(".driver-led").style("opacity", 0.5);
+              d3.selectAll(".driver-championship").style("opacity", 0.5);
+              d3.selectAll(".constructor-championship").style("opacity", 0.5);
 
-            // Calculate the centre of the group
-            // let cx = bbox.x + bbox.width / 2;
-            // let cy = bbox.y + bbox.height / 2;
+              // Highlight selected
+              d3.select(this).selectAll(".label").style("opacity", 1);
+              d3.select(this)
+                .selectAll(".race-main-circle")
+                .style("opacity", 1);
+              d3.select(this).selectAll(".led-arc").style("opacity", 1);
+              d3.select(this).selectAll(".driver-pole").style("opacity", 1);
+              d3.select(this).selectAll(".driver-fl").style("opacity", 1);
+              d3.select(this).selectAll(".driver-led").style("opacity", 1);
+              d3.select(this)
+                .selectAll(".driver-championship")
+                .style("opacity", 1);
+              d3.select(this)
+                .selectAll(".constructor-championship")
+                .style("opacity", 1);
 
-            // // Transform cx,cy by the group's transform
-            // let pt = document.getElementById("mysvg").createSVGPoint();
-            // pt.x = cx;
-            // pt.y = cy;
-            // pt = pt.matrixTransform(ctm);
+              // Sidebar - race title
+              d3.select("#race-header-title").text(
+                `${d.year} ${d.raceDetails.raceName}`
+              );
 
-            // d3.select("#story-stats-wrapper").style("display", "none");
-            d3.select("#race-details-wrapper")
-              .style("display", "block")
-              .style("left", `${ctm.e - 100}px`)
-              .style("top", `${ctm.f + 100}px`);
+              d3.select("#temp-image img").remove();
+              // Sidebar - circuit image
+              d3.select("#temp-image")
+                .append("img")
+                .attr("class", d.circuitName.name)
+                .attr(
+                  "src",
+                  `SVG/svgCircuits/Circuits_${d.circuitName.circuitRef}.svg`
+                )
+                .attr("width", 100)
+                .attr("height", 100);
 
-            // Fade all elements
-            d3.selectAll(".label").style("opacity", 0.3);
-            d3.selectAll(".race-main-circle").style("opacity", 0.3);
-            d3.selectAll(".led-arc").style("opacity", 0.3);
-            d3.selectAll(".year-label").style("opacity", 0.3);
-            d3.selectAll(".driver-pole").style("opacity", 0.3);
-            d3.selectAll(".driver-fl").style("opacity", 0.3);
-            d3.selectAll(".driver-led").style("opacity", 0.3);
-            d3.selectAll(".driver-championship").style("opacity", 0.3);
-            d3.selectAll(".constructor-championship").style("opacity", 0.3);
+              // Sidebar - race circuit
+              d3.select("#race-circuit").text(d.circuitName.name);
 
-            // Highlight selected
-            d3.select(this).selectAll(".label").style("opacity", 1);
-            d3.select(this).selectAll(".race-main-circle").style("opacity", 1);
-            d3.select(this).selectAll(".led-arc").style("opacity", 1);
-            d3.select(this).selectAll(".driver-pole").style("opacity", 1);
-            d3.select(this).selectAll(".driver-fl").style("opacity", 1);
-            d3.select(this).selectAll(".driver-led").style("opacity", 1);
-            d3.select(this)
-              .selectAll(".driver-championship")
-              .style("opacity", 1);
-            d3.select(this)
-              .selectAll(".constructor-championship")
-              .style("opacity", 1);
+              // Sidebar - race date
+              let formatDate = d3.timeFormat("%B %d");
+              let dateString = d.raceDetails.date + "T14:00:00+0000";
+              let raceDate = new Date(Date.parse(dateString));
+              d3.select("#race-date").text(formatDate(raceDate));
 
-            // Tooltip - race title
-            d3.select("#race-header-title").text(
-              `${d.year} ${d.raceDetails.raceName}`
-            );
+              // Sidebar - race count text
+              d3.select("#races-count").text("Race #" + d.raceIdFerrari);
 
-            d3.select("#temp-image img").remove();
-            // Tooltip - circuit image
-            d3.select("#temp-image")
-              .append("img")
-              .attr("class", d.circuitName.name)
-              .attr(
-                "src",
-                // `SVG/svgCircuits/Circuits_${d.circuitName.circuitRef}.svg`
+              // Sidebar - race count chart
 
-                circuitMap.find(
-                  (c) =>
-                    c.name === d.circuitName.circuitRef &&
-                    c.yearFirst <= d.year &&
-                    c.yearLast >= d.year
-                ).svgPath
-              )
-              .attr("width", 80)
-              .attr("height", 80);
+              let countScale = d3
+                .scaleLinear()
+                .domain([0, 1000])
+                .range([0, 100]);
 
-            // Tooltip - race circuit
-            d3.select("#race-circuit").text(d.circuitName.name);
+              let countSvg = d3
+                .select("#races-count")
+                .append("svg")
+                .attr("width", "100%")
+                .attr("height", 20)
+                .append("g");
 
-            // Tooltip - race date
-            let formatDate = d3.timeFormat("%B %d");
-            let dateString = d.raceDetails.date + "T14:00:00+0000";
-            let raceDate = new Date(Date.parse(dateString));
-            d3.select("#race-date").text(formatDate(raceDate));
+              countSvg
+                .append("rect")
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("width", "100%")
+                .attr("height", 5)
+                .attr("fill", colours.grey);
 
-            // Sidebar - race count text
-            d3.select("#races-count").text("Race #" + d.raceIdFerrari);
+              countSvg
+                .append("rect")
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("width", `${countScale(d.raceIdFerrari)}%`)
+                .attr("height", 5)
+                .attr("fill", colours.red);
 
-            // Sidebar - race count chart
+              // Sidebar - driver divs
+              let driverDivs = d3
+                .select("#drivers")
+                .selectAll(".driver-div")
+                .data(d.drivers)
+                .join("div")
+                .attr("class", "driver-div")
+                .text("");
 
-            let countScale = d3.scaleLinear().domain([0, 1000]).range([0, 100]);
-
-            d3.select("#races-count-chart").selectAll("svg").remove();
-
-            let countSvg = d3
-              .select("#races-count-chart")
-              .append("svg")
-              .attr("width", "100%")
-              .attr("height", 8)
-              .append("g");
-
-            countSvg
-              .append("rect")
-              .attr("x", 0)
-              .attr("y", 0)
-              .attr("width", "100%")
-              .attr("height", 3)
-              .attr("fill", "#330b0b");
-
-            countSvg
-              .append("rect")
-              .attr("x", 0)
-              .attr("y", 0)
-              .attr("width", `${countScale(d.raceIdFerrari)}%`)
-              .attr("height", 3)
-              .attr("fill", colours.red);
-
-            // Sidebar - driver divs
-            let driverDivs = d3
-              .select("#drivers")
-              .selectAll(".driver-div")
-              .data(d.drivers)
-              .join("div")
-              .attr("class", "driver-div")
-              .text("");
-
-            driverDivs
-              .append("img")
-              .attr("class", "driver-helmet")
-              .attr("src", (e) => {
-                if (e.driver === "michael_schumacher" && +e.raceYear >= 2000) {
-                  return `SVG/SVG_michael_schumacher_2.svg`;
-                } else {
+              driverDivs
+                .append("img")
+                .attr("class", "driver-helmet")
+                .attr("src", (e) => {
                   return `SVG/SVG_${e.driver}.svg`;
-                }
-              })
-              .attr("width", 50)
-              .attr("height", 50);
-            driverDivs
-              .append("p")
-              .attr("class", "driver-number")
-              .text((e) => e.number);
-            driverDivs
-              .append("p")
-              .attr("class", "driver-name")
-              .text((e) => e.name);
-
-            // Driver result area
-            let driverResultWrapper = driverDivs
-              .append("div")
-              .attr("class", "tooltip-driver-result-wrapper");
-
-            driverResultWrapper
-              .append("div")
-              .attr("class", "tooltip-driver-position")
-              .style("background", (e) => {
-                return e.position === "1"
-                  ? colours.red
-                  : e.position === "2" || e.position === "3"
-                  ? colours.yellow
-                  : e.position === "4" ||
-                    e.position === "5" ||
-                    e.position === "6"
-                  ? colours.yellow2
-                  : colours.grey;
-              })
-              .append("p")
-              .text((e) => {
-                if (e.position.includes("N")) {
-                  return "/";
-                } else {
-                  return e.position;
-                }
-              });
-
-            let driverDetailsWrapper = driverResultWrapper
-              .append("div")
-              .attr("class", "tooltip-driver-details-wrapper");
-
-            let driverDetailsSymbols = driverDetailsWrapper
-              .append("div")
-              .attr("class", "tooltip-driver-symbols");
-
-            let driverDetailsLead = driverDetailsWrapper
-              .append("div")
-              .attr("class", "tooltip-driver-lead");
-
-            // Pole Position symbol
-            driverDetailsSymbols
-              .append("svg")
-              .attr("width", "16px")
-              .attr("height", "16px")
-              .append("circle")
-              .attr("fill", (e) => {
-                return e.grid === "1" ? colours.white : colours.grey;
-              })
-              .attr("stroke", "none")
-              .attr("cx", 8)
-              .attr("cy", 8)
-              .attr("r", 4)
-              .append("title")
-              .text("test");
-
-            // Fl symbol
-            driverDetailsSymbols
-              .append("svg")
-              .attr("width", "16px")
-              .attr("height", "16px")
-              .append("circle")
-              .attr("fill", "none")
-              .attr("stroke", (e) => {
-                return e.fLap1 === "1" ? colours.white : colours.grey;
-              })
-              .attr("stroke-width", 1)
-              .attr("cx", 8)
-              .attr("cy", 8)
-              .attr("r", 4);
-
-            // All laps led symbol
-            driverDetailsSymbols
-              .append("svg")
-              .attr("width", "16px")
-              .attr("height", "16px")
-              .append("circle")
-              .attr("fill", "none")
-              .attr("stroke", (e) => {
-                console.log(e.lapsLed);
-                console.log(e.winnerLaps);
-                return e.lapsLed / e.winnerLaps === 1
-                  ? colours.white
-                  : colours.grey;
-              })
-              .attr("stroke-width", 1)
-              .attr("cx", 8)
-              .attr("cy", 8)
-              .attr("r", 7);
-          });
+                })
+                .attr("width", 50)
+                .attr("height", 50);
+              driverDivs
+                .append("p")
+                .attr("class", "driver-number")
+                .text((e) => e.number);
+              driverDivs
+                .append("p")
+                .attr("class", "driver-name")
+                .text((e) => e.name);
+            });
 
           // Reset focus
           d3.select("body").on("click", function (d) {
-            // d3.select("#story-stats-wrapper").style("display", "block");
-            d3.select("#race-details-wrapper").style("display", "none");
+            d3.select("#sidebar").style("visibility", "hidden");
 
             // Remove fade from all elements
             d3.selectAll(".label").style("opacity", 1);
@@ -783,127 +599,14 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           window.addEventListener(
             "scroll",
             function (event) {
-              let array = [];
 
-              for (let i = 1; i < 993; i++) {
-                if (isInViewport(d3.select(`#r${i}`).node())) {
-                  array.push(parseInt(`${i}`));
-                }
-              }
-
-              maxRaceInView = d3.max(array);
-
-              d3.selectAll(".year-rect-overlay").attr(
-                "x",
-                xScaleSp(maxRaceInView)
-              );
-              // .attr("x2", xScaleSp(maxRaceInView));
-
-              winsInView = 0;
-              polesInView = 0;
-              flInView = 0;
-              wDcInView = 0;
-              wCcInView = 0;
-
-              ferrariCompleteRaces.forEach((d) => {
-                let winsCalc = d.drivers.map((e) => e.position);
-                let polesCalc = d.drivers.map((e) => e.grid);
-                let flCalc = d.drivers.map((e) => e.fLap1);
-                let wDcCalc = d.drivers.map((e) => e.driChamp);
-                let wCcCalc = d.drivers.map((e) => e.conChamp);
-
-                if (d.raceIdFerrari <= maxRaceInView) {
-                  if (winsCalc.includes("1")) {
-                    winsInView++;
-                  }
-                  if (polesCalc.includes("1")) {
-                    polesInView++;
-                  }
-                  if (flCalc.includes("1")) {
-                    flInView++;
-                  }
-                  if (wDcCalc.includes("1")) {
-                    wDcInView++;
-                  }
-                  if (wCcCalc.includes("1")) {
-                    wCcInView++;
-                  }
-                }
-              });
-
-              d3.select("#winsInView").text(`${winsInView}`);
-              d3.select("#polesInView").text(`${polesInView}`);
-              d3.select("#flInView").text(`${flInView}`);
-              d3.select("#wDcInView").text(`WDC: ${wDcInView}`);
-              d3.select("#wCcInView").text(`Constructors: ${wCcInView}`);
-
-              // The 1970s
-              if (
-                isInViewport(d3.select(`#r${230}`).node()) ||
-                isInViewport(d3.select(`#r${267}`).node())
-              ) {
-                console.log("1970s");
-                d3.select("#story").text("The winning cycle of the 1970s");
-              } else if (
-                // The Turbo era
-                isInViewport(d3.select(`#r${317}`).node()) ||
-                isInViewport(d3.select(`#r${363}`).node())
-              ) {
-                console.log("turbo era");
-                d3.select("#story").text("inizio turbo era, gilles, alboreto");
-              } else if (
-                // 88-90
-                isInViewport(d3.select(`#r${436}`).node()) ||
-                isInViewport(d3.select(`#r${462}`).node())
-              ) {
-                console.log("88-90");
-                d3.select("#story").text(
-                  "muore Enzo, FIAT, Prost-Senna Berger"
-                );
-              } else if (
-                // Digiuno
-                isInViewport(d3.select(`#r${473}`).node()) ||
-                isInViewport(d3.select(`#r${515}`).node())
-              ) {
-                console.log("digiuno");
-                d3.select("#story").text("Digiuno, Berger 1994");
-              } else if (
-                // MSC
-                isInViewport(d3.select(`#r${566}`).node()) ||
-                isInViewport(d3.select(`#r${606}`).node())
-              ) {
-                console.log("Msc");
-                d3.select("#story").text("Msc, Irvine, Silverstone");
-              } else if (
-                // 2000s
-                isInViewport(d3.select(`#r${619}`).node()) ||
-                isInViewport(d3.select(`#r${702}`).node())
-              ) {
-                console.log("2000s");
-                d3.select("#story").text("Msc 2000s");
-              } else if (
-                // Last Championships
-                isInViewport(d3.select(`#r${741}`).node()) ||
-                isInViewport(d3.select(`#r${811}`).node())
-              ) {
-                console.log("2000s");
-                d3.select("#story").text("Last Championships, Alonso");
-              } else if (
-                // Hybrid Era
-                isInViewport(d3.select(`#r${870}`).node()) ||
-                isInViewport(d3.select(`#r${981}`).node())
-              ) {
-                console.log("2000s");
-                d3.select("#story").text("Hybrid Era");
-              } else if (
-                // Latest victories
-                isInViewport(d3.select(`#r${982}`).node()) ||
-                isInViewport(d3.select(`#r${993}`).node())
-              ) {
-                console.log("2000s");
-                d3.select("#story").text("Latest victories");
+              if (isInViewport(d3
+                .select(`#r${500}`)
+                .node())) {
+                console.log("r500");
+                d3.select("#story").text("race 500")
               } else {
-                d3.select("#story").text("none");
+                d3.select("#story").text("none")
               }
 
               if (raceInFocus) {
@@ -915,8 +618,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
                   console.log("in");
                 } else {
                   console.log("out");
-                  // d3.select("#story-stats-wrapper").style("display", "block");
-                  d3.select("#race-details-wrapper").style("display", "none");
+                  d3.select("#sidebar").style("visibility", "hidden");
 
                   // Remove fade from all elements
                   d3.selectAll(".label").style("opacity", 1);
@@ -1040,9 +742,9 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
               }), rotate(${-tiltAngle})`
             );
 
-          /////////////////////////////////////////////////////////////////////////////////////////////////
-          //////////////////////////////////////////// LABELS /////////////////////////////////////////////
-          /////////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////////
+                //////////////////////////////////////////// LABELS /////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////////
 
           // Race label
           gridEnter
@@ -1156,410 +858,150 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           ////////////////////////////////////////// SYMBOLS //////////////////////////////////////////////
           /////////////////////////////////////////////////////////////////////////////////////////////////
 
-          // Laps led arc
-          let angleScale = d3
-            .scaleLinear()
-            .domain([0, 1])
-            .range([-Math.PI / 2 + tiltAngle * (Math.PI / 180), 0]);
+                // Laps led arc
+                let angleScale = d3
+                  .scaleLinear()
+                  .domain([0, 1])
+                  .range([-Math.PI / 2 + tiltAngle * (Math.PI / 180), 0]);
 
-          gridEnter
-            .append("g")
-            .style("transform", `translate(${size / 2}px, ${size / 2}px)`)
-            .attr("class", "led-arc")
-            .append("path")
-            .attr("d", (d) => {
-              let sum = [];
-              d.drivers.forEach((e) => sum.push(parseInt(e.lapsLed)));
-              let sum2 = sum.reduce((a, b) => a + b, 0);
+                gridEnter
+                  .append("g")
+                  .style("transform", `translate(${size / 2}px, ${size / 2}px)`)
+                  .attr("class", "led-arc")
+                  .append("path")
+                  .attr("d", (d) => {
+                    let sum = [];
+                    d.drivers.forEach((e) => sum.push(parseInt(e.lapsLed)));
+                    let sum2 = sum.reduce((a, b) => a + b, 0);
 
-              let arcValue = d3
-                .arc()
-                .innerRadius(scaleGrid(0.35) - lineWidth / 4)
-                .outerRadius(scaleGrid(0.35) + lineWidth / 4)
-                .startAngle(-Math.PI / 2 + tiltAngle * (Math.PI / 180))
-                .endAngle(angleScale(sum2 / parseInt(d.drivers[0].winnerLaps)));
-              return arcValue(d);
-            })
-            .attr("fill", colours.white)
-            .attr("stroke", "none");
+                    let arcValue = d3
+                      .arc()
+                      .innerRadius(scaleGrid(0.35) - lineWidth / 4)
+                      .outerRadius(scaleGrid(0.35) + lineWidth / 4)
+                      .startAngle(-Math.PI / 2 + tiltAngle * (Math.PI / 180))
+                      .endAngle(angleScale(sum2 / parseInt(d.drivers[0].winnerLaps)));
+                    return arcValue(d);
+                  })
+                  .attr("fill", colours.white)
+                  .attr("stroke", "none");
 
-          // Drivers strips structure
-          let driversGroup = gridEnter
-            .append("g")
-            .attr("id", "drivers-group")
-            .attr(
-              "transform",
-              `translate(${size / 2}, ${size / 2}), rotate(-${14})`
-            );
+                // Drivers strips structure
+                let driversGroup = gridEnter
+                  .append("g")
+                  .attr("id", "drivers-group")
+                  .attr(
+                    "transform",
+                    `translate(${size / 2}, ${size / 2}), rotate(-${14})`
+                  );
 
-          let driverStripWidth = 3;
-          let driverStripDistance = 10;
+                let driverStripWidth = 3;
+                let driverStripDistance = 10;
 
-          let innerDriversGroup = driversGroup
-            .append("g")
-            .attr("id", (d) => d.raceDetails.raceAbbrev)
-            .attr(
-              "transform",
-              (d) =>
-                `translate(0, ${
-                  (-d.drivers.length * driverStripWidth -
-                    (d.drivers.length - 1) *
-                      (driverStripDistance - driverStripWidth)) /
-                  2
-                })`
-            );
+                let innerDriversGroup = driversGroup
+                  .append("g")
+                  .attr("id", (d) => d.raceDetails.raceAbbrev)
+                  .attr(
+                    "transform",
+                    (d) =>
+                      `translate(0, ${
+                        (-d.drivers.length * driverStripWidth -
+                          (d.drivers.length - 1) *
+                            (driverStripDistance - driverStripWidth)) /
+                        2
+                      })`
+                  );
 
-          singleDriverGroup = innerDriversGroup
-            .selectAll(".single-driver-g")
-            .data((d) => d.drivers)
-            .enter()
-            .append("g")
-            .attr("class", "single-driver-g")
-            .attr("transform", (d, i) => {
-              return `translate(0, ${driverStripDistance * i})`;
-            });
+                singleDriverGroup = innerDriversGroup
+                  .selectAll(".single-driver-g")
+                  .data((d) => d.drivers)
+                  .enter()
+                  .append("g")
+                  .attr("class", "single-driver-g")
+                  .attr("transform", (d, i) => {
+                    return `translate(0, ${driverStripDistance * i})`;
+                  });
 
-          // Driver strips
-          singleDriverGroup
-            .append("rect")
-            .attr("x", -mainCircleRadius)
-            .attr("y", 0)
-            .attr("width", (d) => {
-              let lapsScale = d3
-                .scaleLinear()
-                .domain([0, 1])
-                .range([0, mainCircleRadius * 2]);
-              return lapsScale(d.lapsCompleted);
-            })
-            .attr("height", driverStripWidth)
-            .attr("fill", colours.black);
+                // Driver strips
+                singleDriverGroup
+                  .append("rect")
+                  .attr("x", -mainCircleRadius)
+                  .attr("y", 0)
+                  .attr("width", (d) => {
+                    let lapsScale = d3
+                      .scaleLinear()
+                      .domain([0, 1])
+                      .range([0, mainCircleRadius * 2]);
+                    return lapsScale(d.lapsCompleted);
+                  })
+                  .attr("height", driverStripWidth)
+                  .attr("fill", colours.black);
 
-          // Pole Position or first row
-          singleDriverGroup
-            .append("circle")
-            .attr("class", "driver-pole")
-            .attr("cx", -mainCircleRadius - 5)
-            .attr("cy", driverStripWidth / 2)
-            .attr("r", (d) => {
-              return d.grid === "1" ? "3px" : d.grid === "2" ? "2px" : "0px";
-            })
-            .attr("fill", (d) => {
-              return d.grid === "1"
-                ? colours.white
-                : d.grid === "2"
-                ? colours.white
-                : "none";
-            })
-            .attr("stroke", "none");
+                // Pole Position or first row
+                singleDriverGroup
+                  .append("circle")
+                  .attr("class", "driver-pole")
+                  .attr("cx", -mainCircleRadius - 5)
+                  .attr("cy", driverStripWidth / 2)
+                  .attr("r", (d) => {
+                    return d.grid === "1" ? "3px" : d.grid === "2" ? "2px" : "0px";
+                  })
+                  .attr("fill", (d) => {
+                    return d.grid === "1"
+                      ? colours.white
+                      : d.grid === "2"
+                      ? colours.white
+                      : "none";
+                  })
+                  .attr("stroke", "none");
 
-          // Fastest Lap
-          singleDriverGroup
-            .append("circle")
-            .attr("class", "driver-fl")
-            .attr("cx", mainCircleRadius + 5)
-            .attr("cy", driverStripWidth / 2)
-            .attr("r", "2px")
-            .attr("stroke", (d) => {
-              if (d.fLap1) {
-                return d.fLap1 === "1" ? colours.white : "none";
-              }
-            })
-            .attr("fill", "none");
+                // Fastest Lap
+                singleDriverGroup
+                  .append("circle")
+                  .attr("class", "driver-fl")
+                  .attr("cx", mainCircleRadius + 5)
+                  .attr("cy", driverStripWidth / 2)
+                  .attr("r", "2px")
+                  .attr("stroke", (d) => {
+                    if (d.fLap1) {
+                      return d.fLap1 === "1" ? colours.white : "none";
+                    }
+                  })
+                  .attr("fill", "none");
 
-          // All laps led
-          singleDriverGroup
-            .append("circle")
-            .attr("class", "driver-led")
-            .attr("cx", mainCircleRadius + 5)
-            .attr("cy", driverStripWidth / 2)
-            .attr("r", "6px")
-            .attr("stroke", (d) => {
-              if (d.rank) {
-                return d.lapsLed / d.winnerLaps === 1 ? colours.white : "none";
-              }
-            })
-            .attr("fill", "none");
+                // All laps led
+                singleDriverGroup
+                  .append("circle")
+                  .attr("class", "driver-led")
+                  .attr("cx", mainCircleRadius + 5)
+                  .attr("cy", driverStripWidth / 2)
+                  .attr("r", "6px")
+                  .attr("stroke", (d) => {
+                    if (d.rank) {
+                      return d.lapsLed / d.winnerLaps === 1 ? colours.white : "none";
+                    }
+                  })
+                  .attr("fill", "none");
 
-          // Triangular shape for driver strips
-          singleDriverGroup
-            .append("polyline")
-            .attr("points", (d) => {
-              if (d.position === "1") {
-                return `${mainCircleRadius * 0.45} ${driverStripWidth}
+                // Triangular shape for driver strips
+                singleDriverGroup
+                  .append("polyline")
+                  .attr("points", (d) => {
+                    if (d.position === "1") {
+                      return `${mainCircleRadius * 0.45} ${driverStripWidth}
             ${mainCircleRadius * 0.45} -7
             32 ${driverStripWidth}
             ${mainCircleRadius * 0.45} ${driverStripWidth}`;
-              } else if (d.position === "2" || d.position === "3") {
-                return `${mainCircleRadius * 0.6} ${driverStripWidth}
+                    } else if (d.position === "2" || d.position === "3") {
+                      return `${mainCircleRadius * 0.6} ${driverStripWidth}
           ${mainCircleRadius * 0.6} -4
           32 ${driverStripWidth}
           ${mainCircleRadius * 0.6} ${driverStripWidth}`;
-              }
-            })
-            .attr("fill", colours.black);
-        }
-
-        function drawSparklines(dataset) {
-          // Sparklines - set the dimensions and margins of the graph
-          let spMargin = { top: 5, right: 5, bottom: 5, left: 5 },
-            spWidth = 160 - spMargin.left - spMargin.right,
-            spHeight = 50 - spMargin.top - spMargin.bottom;
-
-          let spWinsSvg = d3
-            .select("#sp-wins")
-            .append("svg")
-            .attr("width", spWidth + spMargin.left + spMargin.right)
-            .attr("height", spHeight + spMargin.top + spMargin.bottom)
-            .append("g")
-            .attr(
-              "transform",
-              "translate(" + spMargin.left + "," + spMargin.top + ")"
-            );
-
-          let spPolesSvg = d3
-            .select("#sp-poles")
-            .append("svg")
-            .attr("width", spWidth + spMargin.left + spMargin.right)
-            .attr("height", spHeight + spMargin.top + spMargin.bottom)
-            .append("g")
-            .attr(
-              "transform",
-              "translate(" + spMargin.left + "," + spMargin.top + ")"
-            );
-
-          let spFlSvg = d3
-            .select("#sp-fl")
-            .append("svg")
-            .attr("width", spWidth + spMargin.left + spMargin.right)
-            .attr("height", spHeight + spMargin.top + spMargin.bottom)
-            .append("g")
-            .attr(
-              "transform",
-              "translate(" + spMargin.left + "," + spMargin.top + ")"
-            );
-
-          // Sparklines - x Scale
-          xScaleSp = d3
-            .scaleLinear()
-            .domain(d3.extent(dataset, (d) => parseInt(d.raceIdFerrari)))
-            .range([0, spWidth]);
-
-          // Sparklines - y Scale Wins
-          let yScaleSpWins = d3
-            .scaleLinear()
-            .domain([
-              0,
-              d3.max(dataset, function (d) {
-                return +d.cumulativeWins;
-              }),
-            ])
-            .range([spHeight, 0]);
-
-          // Sparklines - Wins area
-          spWinsSvg
-            .append("path")
-            .datum(dataset)
-            .attr("fill", "#d40000")
-            .attr("fill-opacity", 0.3)
-            .attr("stroke", "none")
-            .attr(
-              "d",
-              d3
-                .area()
-                .x(function (d) {
-                  return xScaleSp(d.raceIdFerrari);
-                })
-                .y0(yScaleSpWins(0))
-                .y1(function (d) {
-                  return yScaleSpWins(d.cumulativeWins);
-                })
-            );
-          // Sparklines - Wins line
-          spWinsSvg
-            .append("path")
-            .datum(dataset)
-            .attr("stroke", "#d40000")
-            .attr("stroke-width", 3)
-            .attr("fill", "none")
-            .attr(
-              "d",
-              d3
-                .line()
-                .x(function (d) {
-                  return xScaleSp(d.raceIdFerrari);
-                })
-                .y(function (d) {
-                  return yScaleSpWins(d.cumulativeWins);
-                })
-            );
-
-          // Sparklines - Wins year rect
-          spWinsSvg
-            .append("rect")
-            .attr("class", "year-rect-overlay")
-            .attr("x", xScaleSp.range()[0])
-            .attr("y", yScaleSpWins.range()[1] - 10)
-            .attr("width", xScaleSp.range()[1])
-            .attr("height", yScaleSpWins.range()[0] + 20)
-            .style("stroke", "none")
-            .style("fill", "#0f0f0f")
-            .style("fill-opacity", "0.6");
-
-          // Sparklines - Wins number
-          spWinsSvg
-            .append("text")
-            .attr("x", spWidth - 10)
-            .attr("y", spHeight - 10)
-            .attr("text-anchor", "end")
-            .attr("id", "winsInView")
-            .attr("fill", colours.white)
-            .text("0");
-
-          // Sparklines - y Scale Poles
-          let yScaleSpPoles = d3
-            .scaleLinear()
-            .domain([
-              0,
-              d3.max(dataset, function (d) {
-                return +d.cumulativePoles;
-              }),
-            ])
-            .range([spHeight, 0]);
-
-          // Sparklines - Poles area
-          spPolesSvg
-            .append("path")
-            .datum(dataset)
-            .attr("fill", "#d40000")
-            .attr("fill-opacity", 0.3)
-            .attr("stroke", "none")
-            .attr(
-              "d",
-              d3
-                .area()
-                .x(function (d) {
-                  return xScaleSp(d.raceIdFerrari);
-                })
-                .y0(yScaleSpPoles(0))
-                .y1(function (d) {
-                  return yScaleSpPoles(d.cumulativePoles);
-                })
-            );
-          // Sparklines - Poles line
-          spPolesSvg
-            .append("path")
-            .datum(dataset)
-            .attr("stroke", "#d40000")
-            .attr("stroke-width", 3)
-            .attr("fill", "none")
-            .attr(
-              "d",
-              d3
-                .line()
-                .x(function (d) {
-                  return xScaleSp(d.raceIdFerrari);
-                })
-                .y(function (d) {
-                  return yScaleSpPoles(d.cumulativePoles);
-                })
-            );
-
-          // Sparklines - Poles year rect
-          spPolesSvg
-            .append("rect")
-            .attr("class", "year-rect-overlay")
-            .attr("x", xScaleSp.range()[0])
-            .attr("y", yScaleSpPoles.range()[1] - 10)
-            .attr("width", xScaleSp.range()[1])
-            .attr("height", yScaleSpPoles.range()[0] + 20)
-            .style("stroke", "none")
-            .style("fill", "#0f0f0f")
-            .style("fill-opacity", "0.6");
-
-          // Sparklines - Poles number
-          spPolesSvg
-            .append("text")
-            .attr("x", spWidth - 10)
-            .attr("y", spHeight - 10)
-            .attr("text-anchor", "end")
-            .attr("id", "polesInView")
-            .attr("fill", colours.white)
-            .text("0");
-
-          // Sparklines - y Scale Fl
-          let yScaleSpFl = d3
-            .scaleLinear()
-            .domain([
-              0,
-              d3.max(dataset, function (d) {
-                return +d.cumulativeFl;
-              }),
-            ])
-            .range([spHeight, 0]);
-
-          // Sparklines - Fl area
-          spFlSvg
-            .append("path")
-            .datum(dataset)
-            .attr("fill", "#d40000")
-            .attr("fill-opacity", 0.3)
-            .attr("stroke", "none")
-            .attr(
-              "d",
-              d3
-                .area()
-                .x(function (d) {
-                  return xScaleSp(d.raceIdFerrari);
-                })
-                .y0(yScaleSpFl(0))
-                .y1(function (d) {
-                  return yScaleSpFl(d.cumulativeFl);
-                })
-            );
-          // Sparklines - Fl line
-          spFlSvg
-            .append("path")
-            .datum(dataset)
-            .attr("stroke", "#d40000")
-            .attr("stroke-width", 3)
-            .attr("fill", "none")
-            .attr(
-              "d",
-              d3
-                .line()
-                .x(function (d) {
-                  return xScaleSp(d.raceIdFerrari);
-                })
-                .y(function (d) {
-                  return yScaleSpFl(d.cumulativeFl);
-                })
-            );
-
-          // Sparklines - Fl year rect
-          spFlSvg
-            .append("rect")
-            .attr("class", "year-rect-overlay")
-            .attr("x", xScaleSp.range()[0])
-            .attr("y", yScaleSpFl.range()[1] - 10)
-            .attr("width", xScaleSp.range()[1])
-            .attr("height", yScaleSpFl.range()[0] + 20)
-            .style("stroke", "none")
-            .style("fill", "#0f0f0f")
-            .style("fill-opacity", "0.6");
-
-          // Sparklines - Fl number
-          spFlSvg
-            .append("text")
-            .attr("x", spWidth - 10)
-            .attr("y", spHeight - 10)
-            .attr("text-anchor", "end")
-            .attr("id", "flInView")
-            .attr("fill", colours.white)
-            .text("0");
+                    }
+                  })
+                  .attr("fill", colours.black);
         }
 
         drawViz(ferrariCompleteRaces);
-        drawSparklines(ferrariCompleteRaces);
 
         // Filtering test
         filter = () => {
