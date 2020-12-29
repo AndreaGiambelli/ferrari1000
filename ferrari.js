@@ -87,16 +87,16 @@ let allFerrariRaces;
 let raceInFocus;
 let filter;
 let isFiltered;
-// let winsInView = 0;
-// let polesInView = 0;
-// let flInView = 0;
-// let wDcInView = 0;
-// let wCcInView = 0;
-// let winsMap = [];
-// let polesMap = [];
-// let flMap = [];
-// let wDcMap = [];
-// let wCcMap = [];
+let winsInView = 0;
+let polesInView = 0;
+let flInView = 0;
+let wDcInView = 0;
+let wCcInView = 0;
+let winsMap = [];
+let polesMap = [];
+let flMap = [];
+let wDcMap = [];
+let wCcMap = [];
 
 d3.csv("f1db_csv/races.csv").then(function (racesData) {
   racesData.forEach((r) => {
