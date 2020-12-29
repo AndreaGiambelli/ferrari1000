@@ -155,7 +155,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     // Map Margins and dimensions
     let marginViz = { top: 30, right: 70, bottom: 30, left: 70 };
     let widthViz =
-      (windowWidth >= 768 ? windowWidth * 0.7 : 500) -
+      (windowWidth >= 768 ? windowWidth * 0.7 : windowWidth >= 768 ? windowWidth * 0.55 : 500) -
       marginViz.left -
       marginViz.right;
 
@@ -608,7 +608,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         } else if (
           // Hybrid Era
           maxRaceInView >= 876 &&
-          maxRaceInView < 981
+          maxRaceInView < 991
         ) {
           // console.log("hybrid");
           d3.select("#story-title").text("Title");
@@ -617,7 +617,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           );
         } else if (
           // Latest victories
-          maxRaceInView > 991
+          maxRaceInView >= 991
         ) {
           // console.log("latest");
           d3.select("#story-title").text("Title");

@@ -131,13 +131,12 @@ header p {
   width: 78%;
   display: grid;
   grid-template-columns: 50% 50%;
-  font-size: 13.6px; 
+  font-size: 0.85rem;
 }
 
 #stats-wdc-wrapper p {
   display: inline-block;
-  font-size: 13.6px; 
-
+  font-size: 0.85rem;
 }
 
 #sidebar {
@@ -179,7 +178,7 @@ header p {
 }
 
 #ferrari-races-count {
-  font-size: 12.8px;
+  font-size: 0.8rem;
   margin-top: 8px;
 }
 
@@ -228,7 +227,7 @@ header p {
 
 #race-details {
   transform: translateY(-20px);
-  font-size: 12.8px;
+  font-size: 0.8rem;
   width: 50%;
 }
 
@@ -241,7 +240,7 @@ header p {
 }
 
 #drivers {
-  font-size: 12.8px;
+  font-size: 0.8rem;
 }
 
 .driver-div {
@@ -345,7 +344,7 @@ header p {
 }
 
 #story {
-  font-size: 14.4px;
+  font-size: 0.9rem;
   font-weight: 300;
   line-height: 1.7;
   margin: 0;
@@ -364,6 +363,25 @@ header p {
 footer {
   font-weight: 300;
   padding: 64px;
+}
+
+.footer-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+@media only screen and (max-width: 1200px) {
+  #gif-wrapper {
+    padding: 60px 20%;
+  }
+
+  #story {
+    font-size: 1rem;
+  }
+
+  .grid-main {
+    grid-template-columns: 55% auto;
+  }
 }
 
 @media only screen and (max-width: 1000px) {
@@ -385,13 +403,12 @@ footer {
 }
 
 @media only screen and (max-width: 812px) {
-
   #stats-wdc-wrapper {
-    width: 100%; 
+    width: 100%;
   }
 
   #stats-wdc-wrapper p {
-    display: block; 
+    display: block;
   }
 
   .championship-symbol {
@@ -399,13 +416,12 @@ footer {
     height: 10px;
   }
 
-
   #race-details-wrapper {
     width: 450px;
   }
 
   #race-header-title {
-    font-size: 13.6px;
+    font-size: 0.85rem;
     margin-bottom: 8px;
   }
 
@@ -468,7 +484,7 @@ footer {
   }
 
   .tooltip-driver-position p {
-    font-size: 12.8px;
+    font-size: 0.8rem;
     line-height: 27px;
   }
 
@@ -497,33 +513,38 @@ footer {
   width: 16px;
   height: 16px;
   display: inline-block;
-  margin-right: 3px; 
-  border-radius: 50%; 
+  margin-right: 3px;
+  border-radius: 50%;
 }
 
 @media only screen and (max-width: 1024px) and (orientation: landscape) {
   #story {
-    font-size: 13.6px;
+    font-size: 0.85rem;
   }
   #stats-wdc-wrapper {
-    width: 100%; 
-    font-size: 12px; 
+    width: 100%;
+    font-size: 12px;
   }
 }
 
 @media only screen and (max-width: 812px) and (orientation: landscape) {
   #stats-wrapper {
     display: none;
-    font-size: 12px; 
+    font-size: 12px;
   }
   #story {
     font-size: 11.5px;
+  }
+
+  footer {
+    line-height: 1.4;
+    font-size: 0.9rem;
   }
 }
 
 @media only screen and (max-width: 414px) {
   header {
-    padding: 64px 32px;
+    padding: 64px 32px 0 32px;
   }
 
   #header-img img {
@@ -544,4 +565,3 @@ footer {
 #turn-device img {
   width: 48px;
 }
-
