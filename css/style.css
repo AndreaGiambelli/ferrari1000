@@ -380,7 +380,7 @@ footer {
   }
 
   .grid-main {
-    grid-template-columns: 60% auto;
+    grid-template-columns: 55% auto;
   }
 }
 

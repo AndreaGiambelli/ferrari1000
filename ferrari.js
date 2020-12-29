@@ -521,7 +521,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           // console.log("early 1970s");
           d3.select("#story-title").text("Title");
           d3.select("#story").html(
-            "Ferrari is back battilng at the top of the pack in 1974, with Luca Cordero di Montezemolo heading the racing team, and a strong pair of drivers in Regazzoni and Austrian youngster Niki Lauda. In 1975, Lauda finally brings the driver’s title back to Maranello after 11 years and Regazzoni helps secure the Constructor’s Championship as well. Ferrari and Lauda dominate the following year, until the Austrian’s life-threatening accident at the <a id='Ger.76'>Nurburgring</a>. Lauda’s recovery is heroic, but he famously gives in at a soaked season finale in <a id='Jap.76'>Japan</a>, handing the title to British James Hunt. The Austrian comes back strongly in ’77, winning his second title before leaving the team. "
+            "Ferrari is back at the top of the pack in 1974, with Luca Cordero di Montezemolo heading the racing team, and a strong pair of drivers in Regazzoni and Austrian youngster Niki Lauda. In 1975, Lauda finally brings the driver’s title back to Maranello after 11 years and Regazzoni helps secure the Constructor’s Championship as well. Ferrari and Lauda dominate the following year, until the Austrian’s life-threatening accident at the <a id='Ger.76'>Nurburgring</a>. Lauda’s recovery is heroic, but he famously gives in at a soaked season finale in <a id='Jap.76'>Japan</a>, handing the title to British James Hunt. The Austrian comes back strongly in ’77, winning his second title before leaving the team. "
           );
         } else if (
           // End of 1970s
