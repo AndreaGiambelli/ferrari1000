@@ -370,20 +370,18 @@ footer {
   font-weight: 700;
 }
 
-@media only screen and (min-width: 1200px) {
-  .grid-main {
-    grid-template-columns: 55% auto;
-  }
-}
+@media only screen and (min-width: 1500px) {
 
-
-@media only screen and (max-width: 1200px) {
   #gif-wrapper {
     padding: 60px 20%;
   }
 
   #story {
     font-size: 1rem;
+  }
+
+  .grid-main {
+    grid-template-columns: 55% auto;
   }
 }
 
