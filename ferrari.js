@@ -442,55 +442,55 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         wDcInView = 0;
         wCcInView = 0;
 
-        // ferrariData.forEach((d) => {
-        //   let winsCalc = d.drivers.map((e) => e.position);
-        //   let polesCalc = d.drivers.map((e) => e.grid);
-        //   let flCalc = d.drivers.map((e) => e.fLap1);
-        //   let wDcCalc = d.drivers.map((e) => e.driChamp);
-        //   let wCcCalc = d.drivers.map((e) => e.conChamp);
+        ferrariData.forEach((d) => {
+          let winsCalc = d.drivers.map((e) => e.position);
+          let polesCalc = d.drivers.map((e) => e.grid);
+          let flCalc = d.drivers.map((e) => e.fLap1);
+          let wDcCalc = d.drivers.map((e) => e.driChamp);
+          let wCcCalc = d.drivers.map((e) => e.conChamp);
 
-        //   if (d.raceIdFerrari <= maxRaceInView) {
-        //     if (winsCalc.includes("1")) {
-        //       winsInView++;
-        //     }
-        //     if (polesCalc.includes("1")) {
-        //       polesInView++;
-        //     }
-        //     if (flCalc.includes("1")) {
-        //       flInView++;
-        //     }
-        //     if (wDcCalc.includes("1")) {
-        //       wDcInView++;
-        //     }
-        //     if (wCcCalc.includes("1")) {
-        //       wCcInView++;
-        //     }
-        //   }
-        // });
+          if (d.raceIdFerrari <= maxRaceInView) {
+            if (winsCalc.includes("1")) {
+              winsInView++;
+            }
+            if (polesCalc.includes("1")) {
+              polesInView++;
+            }
+            if (flCalc.includes("1")) {
+              flInView++;
+            }
+            if (wDcCalc.includes("1")) {
+              wDcInView++;
+            }
+            if (wCcCalc.includes("1")) {
+              wCcInView++;
+            }
+          }
+        });
 
-        // console.log(maxRaceInView);
+        console.log(maxRaceInView);
 
-        // d3.select("#winsInView").text(`${winsInView}`);
-        // d3.select("#polesInView").text(`${polesInView}`);
-        // d3.select("#flInView").text(`${flInView}`);
+        d3.select("#winsInView").text(`${winsInView}`);
+        d3.select("#polesInView").text(`${polesInView}`);
+        d3.select("#flInView").text(`${flInView}`);
 
-        // d3.select("#wDcSymbols").selectAll(".championship-symbol").remove();
-        // for (i = 0; i < wDcInView; i++) {
-        //   d3.select("#wDcSymbols")
-        //     .append("div")
-        //     .attr("class", "championship-symbol");
-        // }
-        // d3.select("#wDcInViewValue").text(wDcInView);
+        d3.select("#wDcSymbols").selectAll(".championship-symbol").remove();
+        for (i = 0; i < wDcInView; i++) {
+          d3.select("#wDcSymbols")
+            .append("div")
+            .attr("class", "championship-symbol");
+        }
+        d3.select("#wDcInViewValue").text(wDcInView);
 
-        // d3.select("#wCcSymbols").selectAll(".championship-symbol").remove();
-        // for (i = 0; i < wCcInView; i++) {
-        //   d3.select("#wCcSymbols")
-        //     .append("div")
-        //     .attr("class", "championship-symbol")
-        //     .append("img")
-        //     .attr("src");
-        // }
-        // d3.select("#wCcInViewValue").text(wCcInView);
+        d3.select("#wCcSymbols").selectAll(".championship-symbol").remove();
+        for (i = 0; i < wCcInView; i++) {
+          d3.select("#wCcSymbols")
+            .append("div")
+            .attr("class", "championship-symbol")
+            .append("img")
+            .attr("src");
+        }
+        d3.select("#wCcInViewValue").text(wCcInView);
 
         if (maxRaceInView > 1 && maxRaceInView < 57) {
           // console.log("early years");
@@ -1330,7 +1330,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
   }
 
   drawViz(ferrariData);
-  // drawSparklines(ferrariData);
+  drawSparklines(ferrariData);
 
   function tooltipFunction(raceObj) {
     raceInFocus = raceObj;
