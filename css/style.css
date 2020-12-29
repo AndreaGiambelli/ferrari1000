@@ -370,6 +370,13 @@ footer {
   font-weight: 700;
 }
 
+@media only screen and (min-width: 1200px) {
+  .grid-main {
+    grid-template-columns: 55% auto;
+  }
+}
+
+
 @media only screen and (max-width: 1200px) {
   #gif-wrapper {
     padding: 60px 20%;
@@ -377,10 +384,6 @@ footer {
 
   #story {
     font-size: 1rem;
-  }
-
-  .grid-main {
-    grid-template-columns: 55% auto;
   }
 }
 
@@ -397,12 +400,15 @@ footer {
     grid-gap: 8%;
   }
 
-  .grid-main {
-    grid-template-columns: 55% auto;
-  }
+  
 }
 
 @media only screen and (max-width: 812px) {
+
+  .grid-main {
+    grid-template-columns: 55% auto;
+  }
+
   #stats-wdc-wrapper {
     width: 100%;
   }
