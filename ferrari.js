@@ -633,153 +633,153 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
           });
 
           // Reset when race in focus goes exits viewport
-          window.addEventListener(
-            "scroll",
-            function (event) {
-              let array = [];
+          // window.addEventListener(
+          //   "scroll",
+          //   function (event) {
+          //     let array = [];
 
-              for (let i = 1; i < 993; i++) {
-                if (isInViewport(d3.select(`#r${i}`).node())) {
-                  array.push(parseInt(`${i}`));
-                }
-              }
-              let maxRace = d3.max(array);
+          //     for (let i = 1; i < 993; i++) {
+          //       if (isInViewport(d3.select(`#r${i}`).node())) {
+          //         array.push(parseInt(`${i}`));
+          //       }
+          //     }
+          //     let maxRace = d3.max(array);
 
-              winsInView = 0;
-              polesInView = 0;
-              flInView = 0;
-              wDcInView = 0;
-              wCcInView = 0;
+          //     winsInView = 0;
+          //     polesInView = 0;
+          //     flInView = 0;
+          //     wDcInView = 0;
+          //     wCcInView = 0;
 
-              ferrariCompleteRaces.forEach((d) => {
-                let winsCalc = d.drivers.map((e) => e.position);
-                let polesCalc = d.drivers.map((e) => e.grid);
-                let flCalc = d.drivers.map((e) => e.fLap1);
-                let wDcCalc = d.drivers.map((e) => e.driChamp);
-                let wCcCalc = d.drivers.map((e) => e.conChamp);
+          //     ferrariCompleteRaces.forEach((d) => {
+          //       let winsCalc = d.drivers.map((e) => e.position);
+          //       let polesCalc = d.drivers.map((e) => e.grid);
+          //       let flCalc = d.drivers.map((e) => e.fLap1);
+          //       let wDcCalc = d.drivers.map((e) => e.driChamp);
+          //       let wCcCalc = d.drivers.map((e) => e.conChamp);
 
-                if (d.raceIdFerrari <= maxRace) {
-                  if (winsCalc.includes("1")) {
-                    winsInView++;
-                  }
-                  if (polesCalc.includes("1")) {
-                    polesInView++;
-                  }
-                  if (flCalc.includes("1")) {
-                    flInView++;
-                  }
-                  if (wDcCalc.includes("1")) {
-                    wDcInView++;
-                  }
-                  if (wCcCalc.includes("1")) {
-                    wCcInView++;
-                  }
-                }
-              });
+          //       if (d.raceIdFerrari <= maxRace) {
+          //         if (winsCalc.includes("1")) {
+          //           winsInView++;
+          //         }
+          //         if (polesCalc.includes("1")) {
+          //           polesInView++;
+          //         }
+          //         if (flCalc.includes("1")) {
+          //           flInView++;
+          //         }
+          //         if (wDcCalc.includes("1")) {
+          //           wDcInView++;
+          //         }
+          //         if (wCcCalc.includes("1")) {
+          //           wCcInView++;
+          //         }
+          //       }
+          //     });
 
-              d3.select("#winsInView").text(`${winsInView}`);
-              d3.select("#polesInView").text(`${polesInView}`);
-              d3.select("#flInView").text(`${flInView}`);
-              d3.select("#wDcInView").text(`WDC: ${wDcInView}`);
-              d3.select("#wCcInView").text(`Constructors: ${wCcInView}`);
+          //     d3.select("#winsInView").text(`${winsInView}`);
+          //     d3.select("#polesInView").text(`${polesInView}`);
+          //     d3.select("#flInView").text(`${flInView}`);
+          //     d3.select("#wDcInView").text(`WDC: ${wDcInView}`);
+          //     d3.select("#wCcInView").text(`Constructors: ${wCcInView}`);
 
-              // The 1970s
-              if (
-                isInViewport(d3.select(`#r${230}`).node()) ||
-                isInViewport(d3.select(`#r${267}`).node())
-              ) {
-                console.log("1970s");
-                d3.select("#story").text("The winning cycle of the 1970s");
-              } else if (
-                // The Turbo era
-                isInViewport(d3.select(`#r${317}`).node()) ||
-                isInViewport(d3.select(`#r${363}`).node())
-              ) {
-                console.log("turbo era");
-                d3.select("#story").text("inizio turbo era, gilles, alboreto");
-              } else if (
-                // 88-90
-                isInViewport(d3.select(`#r${436}`).node()) ||
-                isInViewport(d3.select(`#r${462}`).node())
-              ) {
-                console.log("88-90");
-                d3.select("#story").text(
-                  "muore Enzo, FIAT, Prost-Senna Berger"
-                );
-              } else if (
-                // Digiuno
-                isInViewport(d3.select(`#r${473}`).node()) ||
-                isInViewport(d3.select(`#r${515}`).node())
-              ) {
-                console.log("digiuno");
-                d3.select("#story").text("Digiuno, Berger 1994");
-              } else if (
-                // MSC
-                isInViewport(d3.select(`#r${566}`).node()) ||
-                isInViewport(d3.select(`#r${606}`).node())
-              ) {
-                console.log("Msc");
-                d3.select("#story").text("Msc, Irvine, Silverstone");
-              } else if (
-                // 2000s
-                isInViewport(d3.select(`#r${619}`).node()) ||
-                isInViewport(d3.select(`#r${702}`).node())
-              ) {
-                console.log("2000s");
-                d3.select("#story").text("Msc 2000s");
-              } else if (
-                // Last Championships
-                isInViewport(d3.select(`#r${741}`).node()) ||
-                isInViewport(d3.select(`#r${811}`).node())
-              ) {
-                console.log("2000s");
-                d3.select("#story").text("Last Championships, Alonso");
-              } else if (
-                // Hybrid Era
-                isInViewport(d3.select(`#r${870}`).node()) ||
-                isInViewport(d3.select(`#r${981}`).node())
-              ) {
-                console.log("2000s");
-                d3.select("#story").text("Hybrid Era");
-              } else if (
-                // Latest victories
-                isInViewport(d3.select(`#r${982}`).node()) ||
-                isInViewport(d3.select(`#r${993}`).node())
-              ) {
-                console.log("2000s");
-                d3.select("#story").text("Latest victories");
-              } else {
-                d3.select("#story").text("none");
-              }
+          //     // The 1970s
+          //     if (
+          //       isInViewport(d3.select(`#r${230}`).node()) ||
+          //       isInViewport(d3.select(`#r${267}`).node())
+          //     ) {
+          //       console.log("1970s");
+          //       d3.select("#story").text("The winning cycle of the 1970s");
+          //     } else if (
+          //       // The Turbo era
+          //       isInViewport(d3.select(`#r${317}`).node()) ||
+          //       isInViewport(d3.select(`#r${363}`).node())
+          //     ) {
+          //       console.log("turbo era");
+          //       d3.select("#story").text("inizio turbo era, gilles, alboreto");
+          //     } else if (
+          //       // 88-90
+          //       isInViewport(d3.select(`#r${436}`).node()) ||
+          //       isInViewport(d3.select(`#r${462}`).node())
+          //     ) {
+          //       console.log("88-90");
+          //       d3.select("#story").text(
+          //         "muore Enzo, FIAT, Prost-Senna Berger"
+          //       );
+          //     } else if (
+          //       // Digiuno
+          //       isInViewport(d3.select(`#r${473}`).node()) ||
+          //       isInViewport(d3.select(`#r${515}`).node())
+          //     ) {
+          //       console.log("digiuno");
+          //       d3.select("#story").text("Digiuno, Berger 1994");
+          //     } else if (
+          //       // MSC
+          //       isInViewport(d3.select(`#r${566}`).node()) ||
+          //       isInViewport(d3.select(`#r${606}`).node())
+          //     ) {
+          //       console.log("Msc");
+          //       d3.select("#story").text("Msc, Irvine, Silverstone");
+          //     } else if (
+          //       // 2000s
+          //       isInViewport(d3.select(`#r${619}`).node()) ||
+          //       isInViewport(d3.select(`#r${702}`).node())
+          //     ) {
+          //       console.log("2000s");
+          //       d3.select("#story").text("Msc 2000s");
+          //     } else if (
+          //       // Last Championships
+          //       isInViewport(d3.select(`#r${741}`).node()) ||
+          //       isInViewport(d3.select(`#r${811}`).node())
+          //     ) {
+          //       console.log("2000s");
+          //       d3.select("#story").text("Last Championships, Alonso");
+          //     } else if (
+          //       // Hybrid Era
+          //       isInViewport(d3.select(`#r${870}`).node()) ||
+          //       isInViewport(d3.select(`#r${981}`).node())
+          //     ) {
+          //       console.log("2000s");
+          //       d3.select("#story").text("Hybrid Era");
+          //     } else if (
+          //       // Latest victories
+          //       isInViewport(d3.select(`#r${982}`).node()) ||
+          //       isInViewport(d3.select(`#r${993}`).node())
+          //     ) {
+          //       console.log("2000s");
+          //       d3.select("#story").text("Latest victories");
+          //     } else {
+          //       d3.select("#story").text("none");
+          //     }
 
-              if (raceInFocus) {
-                let inFocusNode = d3
-                  .select(`#r${raceInFocus.raceIdFerrari}`)
-                  .node();
-                console.log(inFocusNode);
-                if (isInViewport(inFocusNode)) {
-                  console.log("in");
-                } else {
-                  console.log("out");
-                  d3.select("#sidebar").style("visibility", "hidden");
+          //     if (raceInFocus) {
+          //       let inFocusNode = d3
+          //         .select(`#r${raceInFocus.raceIdFerrari}`)
+          //         .node();
+          //       console.log(inFocusNode);
+          //       if (isInViewport(inFocusNode)) {
+          //         console.log("in");
+          //       } else {
+          //         console.log("out");
+          //         d3.select("#sidebar").style("visibility", "hidden");
 
-                  // Remove fade from all elements
-                  d3.selectAll(".label").style("opacity", 1);
-                  d3.selectAll(".race-main-circle").style("opacity", 1);
-                  d3.selectAll(".led-arc").style("opacity", 1);
-                  d3.selectAll(".year-label").style("opacity", 1);
-                  d3.selectAll(".driver-pole").style("opacity", 1);
-                  d3.selectAll(".driver-fl").style("opacity", 1);
-                  d3.selectAll(".driver-led").style("opacity", 1);
-                  d3.selectAll(".driver-championship").style("opacity", 1);
-                  d3.selectAll(".constructor-championship").style("opacity", 1);
+          //         // Remove fade from all elements
+          //         d3.selectAll(".label").style("opacity", 1);
+          //         d3.selectAll(".race-main-circle").style("opacity", 1);
+          //         d3.selectAll(".led-arc").style("opacity", 1);
+          //         d3.selectAll(".year-label").style("opacity", 1);
+          //         d3.selectAll(".driver-pole").style("opacity", 1);
+          //         d3.selectAll(".driver-fl").style("opacity", 1);
+          //         d3.selectAll(".driver-led").style("opacity", 1);
+          //         d3.selectAll(".driver-championship").style("opacity", 1);
+          //         d3.selectAll(".constructor-championship").style("opacity", 1);
 
-                  raceInFocus = undefined;
-                }
-              }
-            },
-            false
-          );
+          //         raceInFocus = undefined;
+          //       }
+          //     }
+          //   },
+          //   false
+          // );
 
           /////////////////////////////////////////////////////////////////////////////////////////////////
           //////////////////////////////////// WORLD CHAMPIONSHIP PATTERNS ////////////////////////////////
