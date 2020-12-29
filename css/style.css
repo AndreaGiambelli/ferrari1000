@@ -1,4 +1,5 @@
 body {
+  width: 100%; 
   margin: 0;
   background: #0f0f0f;
   padding: 0;
@@ -532,7 +533,7 @@ footer {
   }
 }
 
-@media only screen and (max-width: 812px) and (orientation: landscape) {
+@media only screen and (max-width: 814px) and (orientation: landscape) {
   #stats-wrapper {
     display: none;
     font-size: 12px;
