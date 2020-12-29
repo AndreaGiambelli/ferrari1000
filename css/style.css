@@ -2,9 +2,19 @@ body {
   margin: 0;
   background: #0f0f0f;
   padding: 0;
-  font-family: "Inter", sans-serif;
+  font-family: "Epilogue", sans-serif;
   color: white;
   box-sizing: border-box;
+  overflow: auto;
+}
+
+#story-title {
+  display: none;
+}
+
+body.fixed {
+  height: 100%;
+  overflow: hidden;
 }
 
 a {
@@ -13,13 +23,86 @@ a {
 
 header {
   height: 400px;
-  background: linear-gradient(180deg, #d40000 53.65%, rgba(212, 0, 0, 0) 100%);
-  padding: 64px;
+  background: linear-gradient(180deg, #d40000 70.65%, rgba(212, 0, 0, 0) 100%);
+  padding: 64px 64px 120px 64px;
+  font-weight: 300;
+}
+
+#header-img {
+  display: flex;
+  justify-content: space-around;
+}
+
+#header-img img {
+  height: 300px;
+}
+
+#header-title {
+  display: grid;
+  grid-template-columns: 16% 66% 16%;
+  margin-bottom: 60px;
+  justify-content: center;
+}
+
+header p {
+  line-height: 1.6;
+  text-align: center;
 }
 
 .title-img {
   width: 100%;
-  margin-top: 16%;
+}
+
+#gif-wrapper {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  justify-items: center;
+  padding: 60px 10%;
+}
+
+#gif-wrapper img {
+  width: 100px;
+}
+
+#race-portrait-label {
+  margin-top: 64px;
+  margin-bottom: 0px;
+  font-size: 20px;
+}
+
+#intro-legend {
+  /* display: grid;
+  grid-template-columns: auto 30%; */
+  padding: 64px;
+  font-weight: 300;
+  grid-gap: 8%;
+}
+
+.story-intro {
+  padding: 0 20%;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.p-bold {
+  font-weight: 700;
+}
+
+#legend-wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+#legend-wrapper img {
+  height: 400px;
+}
+
+#viz-title {
+  margin: 0 0 24px 6%;
+}
+
+#viz-title img {
+  width: 60%;
 }
 
 .grid-main {
@@ -31,6 +114,30 @@ header {
 #viz {
   padding: 0 2% 0 0;
   display: inline-block;
+  position: relative;
+}
+
+#story-stats-wrapper {
+  position: relative;
+}
+
+#stats-wrapper {
+  position: absolute;
+  width: 100%;
+  bottom: -50px;
+}
+
+#stats-wdc-wrapper {
+  width: 78%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  font-size: 13.6px; 
+}
+
+#stats-wdc-wrapper p {
+  display: inline-block;
+  font-size: 13.6px; 
+
 }
 
 #sidebar {
@@ -42,23 +149,40 @@ header {
   padding: 12px;
 }
 
+.race-label {
+  font-family: Sans-Serif;
+}
+
 /* Main Stats */
 
 .stats-grid {
   display: grid;
-  grid-template-columns: 33% 40% auto;
+  grid-template-columns: 40% 60%;
 }
 
 /* Detail Stats */
 #race-details-wrapper {
   display: none;
+  position: absolute;
+  width: 320px;
+  background: rgba(15, 15, 15, 0.95);
+  border: 1px solid #323232;
+  padding: 16px;
+  box-sizing: border-box;
+  z-index: 1000;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
 }
 
 #ferrari-races-count {
-  height: 75px;
+  font-size: 12.8px;
+  margin-top: 8px;
 }
 
-#races-count-left,
 #races-count-wrapper,
 #races-count-right {
   display: inline-block;
@@ -71,21 +195,32 @@ header {
 }
 
 #races-count-right {
-  width: 10%;
-  /* height: 20px;
-    background: teal; */
+  vertical-align: top;
+  margin-top: 16px;
+  margin-left: 24px;
 }
 
 #races-count-wrapper {
   width: 77%;
 }
 
-/* #temp-image {
-  width: 100px;
-  height: 70px;
-  background: coral;
-  margin-right: 10px;
-} */
+#races-count {
+  margin: 0 0 8px 0;
+}
+
+#race-header-title {
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+#circuit-image {
+  margin-right: 24px;
+}
+
+#circuit-image path {
+  fill: red;
+  stroke: blue;
+}
 
 #race-header-details > div {
   display: inline-block;
@@ -93,17 +228,27 @@ header {
 
 #race-details {
   transform: translateY(-20px);
-  font-size: 13.6px;
+  font-size: 12.8px;
+  width: 50%;
 }
 
 #race-details p {
   margin: 0;
 }
 
+#race-date {
+  margin-top: 8px;
+}
+
+#drivers {
+  font-size: 12.8px;
+}
+
 .driver-div {
   display: inline-block;
   width: 50%;
-  height: 200px;
+  height: 120px;
+  margin-bottom: 24px;
 }
 
 .driver-helmet,
@@ -114,7 +259,7 @@ header {
   margin: 0 0 0 10px;
   transform: translateY(-10px);
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .driver-name {
@@ -124,3 +269,279 @@ header {
 .race {
   cursor: pointer;
 }
+
+#ferrari-races-count {
+  display: block;
+}
+
+#drivers-title {
+  display: block;
+}
+
+.tooltip-driver-result-wrapper {
+  margin-top: 8px;
+}
+
+.tooltip-driver-position {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  vertical-align: top;
+}
+
+.tooltip-driver-position p {
+  margin: 0px;
+  text-align: center;
+  color: #0f0f0f;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 34px;
+}
+
+.tooltip-driver-details-wrapper {
+  display: inline-block;
+}
+
+.tooltip-driver-symbols,
+.tooltip-driver-lead {
+  display: block;
+}
+
+.tooltip-driver-symbols {
+  width: 100px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.tooltip-driver-symbols-labels {
+  width: 100px;
+  display: flex;
+  justify-content: space-around;
+  font-size: 9px;
+}
+
+.tooltip-driver-symbols-labels p {
+  width: 20px;
+  margin: 6px 0 0 0;
+  text-align: center;
+}
+
+/* #tooltip-driver-laps-led {
+  margin-top: 16px;
+} */
+
+#tooltip-driver-car {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#story-title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  border-bottom: 7px solid #d40000;
+}
+
+#story {
+  font-size: 14.4px;
+  font-weight: 300;
+  line-height: 1.7;
+  margin: 0;
+}
+
+#story span {
+  font-weight: 800;
+}
+
+#story a {
+  border-bottom: 2px solid #d40000;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+footer {
+  font-weight: 300;
+  padding: 64px;
+}
+
+@media only screen and (max-width: 1000px) {
+  #header-title {
+    grid-template-columns: 8% 84% 8%;
+  }
+
+  #intro-legend {
+    /* display: grid;
+    grid-template-columns: 50% 50%; */
+    padding: 64px;
+    font-weight: 300;
+    grid-gap: 8%;
+  }
+
+  .grid-main {
+    grid-template-columns: 60% auto;
+  }
+}
+
+@media only screen and (max-width: 812px) {
+
+  #stats-wdc-wrapper {
+    width: 100%; 
+  }
+
+  #stats-wdc-wrapper p {
+    display: block; 
+  }
+
+  .championship-symbol {
+    width: 10px;
+    height: 10px;
+  }
+
+
+  #race-details-wrapper {
+    width: 450px;
+  }
+
+  #race-header-title {
+    font-size: 13.6px;
+    margin-bottom: 8px;
+  }
+
+  #circuit-image {
+    margin-right: 8px;
+  }
+
+  #circuit-image img {
+    height: 40px;
+    width: 40px;
+  }
+
+  #race-details {
+    vertical-align: top;
+    transform: translateY(0);
+  }
+
+  #race-details,
+  #ferrari-races-count,
+  #drivers {
+    font-size: 11.5px;
+  }
+
+  #race-circuit {
+    margin-bottom: 4px !important;
+  }
+
+  #ferrari-races-count {
+    display: none;
+  }
+
+  #drivers-title {
+    display: none;
+  }
+
+  .driver-div {
+    margin-top: 8px;
+    margin-bottom: 0px;
+  }
+
+  .driver-name {
+    height: 24px;
+  }
+
+  .driver-helmet {
+    width: 25%;
+    height: auto;
+  }
+  .driver-number {
+    font-size: 0.8rem;
+    vertical-align: middle;
+    transform: translateY(0px);
+    margin-bottom: 8px;
+  }
+
+  .tooltip-driver-position {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+
+  .tooltip-driver-position p {
+    font-size: 12.8px;
+    line-height: 27px;
+  }
+
+  .tooltip-driver-symbols,
+  .tooltip-driver-symbols-labels {
+    width: 75%;
+    font-size: 7.5px;
+  }
+
+  #tooltip-driver-car {
+    width: 74px;
+    font-size: 9px;
+  }
+
+  #tooltip-driver-car p {
+    margin: 0px;
+  }
+
+  .car-image {
+    width: 30px;
+  }
+}
+
+.championship-symbol {
+  background: #d40000;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  margin-right: 3px; 
+  border-radius: 50%; 
+}
+
+@media only screen and (max-width: 1024px) and (orientation: landscape) {
+  #story {
+    font-size: 13.6px;
+  }
+  #stats-wdc-wrapper {
+    width: 100%; 
+    font-size: 12px; 
+  }
+}
+
+@media only screen and (max-width: 812px) and (orientation: landscape) {
+  #stats-wrapper {
+    display: none;
+    font-size: 12px; 
+  }
+  #story {
+    font-size: 11.5px;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  header {
+    padding: 64px 32px;
+  }
+
+  #header-img img {
+    height: 200px;
+  }
+}
+
+#turn-device {
+  display: none;
+  text-align: center;
+  margin-bottom: 500px;
+}
+
+#turn-device.open {
+  display: block;
+}
+
+#turn-device img {
+  width: 48px;
+}
+
