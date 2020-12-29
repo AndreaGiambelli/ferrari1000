@@ -178,31 +178,31 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
         ferrariCompleteRaces.forEach((d, i) => (d.raceIdFerrari = i + 1));
 
         // Cumulative values
-        // ferrariCompleteRaces.forEach((d, i) => {
-        //   // Cumulative Wins
-        //   let winsCalc = d.drivers.map((e) => e.position);
-        //   if (winsCalc.includes("1")) {
-        //     winsMap.push(...winsCalc);
-        //     winsMap = winsMap.filter((f) => f === "1");
-        //   }
-        //   d.cumulativeWins = winsMap.length;
+        ferrariCompleteRaces.forEach((d, i) => {
+          // Cumulative Wins
+          let winsCalc = d.drivers.map((e) => e.position);
+          if (winsCalc.includes("1")) {
+            winsMap.push(...winsCalc);
+            winsMap = winsMap.filter((f) => f === "1");
+          }
+          d.cumulativeWins = winsMap.length;
 
-        //   // Cumulative Poles
-        //   let polesCalc = d.drivers.map((e) => e.grid);
-        //   if (polesCalc.includes("1")) {
-        //     polesMap.push(...polesCalc);
-        //     polesMap = polesMap.filter((f) => f === "1");
-        //   }
-        //   d.cumulativePoles = polesMap.length;
+          // Cumulative Poles
+          let polesCalc = d.drivers.map((e) => e.grid);
+          if (polesCalc.includes("1")) {
+            polesMap.push(...polesCalc);
+            polesMap = polesMap.filter((f) => f === "1");
+          }
+          d.cumulativePoles = polesMap.length;
 
-        //   // Cumulative Fastest Laps
-        //   let flCalc = d.drivers.map((e) => e.fLap1);
-        //   if (flCalc.includes("1")) {
-        //     flMap.push(...flCalc);
-        //     flMap = flMap.filter((f) => f === "1");
-        //   }
-        //   d.cumulativeFl = flMap.length;
-        // });
+          // Cumulative Fastest Laps
+          let flCalc = d.drivers.map((e) => e.fLap1);
+          if (flCalc.includes("1")) {
+            flMap.push(...flCalc);
+            flMap = flMap.filter((f) => f === "1");
+          }
+          d.cumulativeFl = flMap.length;
+        });
         console.log(ferrariCompleteRaces); // 994 races with Ferrari + 6 races in 2020 = 1000
 
         /// VIZ ///
