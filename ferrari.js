@@ -1144,162 +1144,162 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
             .attr("fill", colours.black);
         }
 
-        // function drawSparklines(dataset) {
-        //   // Sparklines - set the dimensions and margins of the graph
-        //   let spMargin = { top: 5, right: 5, bottom: 5, left: 5 },
-        //     spWidth = 160 - spMargin.left - spMargin.right,
-        //     spHeight = 50 - spMargin.top - spMargin.bottom;
+        function drawSparklines(dataset) {
+          // Sparklines - set the dimensions and margins of the graph
+          let spMargin = { top: 5, right: 5, bottom: 5, left: 5 },
+            spWidth = 160 - spMargin.left - spMargin.right,
+            spHeight = 50 - spMargin.top - spMargin.bottom;
 
-        //   let spWinsSvg = d3
-        //     .select("#sp-wins")
-        //     .append("svg")
-        //     .attr("width", spWidth + spMargin.left + spMargin.right)
-        //     .attr("height", spHeight + spMargin.top + spMargin.bottom)
-        //     .append("g")
-        //     .attr(
-        //       "transform",
-        //       "translate(" + spMargin.left + "," + spMargin.top + ")"
-        //     );
+          let spWinsSvg = d3
+            .select("#sp-wins")
+            .append("svg")
+            .attr("width", spWidth + spMargin.left + spMargin.right)
+            .attr("height", spHeight + spMargin.top + spMargin.bottom)
+            .append("g")
+            .attr(
+              "transform",
+              "translate(" + spMargin.left + "," + spMargin.top + ")"
+            );
 
-        //   let spPolesSvg = d3
-        //     .select("#sp-poles")
-        //     .append("svg")
-        //     .attr("width", spWidth + spMargin.left + spMargin.right)
-        //     .attr("height", spHeight + spMargin.top + spMargin.bottom)
-        //     .append("g")
-        //     .attr(
-        //       "transform",
-        //       "translate(" + spMargin.left + "," + spMargin.top + ")"
-        //     );
+          let spPolesSvg = d3
+            .select("#sp-poles")
+            .append("svg")
+            .attr("width", spWidth + spMargin.left + spMargin.right)
+            .attr("height", spHeight + spMargin.top + spMargin.bottom)
+            .append("g")
+            .attr(
+              "transform",
+              "translate(" + spMargin.left + "," + spMargin.top + ")"
+            );
 
-        //   let spFlSvg = d3
-        //     .select("#sp-fl")
-        //     .append("svg")
-        //     .attr("width", spWidth + spMargin.left + spMargin.right)
-        //     .attr("height", spHeight + spMargin.top + spMargin.bottom)
-        //     .append("g")
-        //     .attr(
-        //       "transform",
-        //       "translate(" + spMargin.left + "," + spMargin.top + ")"
-        //     );
+          let spFlSvg = d3
+            .select("#sp-fl")
+            .append("svg")
+            .attr("width", spWidth + spMargin.left + spMargin.right)
+            .attr("height", spHeight + spMargin.top + spMargin.bottom)
+            .append("g")
+            .attr(
+              "transform",
+              "translate(" + spMargin.left + "," + spMargin.top + ")"
+            );
 
-        //   // Sparklines - x Scale
-        //   let xScaleSp = d3
-        //     .scaleLinear()
-        //     .domain(d3.extent(dataset, (d) => parseInt(d.raceIdFerrari)))
-        //     .range([0, spWidth]);
+          // Sparklines - x Scale
+          let xScaleSp = d3
+            .scaleLinear()
+            .domain(d3.extent(dataset, (d) => parseInt(d.raceIdFerrari)))
+            .range([0, spWidth]);
 
-        //   // Sparklines - y Scale Wins
-        //   var yScaleSpWins = d3
-        //     .scaleLinear()
-        //     .domain([
-        //       0,
-        //       d3.max(dataset, function (d) {
-        //         return +d.cumulativeWins;
-        //       }),
-        //     ])
-        //     .range([spHeight, 0]);
+          // Sparklines - y Scale Wins
+          var yScaleSpWins = d3
+            .scaleLinear()
+            .domain([
+              0,
+              d3.max(dataset, function (d) {
+                return +d.cumulativeWins;
+              }),
+            ])
+            .range([spHeight, 0]);
 
-        //   // Sparklines - Wins area
-        //   spWinsSvg
-        //     .append("path")
-        //     .datum(dataset)
-        //     .attr("fill", "#d40000")
-        //     .attr("fill-opacity", 0.3)
-        //     .attr("stroke", "none")
-        //     .attr(
-        //       "d",
-        //       d3
-        //         .area()
-        //         .x(function (d) {
-        //           return xScaleSp(d.raceIdFerrari);
-        //         })
-        //         .y0(yScaleSpWins(0))
-        //         .y1(function (d) {
-        //           return yScaleSpWins(d.cumulativeWins);
-        //         })
-        //     );
-        //     // Sparklines - Wins line
-        //     spWinsSvg
-        //     .append("path")
-        //     .datum(dataset)
-        //     .attr("stroke", "#d40000")
-        //     .attr("stroke-width", 3)
-        //     .attr("fill", "none")
-        //     .attr(
-        //       "d",
-        //       d3
-        //         .line()
-        //         .x(function (d) {
-        //           return xScaleSp(d.raceIdFerrari);
-        //         })
-        //         .y(function (d) {
-        //           return yScaleSpWins(d.cumulativeWins);
-        //         })
-        //     );
+          // Sparklines - Wins area
+          spWinsSvg
+            .append("path")
+            .datum(dataset)
+            .attr("fill", "#d40000")
+            .attr("fill-opacity", 0.3)
+            .attr("stroke", "none")
+            .attr(
+              "d",
+              d3
+                .area()
+                .x(function (d) {
+                  return xScaleSp(d.raceIdFerrari);
+                })
+                .y0(yScaleSpWins(0))
+                .y1(function (d) {
+                  return yScaleSpWins(d.cumulativeWins);
+                })
+            );
+            // Sparklines - Wins line
+            spWinsSvg
+            .append("path")
+            .datum(dataset)
+            .attr("stroke", "#d40000")
+            .attr("stroke-width", 3)
+            .attr("fill", "none")
+            .attr(
+              "d",
+              d3
+                .line()
+                .x(function (d) {
+                  return xScaleSp(d.raceIdFerrari);
+                })
+                .y(function (d) {
+                  return yScaleSpWins(d.cumulativeWins);
+                })
+            );
 
-        //   // Sparklines - y Scale Poles
-        //   var yScaleSpPoles = d3
-        //     .scaleLinear()
-        //     .domain([
-        //       0,
-        //       d3.max(dataset, function (d) {
-        //         return +d.cumulativePoles;
-        //       }),
-        //     ])
-        //     .range([spHeight, 0]);
+          // Sparklines - y Scale Poles
+          var yScaleSpPoles = d3
+            .scaleLinear()
+            .domain([
+              0,
+              d3.max(dataset, function (d) {
+                return +d.cumulativePoles;
+              }),
+            ])
+            .range([spHeight, 0]);
 
-        //   // Sparklines - Poles area
-        //   spPolesSvg
-        //     .append("path")
-        //     .datum(dataset)
-        //     .attr("fill", "#cce5df")
-        //     .attr("stroke", "#69b3a2")
-        //     .attr("stroke-width", 1.5)
-        //     .attr(
-        //       "d",
-        //       d3
-        //         .area()
-        //         .x(function (d) {
-        //           return xScaleSp(d.raceIdFerrari);
-        //         })
-        //         .y0(yScaleSpPoles(0))
-        //         .y1(function (d) {
-        //           return yScaleSpPoles(d.cumulativePoles);
-        //         })
-        //     );
+          // Sparklines - Poles area
+          spPolesSvg
+            .append("path")
+            .datum(dataset)
+            .attr("fill", "#cce5df")
+            .attr("stroke", "#69b3a2")
+            .attr("stroke-width", 1.5)
+            .attr(
+              "d",
+              d3
+                .area()
+                .x(function (d) {
+                  return xScaleSp(d.raceIdFerrari);
+                })
+                .y0(yScaleSpPoles(0))
+                .y1(function (d) {
+                  return yScaleSpPoles(d.cumulativePoles);
+                })
+            );
 
-        //   // Sparklines - y Scale Fl
-        //   var yScaleSpFl = d3
-        //     .scaleLinear()
-        //     .domain([
-        //       0,
-        //       d3.max(dataset, function (d) {
-        //         return +d.cumulativeFl;
-        //       }),
-        //     ])
-        //     .range([spHeight, 0]);
+          // Sparklines - y Scale Fl
+          var yScaleSpFl = d3
+            .scaleLinear()
+            .domain([
+              0,
+              d3.max(dataset, function (d) {
+                return +d.cumulativeFl;
+              }),
+            ])
+            .range([spHeight, 0]);
 
-        //   // Sparklines - Fl area
-        //   spFlSvg
-        //     .append("path")
-        //     .datum(dataset)
-        //     .attr("fill", "#cce5df")
-        //     .attr("stroke", "#69b3a2")
-        //     .attr("stroke-width", 1.5)
-        //     .attr(
-        //       "d",
-        //       d3
-        //         .area()
-        //         .x(function (d) {
-        //           return xScaleSp(d.raceIdFerrari);
-        //         })
-        //         .y0(yScaleSpFl(0))
-        //         .y1(function (d) {
-        //           return yScaleSpFl(d.cumulativeFl);
-        //         })
-        //     );
-        // }
+          // Sparklines - Fl area
+          spFlSvg
+            .append("path")
+            .datum(dataset)
+            .attr("fill", "#cce5df")
+            .attr("stroke", "#69b3a2")
+            .attr("stroke-width", 1.5)
+            .attr(
+              "d",
+              d3
+                .area()
+                .x(function (d) {
+                  return xScaleSp(d.raceIdFerrari);
+                })
+                .y0(yScaleSpFl(0))
+                .y1(function (d) {
+                  return yScaleSpFl(d.cumulativeFl);
+                })
+            );
+        }
 
         drawViz(ferrariCompleteRaces);
         // drawSparklines(ferrariCompleteRaces);
