@@ -7,7 +7,7 @@ body {
   color: white;
   box-sizing: border-box;
   overflow: auto;
-  overflow-x:hidden; 
+  overflow-x: hidden!important; 
 }
 
 #story-title {
@@ -382,6 +382,10 @@ footer {
     font-size: 1rem;
   }
 
+  #sidebar {
+    margin-right: 120px; 
+  }
+
   .grid-main {
     grid-template-columns: 55% auto;
   }
@@ -536,7 +540,6 @@ footer {
 @media only screen and (max-width: 814px) and (orientation: landscape) {
   #stats-wrapper {
     display: none;
-    font-size: 12px;
   }
   #story {
     font-size: 11.5px;
@@ -545,6 +548,12 @@ footer {
   footer {
     line-height: 1.4;
     font-size: 0.9rem;
+  }
+}
+
+@media only screen and (max-height: 375px) and (orientation: portrait) {
+  #stats-wrapper {
+    display: none;
   }
 }
 
