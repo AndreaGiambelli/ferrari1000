@@ -245,10 +245,10 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
 
         function drawViz(dataset) {
           // Setting height of sidebar stats wrapper to ensure stats are at the bottom
-          // d3.select("#story-stats-wrapper").style(
-          //   "height",
-          //   window.innerHeight * 0.8 + "px"
-          // );
+          d3.select("#story-stats-wrapper").style(
+            "height",
+            window.innerHeight * 0.8 + "px"
+          );
 
           console.log(dataset);
 
