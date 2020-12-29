@@ -1302,7 +1302,7 @@ d3.csv("f1db_csv/races.csv").then(function (racesData) {
         }
 
         drawViz(ferrariCompleteRaces);
-        drawSparklines(ferrariCompleteRaces);
+        // drawSparklines(ferrariCompleteRaces);
 
         // Filtering test
         filter = () => {
