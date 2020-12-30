@@ -630,31 +630,31 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             d3.select("#story").html("");
           }
         } else if (numPerRow === 4) {
-          if (maxRaceInView > 1 && maxRaceInView < 57) {
+          if (maxRaceInView > 1 && maxRaceInView < 66) {
             // console.log("early years");
             d3.select("#story-title").text("The Early Years");
             d3.select("#story").html(
               "On May 21, 1950, <span>Scuderia Ferrari</span> makes its debut in the Formula 1 World Championship, in the second round of the newly-born series at the <a id='Mon.50'>Monaco GP</a>. Italian driver Alberto Ascari’s finishes second in the race, claiming the team’s maiden podium, while the first victory comes the following year, thanks to José Froilan Gonzalez at <a id='Gbr.51'>Silverstone</a>. The team’s constant growth and the retirement of early rivals Alfa Romeo, would set the stage for the first winning cycle of the Scuderia. Ascari takes back to back world championships in 1952 and 1953, totally dominating the series and setting records that still stand to this day. </a>"
             );
-          } else if (maxRaceInView > 58 && maxRaceInView < 88) {
+          } else if (maxRaceInView >= 66 && maxRaceInView < 94) {
             // console.log("early years");
             d3.select("#story").html(
               "Argentinian legend-in-the-making Juan Manuel Fangio joins Ferrari in 1956, and wins his 4th world championship in a dramatic fashion at the <a id='Ita.56'>Italian GP</a>: his car breaks down but teammate Peter Collins, himself a title contender, sportingly hands his own car to Fangio during a pit stop, allowing him to take the title. 1957 proves unsuccessful and brings more tragedies as two Ferrari drivers, Eugenio Castellotti and Alfonso De Portago are killed in non-F1 racing cars. Mike Hawthorn takes the Scuderia’s last title of the 50’s with just a single win at the <a id='Fra.58'>French GP</a>, in the cursed 1958 in which two drivers, Luigi Musso and Peter Collins, are killed while racing their Ferraris."
             );
-          } else if (maxRaceInView > 88 && maxRaceInView < 150) {
+          } else if (maxRaceInView > 94 && maxRaceInView < 158) {
             // console.log("early sixties");
             d3.select("#story").html(
               "The new ‘shark-nosed’ 156 model dominates the 1961 season, allowing Phil Hill to take the title, and Giancarlo Baghetti to claim a historic win on his F1 debut in <a id='Fra.61'>France</a>. The Scuderia is once again struck by tragedy when German driver Von Trips is killed in an accident at <a id='Ita.61'>Monza</a>, along with 14 spectators. New engineering head Mauro Forghieri pens the 158 model, which British ace John Surtees races to the title in 1964, beating the mighty Jim Clark and his superior Lotus. Despite the team’s efforts the rest of the Sixties is not very successful against strong rivals like Lotus, Brabham, Cooper and McLaren. One of the few highlights is Ludovico Scarfiotti’s win at the <a id='Ita.66'>1966 Italian GP</a>, the last victory for an Italian on home soil to date. "
             );
-          } else if (maxRaceInView > 150 && maxRaceInView < 232) {
+          } else if (maxRaceInView > 158 && maxRaceInView < 240) {
             // console.log("60s-70s");
             d3.select("#story").html(
               "At the end of the Sixties, new drivers (Jacky Ickx, Chris Amon) and technological innovation (the appearance of front and rear wings on Ferrari cars) seem to pave the way for a new successful period. 1970’s 312B model, with its flat 12V engine looks incredibly fast in the hands of Ickx and Swiss Clay Regazzoni. However, several victories and a 1-2 at the season finale in <a id='Mex.70'>Mexico</a>, are not enough for the Belgian to beat Lotus’ Jochen Rindt, the only driver to be posthumously awarded the F1 championship. American Mario Andretti manages to win on his Ferrari debut at the <a id='Rsa.71'>1971 South African GP</a>, but the following seasons bring generally poor results and instability for the team. "
             );
           } else if (
             // Early 1970s
-            maxRaceInView >= 232 &&
-            maxRaceInView < 303
+            maxRaceInView >= 240 &&
+            maxRaceInView < 311
           ) {
             // console.log("early 1970s");
             d3.select("#story-title").text("Title");
@@ -663,8 +663,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // End of 1970s
-            maxRaceInView >= 303 &&
-            maxRaceInView < 340
+            maxRaceInView >= 311 &&
+            maxRaceInView < 348
           ) {
             // console.log("end of 1970s");
             d3.select("#story-title").text("Title");
@@ -673,8 +673,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // The Turbo era
-            maxRaceInView >= 340 &&
-            maxRaceInView < 436
+            maxRaceInView >= 348 &&
+            maxRaceInView < 444
           ) {
             // console.log("turbo era");
             d3.select("#story-title").text("Title");
@@ -683,8 +683,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // 88-90
-            maxRaceInView >= 441 &&
-            maxRaceInView < 515
+            maxRaceInView >= 444 &&
+            maxRaceInView < 522
           ) {
             // console.log("88-90");
             d3.select("#story-title").text("Title");
@@ -693,8 +693,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // Digiuno
-            maxRaceInView > 516 &&
-            maxRaceInView < 576
+            maxRaceInView >= 522 &&
+            maxRaceInView < 584
           ) {
             // console.log("digiuno");
             d3.select("#story-title").text("Setting up for the comeback");
@@ -703,8 +703,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // MSC
-            maxRaceInView >= 576 &&
-            maxRaceInView < 652
+            maxRaceInView >= 584 &&
+            maxRaceInView < 660
           ) {
             // console.log("Msc");
             d3.select("#story-title").text("Title");
@@ -713,8 +713,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // 2000s
-            maxRaceInView >= 652 &&
-            maxRaceInView < 760
+            maxRaceInView >= 660 &&
+            maxRaceInView < 768
           ) {
             d3.select("#story-title").text("Title");
             d3.select("#story").html(
@@ -722,8 +722,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // Last Championships
-            maxRaceInView >= 760 &&
-            maxRaceInView < 812
+            maxRaceInView >= 768 &&
+            maxRaceInView < 820
           ) {
             // console.log("Last championships");
             d3.select("#story-title").text("Title");
@@ -732,8 +732,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // Early 2010s
-            maxRaceInView >= 812 &&
-            maxRaceInView < 876
+            maxRaceInView >= 820 &&
+            maxRaceInView < 884
           ) {
             // console.log("Last championships");
             d3.select("#story-title").text("Title");
@@ -742,8 +742,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // Hybrid Era
-            maxRaceInView >= 876 &&
-            maxRaceInView < 991
+            maxRaceInView >= 884 &&
+            maxRaceInView < 999
           ) {
             // console.log("hybrid");
             d3.select("#story-title").text("Title");
@@ -752,7 +752,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // Latest victories
-            maxRaceInView >= 991
+            maxRaceInView >= 999
           ) {
             // console.log("latest");
             d3.select("#story-title").text("Title");
