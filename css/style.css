@@ -543,6 +543,9 @@ footer {
   }
   #stats-wdc-wrapper {
     width: 100%;
+  }
+
+  #stats-wdc-wrapper p {
     font-size: 12px;
   }
 }
