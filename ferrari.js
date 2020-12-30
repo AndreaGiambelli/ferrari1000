@@ -496,7 +496,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         d3.select("#wCcInViewValue").text(wCcInView);
 
 
-        if (numPerRow === 8) {
+        if (numPerRow === 8 || (numPerRow === 4 && windowWidth >= 768 && windowWidth < window.innerHeight)) {
           if (maxRaceInView > 1 && maxRaceInView < 72) {
             // console.log("early years");
             d3.select("#story-title").text("The Early Years");
@@ -654,7 +654,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           } else if (
             // Early 1970s
             maxRaceInView >= 232 &&
-            maxRaceInView < 312
+            maxRaceInView < 303
           ) {
             // console.log("early 1970s");
             d3.select("#story-title").text("Title");
@@ -663,8 +663,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // End of 1970s
-            maxRaceInView >= 312 &&
-            maxRaceInView < 345
+            maxRaceInView >= 303 &&
+            maxRaceInView < 340
           ) {
             // console.log("end of 1970s");
             d3.select("#story-title").text("Title");
@@ -673,7 +673,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // The Turbo era
-            maxRaceInView > 345 &&
+            maxRaceInView >= 340 &&
             maxRaceInView < 436
           ) {
             // console.log("turbo era");
@@ -704,7 +704,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           } else if (
             // MSC
             maxRaceInView >= 576 &&
-            maxRaceInView < 653
+            maxRaceInView < 652
           ) {
             // console.log("Msc");
             d3.select("#story-title").text("Title");
@@ -713,8 +713,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // 2000s
-            maxRaceInView > 653 &&
-            maxRaceInView < 764
+            maxRaceInView >= 652 &&
+            maxRaceInView < 760
           ) {
             d3.select("#story-title").text("Title");
             d3.select("#story").html(
@@ -722,8 +722,8 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // Last Championships
-            maxRaceInView >= 764 &&
-            maxRaceInView < 824
+            maxRaceInView >= 760 &&
+            maxRaceInView < 812
           ) {
             // console.log("Last championships");
             d3.select("#story-title").text("Title");
@@ -732,7 +732,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             );
           } else if (
             // Early 2010s
-            maxRaceInView > 824 &&
+            maxRaceInView >= 812 &&
             maxRaceInView < 876
           ) {
             // console.log("Last championships");
