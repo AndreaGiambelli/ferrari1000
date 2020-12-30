@@ -207,7 +207,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       window.innerHeight * 0.8 + "px"
     );
 
-    d3.select("#races-count-right").text(dataset.length);
+    // d3.select("#races-count-right").text(dataset.length);
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////// TIMELINE ////////////////////////////////////////////
@@ -633,7 +633,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         // console.log(currentStoryLinks);
 
         if (raceInFocus) {
-          let inFocusNode = d3.select(`#r${raceInFocus.raceIdFerrari}`).node();
+          let inFocusNode = d3.select(`#r${raceInFocus.raceIdFerrari + numPerRow}`).node();
           // console.log(inFocusNode);
           if (isInViewport(inFocusNode)) {
             // console.log("in");
@@ -1426,7 +1426,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     d3.select("#race-date").text(formatDate(raceDate));
 
     // Sidebar - race count text
-    d3.select("#races-count").text("Race #" + raceObj.raceIdFerrari);
+    d3.select("#races-count").text("Race #" + raceObj.raceIdFerrari + " of " + ferrariData.length);
 
     // Sidebar - race count chart
 
@@ -1649,10 +1649,10 @@ d3.json("ferrariData.json").then(function (ferrariData) {
 
     driverCar.append("p").text((e) => e.car);
 
-    if (innerWidth <= 812) {
+    
       d3.select("#race-details-wrapper").style("width", (c) => {
         return raceObj.drivers.length <= 2
-          ? "250px"
+          ? "280px"
           : raceObj.drivers.length === 3
           ? "350px"
           : "450px";
@@ -1665,7 +1665,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           ? "33%"
           : "24%";
       });
-    }
+    
   }
 
   // Checking if in viewport
