@@ -563,6 +563,10 @@ footer {
     line-height: 1.4;
     font-size: 0.9rem;
   }
+
+  #sidebar {
+    top: 2%;
+  }
 }
 
 @media only screen and (max-height: 375px) and (orientation: portrait) {
