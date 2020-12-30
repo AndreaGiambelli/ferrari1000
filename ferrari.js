@@ -154,7 +154,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     // Map Margins and dimensions
     let marginViz = { top: 30, right: 70, bottom: 30, left: 70 };
     let widthViz =
-      (windowWidth >= 1500
+      (windowWidth > 1680
         ? windowWidth * 0.55
         : windowWidth >= 768
         ? windowWidth * 0.7
