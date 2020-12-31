@@ -126,7 +126,7 @@ header p {
 #stats-wrapper {
   position: absolute;
   width: 100%;
-  bottom: -50px;
+  bottom: -70px;
 }
 
 #stats-wdc-wrapper {
@@ -148,6 +148,10 @@ header p {
   top: 4%;
   height: 92vh;
   padding: 12px;
+}
+
+#wDcSymbols, #wCcSymbols {
+  height: 40px; 
 }
 
 .race-label {
@@ -437,10 +441,6 @@ footer {
 
   #stats-wdc-wrapper {
     width: 100%;
-  }
-
-  #stats-wdc-wrapper p {
-    display: block;
   }
 
   .championship-symbol {
