@@ -130,7 +130,7 @@ header p {
 }
 
 #stats-wdc-wrapper {
-  width: 78%;
+  width: 82%;
   display: grid;
   grid-template-columns: 50% 50%;
   font-size: 0.85rem;
@@ -441,6 +441,10 @@ footer {
 
   #stats-wdc-wrapper {
     width: 100%;
+  }
+
+  #stats-wdc-wrapper p{
+    font-size: 0.75rem; 
   }
 
   .championship-symbol {
