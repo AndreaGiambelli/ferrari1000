@@ -555,7 +555,7 @@ footer {
 }
 
 
-@media only screen and (max-width: 814px) and (orientation: landscape) {
+@media only screen and (max-width: 814px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio:0) {
   #stats-wrapper {
     display: none!important;
     visibility: hidden; 
