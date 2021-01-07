@@ -1467,7 +1467,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
   }
 
   drawViz(ferrariData);
-  drawSparklines(ferrariData);
+  // drawSparklines(ferrariData);
 
   function tooltipFunction(raceObj) {
     raceInFocus = raceObj;
