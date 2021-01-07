@@ -121,7 +121,7 @@ if (window.innerWidth <= 414) {
 
 /// READING DATA
 d3.json("ferrariData.json").then(function (ferrariData) {
-  console.log(ferrariData);
+  // console.log(ferrariData);
 
   const handleResize = () => {
     windowWidth = window.innerWidth;
@@ -471,7 +471,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
           }
         });
 
-        console.log(maxRaceInView);
+        // console.log(maxRaceInView);
 
         d3.select("#winsInView").text(`${winsInView}`);
         d3.select("#polesInView").text(`${polesInView}`);
@@ -797,11 +797,11 @@ d3.json("ferrariData.json").then(function (ferrariData) {
         currentStoryLinks.on("click", function (d) {
           d3.event.stopPropagation();
 
-          console.log(this.id);
+          // console.log(this.id);
           let linkRace = dataset.find(
             (e) => e.raceDetails.raceAbbrev === this.id
           );
-          console.log(linkRace);
+          // console.log(linkRace);
 
           // // Detect Safari
           // let safariAgent = navigator.userAgent.indexOf("Safari") > -1;
@@ -833,7 +833,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
             tooltipFunction(linkRace);
           }, 800);
 
-          console.log(linkRace);
+          // console.log(linkRace);
         });
       },
       false
@@ -1473,11 +1473,11 @@ d3.json("ferrariData.json").then(function (ferrariData) {
     raceInFocus = raceObj;
 
     let thisNode = d3.select(`#r${raceObj.raceIdFerrari}`).node();
-    console.log("NOWW");
+    // console.log("NOWW");
     // console.log(thisNode);
 
     let ctm = thisNode.getCTM();
-    console.log(thisNode.getCTM());
+    // console.log(thisNode.getCTM());
 
     if (ctm.e < 160 && numPerRow === 8) {
       d3.select("#race-details-wrapper").style("left", `${ctm.e + size / 2}px`);
@@ -1531,7 +1531,7 @@ d3.json("ferrariData.json").then(function (ferrariData) {
       `${raceObj.year} ${raceObj.raceDetails.raceName}`
     );
 
-    console.log(raceObj.raceIdFerrari);
+    // console.log(raceObj.raceIdFerrari);
 
     d3.select("#circuit-image img").remove();
     d3.select("#car-model img").remove();
